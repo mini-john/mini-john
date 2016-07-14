@@ -3,32 +3,26 @@
 
 <tiles-definitions>  
  
-   <!-- Base Definition -->
-   <definition name="base-definition" 
-       template="/WEB-INF/views/tiles/layouts/defaultLayout.jsp">  
-       <put-attribute name="title" value="" />  
-       <put-attribute name="header" value="/WEB-INF/views/tiles/template/defaultHeader.jsp" />  
-       <put-attribute name="menu" value="/WEB-INF/views/tiles/template/defaultMenu.jsp" />  
-       <put-attribute name="body" value="" />  
-       <put-attribute name="footer" value="/WEB-INF/views/tiles/template/defaultFooter.jsp" />  
-   </definition>  
+    <!-- Base Definition -->
+    <definition name="base-definition" 
+                template="/WEB-INF/views/tiles/layouts/defaultLayout.jsp">  
+        <put-attribute name="title" value="" />  
+        <put-attribute name="header" value="/WEB-INF/views/tiles/template/defaultHeader.jsp" />  
+        <put-attribute name="menu" value="/WEB-INF/views/tiles/template/defaultMenu.jsp" />  
+        <put-attribute name="body" value="" />  
+        <put-attribute name="footer" value="/WEB-INF/views/tiles/template/defaultFooter.jsp" />  
+    </definition>  
  
-   <!-- Home Page -->
-   <definition name="public/*" template="/WEB-INF/views/tiles/layouts/public/publicLayout.jsp">  
-       <put-attribute name="title" value="Welcome" />  
-       <put-attribute name="body" value="/WEB-INF/views/pages/public/{1}.jsp" /> 
-   </definition>  
-
-   <!-- Product Page -->
-   <definition name="products" extends="base-definition">  
-       <put-attribute name="title" value="Products" />  
-       <put-attribute name="body" value="/WEB-INF/views/pages/products.jsp" />  
-   </definition>  
-      
-   <!-- Contact-us Page -->
-   <definition name="contactus" extends="base-definition">  
-       <put-attribute name="title" value="Contact Us" />  
-       <put-attribute name="body" value="/WEB-INF/views/pages/contactus.jsp" />  
-   </definition>  
+    <!-- Home Page -->
+    <definition name="public-definition"
+                template="/WEB-INF/views/tiles/layouts/public/publicLayout.jsp">  
+        <put-attribute name="title" value="Welcome" />  
+        <put-attribute name="body" value="" /> 
+    </definition>  
+    <definition name="public/*" extends="public-definition">  
+        
+        <put-attribute name="body" value="/WEB-INF/views/pages/public/{1}.jsp" /> 
+    </definition> 
+    
  
 </tiles-definitions>

@@ -10,6 +10,7 @@
         <module>zmanim</module>
         <module>niddah-core</module>
         <module>niddah-web</module>
+        <module>niddah-entity-dto</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -90,9 +91,10 @@
         <dependency>
             <groupId>org.codehaus.castor</groupId>
             <artifactId>castor</artifactId>
-            <version>1.4.1</version>
-            <type>pom</type>
+            <version>1.2</version>
+            <!--<type>pom</type>-->
         </dependency>
+       
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>

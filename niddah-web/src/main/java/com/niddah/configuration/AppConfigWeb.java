@@ -35,12 +35,14 @@ public class AppConfigWeb extends WebMvcConfigurerAdapter{
     }
     /**
      * Configure TilesConfigurer.
+     * @return 
      */
 	@Bean
 	public TilesConfigurer tilesConfigurer(){
 	    TilesConfigurer tilesConfigurer = new TilesConfigurer();
 	    tilesConfigurer.setDefinitions(new String[] {"/WEB-INF/views/**/tiles.xml"});
 	    tilesConfigurer.setCheckRefresh(true);
+            tilesConfigurer.setPreparerFactoryClass(org.springframework.web.servlet.view.tiles3.SpringBeanPreparerFactory.class);
 	    return tilesConfigurer;
 	}
 

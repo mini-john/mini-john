@@ -5,7 +5,6 @@
  */
 package com.niddah.configuration;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
@@ -13,6 +12,7 @@ import org.springframework.oxm.castor.CastorMarshaller;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
 /**
@@ -33,8 +33,8 @@ public class AppConfigCore {
     @Bean
     CastorMarshaller castorMarshaller() throws FileNotFoundException{
         CastorMarshaller cM= new CastorMarshaller();
-        
-        cM.setMappingLocation((Resource) new FileInputStream("classpath:mappingCastor.xml"));
+        Resource resource = new ClassPathResource("mapping.xml");
+        cM.setMappingLocation(resource);
         return cM;
     }
 

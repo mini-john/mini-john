@@ -85,6 +85,11 @@
             <artifactId>tiles-jsp</artifactId>
             <version>${apachetiles.version}</version>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>niddah-entity-dto</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <!--    <build>
