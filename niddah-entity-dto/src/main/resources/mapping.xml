@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping>
+<class name="java.util.ArrayList" auto-complete="true">
+    <map-to xml="array-list" />
+</class>
+<class name="java.util.LinkedList" auto-complete="true">
+    <map-to xml="linked-list" />
+</class>
+</mapping>

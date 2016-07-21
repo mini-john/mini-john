@@ -10,7 +10,7 @@ package com.niddah.library.enumeration;
  * @author mini-john
  */
 public enum RoleUser {
-    Admin("Admin"),User("User");
+    Admin("Admin"),Femme("Femme"),Rav("Rav");
     private String name;
      //Constructeur
     RoleUser(String name) {

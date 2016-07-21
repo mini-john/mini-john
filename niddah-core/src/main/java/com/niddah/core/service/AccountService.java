@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service()
 @Transactional
 public class AccountService {
+
     @Autowired
     private AccountRepository accountRepository;
 
@@ -25,7 +26,10 @@ public class AccountService {
         accountRepository.persist(account);
     }
 
-    
+    public Account findByUserName(String userName) {
+        return accountRepository.findByUserName(userName);
+    }
+
    
     
     

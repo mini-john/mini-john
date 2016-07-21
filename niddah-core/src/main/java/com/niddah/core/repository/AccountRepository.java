@@ -6,6 +6,9 @@
 package com.niddah.core.repository;
 
 import com.niddah.core.entity.Account;
+import java.io.Serializable;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -13,9 +16,16 @@ import org.springframework.stereotype.Repository;
  * @author mini-john
  */
 @Repository
-public class AccountRepository extends AbstractDao<Integer, Account>  {
+public class AccountRepository extends AbstractDao<Serializable, Account>  {
     public void addAccount(Account account){
         this.getSession().persist(account);
         
     }
+
+    public Account findByUserName(String userName) {
+        
+        Criteria crit = createEntityCriteria();
+        crit.add(Restrictions.eq("logine", userName));
+        return (Account) crit.uniqueResult();
+       }
 }

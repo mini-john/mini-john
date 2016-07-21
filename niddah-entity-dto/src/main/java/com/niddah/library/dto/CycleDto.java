@@ -26,7 +26,7 @@ public class CycleDto implements Comparable<CycleDto>{
     private double latitude ;
     private double longitude;
     private double elevation ;
-    
+    private Long id;
     
     public CycleDto() {
     }
@@ -92,9 +92,17 @@ public class CycleDto implements Comparable<CycleDto>{
 
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
-        return "CycleDto{" + "jDate=" + jDate + ", date=" + date + ", haflaga=" + haflaga + ", ona=" + ona + ", latitude=" + latitude + ", longitude=" + longitude + ", elevation=" + elevation + '}';
+        return "CycleDto{ id="+id+ ", jDate=" + jDate + ", date=" + date + ", haflaga=" + haflaga + ", ona=" + ona + ", latitude=" + latitude + ", longitude=" + longitude + ", elevation=" + elevation + '}';
     }
 
     @Override
