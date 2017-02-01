@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-public class ConfigurationService {
+public class ConfigurationService extends CrudService{
 
     @Autowired
     ConfigurationRepository configurationRepository;

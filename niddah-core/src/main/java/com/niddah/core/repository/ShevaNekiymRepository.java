@@ -5,8 +5,6 @@
  */
 package com.niddah.core.repository;
 
-import com.niddah.core.entity.ShevaNekiym;
-import java.io.Serializable;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,6 +12,6 @@ import org.springframework.stereotype.Repository;
  * @author mini-john
  */
 @Repository
-public class ShevaNekiymRepository extends AbstractDao<Serializable, ShevaNekiym>{
+public class ShevaNekiymRepository extends CrudRepository{
     
 }

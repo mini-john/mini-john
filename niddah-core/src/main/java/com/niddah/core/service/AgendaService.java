@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-public class AgendaService {
+public class AgendaService extends CrudService{
 
     @Autowired
     AgendaRepository agendaRepository;

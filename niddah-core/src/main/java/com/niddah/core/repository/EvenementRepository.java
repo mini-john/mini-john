@@ -5,8 +5,7 @@
  */
 package com.niddah.core.repository;
 
-import com.niddah.core.entity.Evenement;
-import java.io.Serializable;
+
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,6 +13,6 @@ import org.springframework.stereotype.Repository;
  * @author mini-john
  */
 @Repository
-public class EvenementRepository extends AbstractDao<Serializable, Evenement> {
+public class EvenementRepository extends CrudRepository{
     
 }

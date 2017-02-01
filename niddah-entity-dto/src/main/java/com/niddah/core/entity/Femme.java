@@ -30,11 +30,13 @@ public class Femme implements Serializable {
     private String nom;
     private String prenom;
     private Boolean autoLocalisation;
-    private double latitude ;
+    private double latitude;
     private double longitude;
-    private double elevation ;
+    private double elevation;
     @OneToOne()
     private Account account;
+    @OneToOne()
+    private Configuration configuration;
     @OneToMany(mappedBy = "femme")
     private List<Agenda> agenda;
 
@@ -110,7 +112,13 @@ public class Femme implements Serializable {
         this.agenda = agenda;
     }
 
-    
+    public Configuration getConfiguration() {
+        return configuration;
+    }
+
+    public void setConfiguration(Configuration configuration) {
+        this.configuration = configuration;
+    }
     
 
     @Override

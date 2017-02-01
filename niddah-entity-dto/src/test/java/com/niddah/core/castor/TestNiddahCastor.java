@@ -39,14 +39,12 @@ public  class TestNiddahCastor  {
     // public void hello() {}
     
     
-    @Test
+   @Test
     public void testCastor() throws NoSuchMethodException {
         Cycle cycle = new Cycle();
         cycle.setId(1L);
         
-        CycleDto dto= niddahCastor.convert(cycle,CycleDto.class);
-        LOGGER.info(dto.getId()+"");
         System.out.println("com.niddah.core.castor.TestNiddahCastor.testCastor()");
-        assert  false==true;
+        
     }
 }

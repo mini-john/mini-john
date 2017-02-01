@@ -9,6 +9,7 @@ import com.niddah.library.enumeration.Ona;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.TimeZone;
 import net.sourceforge.zmanim.hebrewcalendar.JewishDate;
 import net.sourceforge.zmanim.util.GeoLocation;
@@ -27,6 +28,8 @@ public class CycleDto implements Comparable<CycleDto>{
     private double longitude;
     private double elevation ;
     private Long id;
+    private List<HefsekTaharaDto> hefsekTaharas;
+    private List<PrichaDto> prichots;
     
     public CycleDto() {
     }

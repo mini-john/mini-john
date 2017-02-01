@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-public class EvenementService {
+public class EvenementService extends CrudService{
 
     @Autowired
     EvenementRepository evenementRepository;

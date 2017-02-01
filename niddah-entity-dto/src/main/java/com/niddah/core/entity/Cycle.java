@@ -26,7 +26,7 @@ public class Cycle extends Evenement implements Serializable {
     @OneToMany(mappedBy = "cycle")
     private List<HefsekTahara> hefsekTaharas;
     @OneToMany(mappedBy = "cycle")
-    private List<Prichot> prichots;
+    private List<Pricha> prichots;
     private TypeCycle typeCycle;
     private int haflaga;
     private Ona ona;
@@ -84,11 +84,11 @@ public class Cycle extends Evenement implements Serializable {
         this.typeCycle = typeCycle;
     }
 
-    public List<Prichot> getPrichots() {
+    public List<Pricha> getPrichots() {
         return prichots;
     }
 
-    public void setPrichots(List<Prichot> prichots) {
+    public void setPrichots(List<Pricha> prichots) {
         this.prichots = prichots;
     }
 

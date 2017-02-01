@@ -7,6 +7,7 @@ package com.niddah.library.dto;
 
 import com.niddah.library.enumeration.Ona;
 import com.niddah.library.enumeration.TypePricha;
+import java.io.Serializable;
 import java.util.Date;
 import net.sourceforge.zmanim.hebrewcalendar.JewishDate;
 
@@ -14,7 +15,7 @@ import net.sourceforge.zmanim.hebrewcalendar.JewishDate;
  * Dto modélisant une pricha en fonction de la date du cycle et du type de pricha
  * @author mini-john
  */
-public class PrichaDto {
+public class PrichaDto  extends EvenementDto implements Serializable{
 
     private TypePricha typePricha;
     private Date date;

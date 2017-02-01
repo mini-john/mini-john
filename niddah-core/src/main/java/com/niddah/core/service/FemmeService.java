@@ -5,7 +5,10 @@
  */
 package com.niddah.core.service;
 
+import com.niddah.core.castor.NiddahCastor;
+import com.niddah.core.entity.Femme;
 import com.niddah.core.repository.FemmeRepository;
+import com.niddah.library.dto.FemmeDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,8 +19,12 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-public class FemmeService {
+public class FemmeService extends CrudService{
 
     @Autowired
     FemmeRepository femmeRepository;
+    
+
+    
+
 }

@@ -5,8 +5,7 @@
  */
 package com.niddah.core.repository;
 
-import com.niddah.core.entity.Cycle;
-import java.io.Serializable;
+
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,6 +13,6 @@ import org.springframework.stereotype.Repository;
  * @author mini-john
  */
 @Repository
-public class CycleRepository extends AbstractDao<Serializable, Cycle> {
+public class CycleRepository extends  CrudRepository{
     
 }

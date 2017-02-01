@@ -16,16 +16,17 @@ import org.springframework.stereotype.Repository;
  * @author mini-john
  */
 @Repository
-public class AccountRepository extends AbstractDao<Serializable, Account>  {
-    public void addAccount(Account account){
+public class AccountRepository extends CrudRepository {
+
+    public void addAccount(Account account) {
         this.getSession().persist(account);
-        
+
     }
 
     public Account findByUserName(String userName) {
-        
-        Criteria crit = createEntityCriteria();
+
+        Criteria crit = createEntityCriteria(Account.class);
         crit.add(Restrictions.eq("logine", userName));
         return (Account) crit.uniqueResult();
-       }
+    }
 }

@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-public class HefsekTaharaService {
+public class HefsekTaharaService extends CrudService{
     @Autowired
     HefsekTaharaRepository hefsekTaharaRepository;
 }

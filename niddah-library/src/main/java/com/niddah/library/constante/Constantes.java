@@ -16,5 +16,6 @@ public class Constantes {
     public static int NB_JOUR_ATTENTE_SEPHARADE = 3;
     public static int NB_JOUR_ATTENTE_ASHKENAZE = 4;
     public static int NB_JOUR_ATTENTE_DEFAULT = 3;
+    public static int NB_HOUR_JETON_VALIDE=3;
 
 }

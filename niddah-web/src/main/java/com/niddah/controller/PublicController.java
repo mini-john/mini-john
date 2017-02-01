@@ -26,7 +26,7 @@ public class PublicController {
     public ModelAndView index() {
         Account account = new Account();
         account.setLogin("test");
-        accountService.AddAcount(account);
+       // accountService.AddAcount(account);
         return new ModelAndView("public/index");
     }
 

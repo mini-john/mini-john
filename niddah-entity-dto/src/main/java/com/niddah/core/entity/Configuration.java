@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
 /**
@@ -24,6 +25,8 @@ public class Configuration implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "configuration_sequence")
     @SequenceGenerator(name = "configuration_sequence", sequenceName = "configuration_sequence")
     private Long id;
+     @OneToOne()
+    private Femme femme;
 
     public Long getId() {
         return id;
@@ -31,6 +34,14 @@ public class Configuration implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Femme getFemme() {
+        return femme;
+    }
+
+    public void setFemme(Femme femme) {
+        this.femme = femme;
     }
 
     

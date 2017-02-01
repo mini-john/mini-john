@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service()
 @Transactional
-public class AccountService {
+public class AccountService extends CrudService{
 
     @Autowired
     private AccountRepository accountRepository;

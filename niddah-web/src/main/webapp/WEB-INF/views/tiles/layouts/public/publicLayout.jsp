@@ -2,60 +2,47 @@
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
-
+<tiles:importAttribute name="javascripts"/>
+<tiles:importAttribute name="stylesheets"/>
+<tiles:importAttribute name="javascriptsEnds"/>
 <html>
 
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title><tiles:getAsString name="title" /></title>
-       
-        <link href="<c:url value='/static/css/style.css' />" rel="stylesheet"></link>
+        <link href="<c:url value="/static/css/niddah.css"/>"  rel="stylesheet"></link>
+        <link href="<c:url value="/static/css/bootstrap.min.css"/>" rel="stylesheet">
+        <link href="<c:url value="/static/css/style.css"/>" rel="stylesheet">
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
+        <script src="<c:url value="/static/js/jquery.min.js"/>"></script>
+        <script src="<c:url value="/static/js/bootstrap.min.js"/>"></script>
+        <script src="<c:url value="/static/js/scripts.js"/>"></script>
+
     </head>
 
-    <body>
-        <div class="header">
-            <div>
-                <a href="index.html" id="logo"><img src="../static/img/logo.gif" alt="logo"/></a>
-                <div class="navigation">
-                    <ul class="first">
-                        <li class="first"><a href="jewelry.html">ON SALE</a></li>
-                        <li><a href="accessories.html">BEST SELLERS</a></li>
-                        <li><a href="blog.html">THE BLOG</a></li>
-                    </ul>
-                    <ul>
-                        <li><a href="about.html">About us</a></li>
-                        <li><a href="shoes.html">My Collection</a></li>
-                        <li><a href="#">Login</a></li>
-                    </ul>
-                </div>
-                <form action="" class="search">
-                    <input type="text" value="search" onblur="this.value = !this.value ? 'search' : this.value;" onfocus="this.select()" onclick="this.value = '';"/>
-                    <input type="submit" id="submit" value=""/>
-                </form>
-            </div>
-            <div id="navigation">
-                <ul>
-                    <li class="selected"><a href="index.html">Home</a></li>
-                    <li><a href="new_arrival.html">New Arrival</a></li>
-                    <li><a href="apparel.html">Apparel</a></li>
-                    <li><a href="beauty_care.html">Beauty Care</a></li>
-                    <li><a href="shoes.html">Shoes</a></li>
-                    <li><a href="accessories.html">Accessories</a></li>
-                    <li><a href="jewelry.html">Jewelry</a></li>
-                </ul>
-            </div>
-        </div> 
+    <body >
+        <div class="container-fluid">
 
-        <section id="site-content">
-            <div class="body">
+            <tiles:insertAttribute name="header" />
+            <tiles:insertAttribute name="menu" />
+
+           
+
+
+
+
+            <section>
+
                 <tiles:insertAttribute name="body" />
-            </div>
-        </section>
+            </section>
 
-        <footer id="footer">
-           <div class="footer">
-			<p>&#169; 2011 Herdesigns. All Rights Reserved.</p>
-		</div>
-        </footer>
+            <footer id="footer">
+                <tiles:insertAttribute name="footer" />
+            </footer>
+
+        </div>
     </body>
 </html>

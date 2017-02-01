@@ -5,8 +5,6 @@
  */
 package com.niddah.core.repository;
 
-import com.niddah.core.entity.ConfigurationApplication;
-import java.io.Serializable;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,6 +12,6 @@ import org.springframework.stereotype.Repository;
  * @author mini-john
  */
 @Repository
-public class ConfigurationApplicationRepository extends AbstractDao<Serializable, ConfigurationApplication>{
+public class ConfigurationApplicationRepository extends CrudRepository{
     
 }

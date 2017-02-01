@@ -18,13 +18,17 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.UniqueConstraint;
 
 /**
  *
  * @author mini-john
  */
 @Entity
-@Table(name = "Account")
+@Table(name = "Account",
+        uniqueConstraints ={
+        @UniqueConstraint(name = "emailExist",columnNames = {"mail"}),
+            @UniqueConstraint(name = "loginExist",columnNames = {"login"})})
 public class Account implements Serializable {
 
     private static final long serialVersionUID = 1L;

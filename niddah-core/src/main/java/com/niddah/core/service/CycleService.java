@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-public class CycleService {
+public class CycleService extends CrudService{
     @Autowired
     CycleRepository cycleRepository;
 }

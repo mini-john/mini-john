@@ -5,8 +5,6 @@
  */
 package com.niddah.core.repository;
 
-import com.niddah.core.entity.Prichot;
-import java.io.Serializable;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,6 +12,6 @@ import org.springframework.stereotype.Repository;
  * @author mini-john
  */
 @Repository
-public class PrichotRepository extends AbstractDao<Serializable, Prichot>{
+public class PrichotRepository extends CrudRepository{
     
 }

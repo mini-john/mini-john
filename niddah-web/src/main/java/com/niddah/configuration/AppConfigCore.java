@@ -5,6 +5,7 @@
  */
 package com.niddah.configuration;
 
+import com.niddah.component.MailSenderNiddah;
 import java.io.FileNotFoundException;
 import java.util.Properties;
 import org.dozer.DozerBeanMapper;
@@ -69,6 +70,10 @@ public class AppConfigCore {
         VelocityEngineFactoryBean velocity = new VelocityEngineFactoryBean();
         velocity.setResourceLoaderPath("classpath:template");
         return velocity;
+    }
+    @Bean
+    public MailSenderNiddah maisSender(){
+        return new MailSenderNiddah();
     }
 
 }
