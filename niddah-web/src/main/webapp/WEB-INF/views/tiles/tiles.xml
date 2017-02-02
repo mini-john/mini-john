@@ -20,28 +20,10 @@
         <put-attribute name="body" value="" /> 
     </definition>  
     <definition name="public/*" extends="public-definition">  
-        <put-attribute name="header" value="/WEB-INF/views/tiles/template/public/publicHeader.jsp" />  
-        <put-attribute name="menu" value="/WEB-INF/views/tiles/template/public/publicMenu.jsp" />  
-       
-        <put-attribute name="footer" value="/WEB-INF/views/tiles/template/public/publicFooter.jsp" />  
+        
     
         <put-attribute name="body" value="/WEB-INF/views/pages/public/{1}.jsp" /> 
-        <put-list-attribute name="javascripts">
-            <!--<add-attribute value="/static/js/modernizr.js" />-->
-            <add-attribute value="/static/js/jquery-3.1.1.min.js" />
-            <add-attribute value="/static/js/jquery-ui.min.js" />
-        </put-list-attribute>
-        <put-list-attribute name="javascriptsEnds">
-            <add-attribute value="/static/js/responsee.js" /> 
-            <add-attribute value="/static/owl-carousel/owl.carousel.js"/>           
-        </put-list-attribute>
-        <put-list-attribute name="stylesheets">
-            <add-attribute value="/static/css/components.css" />
-            <add-attribute value="/static/css/icons.css" />
-            <add-attribute value="/static/css/responsee.css" />
-            <add-attribute value="/static/owl-carousel/owl.carousel.css" />
-            <add-attribute value="/static/owl-carousel/owl.theme.css" />
-        </put-list-attribute>
+       
     </definition> 
     
  

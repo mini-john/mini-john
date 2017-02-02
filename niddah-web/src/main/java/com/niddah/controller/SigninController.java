@@ -50,6 +50,12 @@ public class SigninController {
         return "public/signin";
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/public/signup.do")
+    public String getSignUp(ModelMap model) {
+
+        return "public/signup";
+    }
+
     @RequestMapping(method = RequestMethod.POST, value = "/public/signin.do")
     public ModelAndView signin(@Valid @ModelAttribute("femme") FemmeDto femmeDto, BindingResult result, RedirectAttributes redirectAttributes, Locale locale) {
         if (result.hasErrors()) {

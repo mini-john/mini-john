@@ -1,0 +1,19 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 31 janv. 2017, 15:56:04
+    Author     : Boccara Jonathan
+*/
+
+h3{
+
+    font-size: 2em;
+    margin: 0;
+    color: #c34c21;
+    font-family: LobsterTwo-Regular;
+    text-transform: capitalize
+
+}
