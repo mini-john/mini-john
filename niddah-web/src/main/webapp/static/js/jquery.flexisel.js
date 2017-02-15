@@ -1,9 +1,9 @@
 /*
 * File: jquery.flexisel.js
-* Version: 1.0.0
+* Version: 2.2.0
 * Description: Responsive carousel jQuery plugin
 * Author: 9bit Studios
-* Copyright 2012, 9bit Studios
+* Copyright 2016, 9bit Studios
 * http://www.9bitstudios.com
 * Free to use and abuse under the MIT license.
 * http://www.opensource.org/licenses/mit-license.php
@@ -14,267 +14,389 @@
     $.fn.flexisel = function (options) {
 
         var defaults = $.extend({
-    		visibleItems: 4,
-    		animationSpeed: 200,
-    		autoPlay: false,
-    		autoPlaySpeed: 3000,    		
-    		pauseOnHover: true,
-			setMaxWidthAndHeight: false,
-    		enableResponsiveBreakpoints: false,
-    		responsiveBreakpoints: { 
-	    		portrait: { 
-	    			changePoint:480,
-	    			visibleItems: 1
-	    		}, 
-	    		landscape: { 
-	    			changePoint:640,
-	    			visibleItems: 2
-	    		},
-	    		tablet: { 
-	    			changePoint:768,
-	    			visibleItems: 3
-	    		}
-        	}
+            visibleItems: 4,
+            itemsToScroll: 3,
+            animationSpeed: 400,
+            infinite: true,
+            navigationTargetSelector: null,
+            autoPlay: {
+                enable: false,
+                interval: 5000,
+                pauseOnHover: true
+            },
+            responsiveBreakpoints: { 
+                portrait: { 
+                    changePoint:480,
+                    visibleItems: 1,
+                    itemsToScroll: 1
+                }, 
+                landscape: { 
+                    changePoint:640,
+                    visibleItems: 2,
+                    itemsToScroll: 2
+                },
+                tablet: { 
+                    changePoint:768,
+                    visibleItems: 3,
+                    itemsToScroll: 3
+                }
+            },
+            loaded: function(){ },
+            before: function(){ },
+            after: function(){ }
         }, options);
         
-		/******************************
-		Private Variables
-		*******************************/         
+        /******************************
+        Private Variables
+        *******************************/         
         
         var object = $(this);
-		var settings = $.extend(defaults, options);        
-		var itemsWidth; // Declare the global width of each item in carousel
-		var canNavigate = true; 
+        var settings = $.extend(defaults, options);        
+        var itemsWidth;
+        var canNavigate = true; 
+        var itemCount; 
         var itemsVisible = settings.visibleItems; 
+        var itemsToScroll = settings.itemsToScroll;
+        var responsivePoints = [];
+        var resizeTimeout;
+        var autoPlayInterval;        
         
-		/******************************
-		Public Methods
-		*******************************/        
+        /******************************
+        Public Methods
+        *******************************/        
         
         var methods = {
-        		
-			init: function() {
-				
-        		return this.each(function () {
-        			methods.appendHTML();
-        			methods.setEventHandlers();      			
-        			methods.initializeItems();
-				});
-			},
+                
+            init: function() {
+                return this.each(function () {
+                    methods.appendHTML();
+                    methods.setEventHandlers();                  
+                    methods.initializeItems();                    
+                });
+            },
 
-			/******************************
-			Initialize Items
-			*******************************/			
-			
-			initializeItems: function() {
-				
-				var listParent = object.parent();
-				var innerHeight = listParent.height(); 
-				var childSet = object.children();
-				
-    			var innerWidth = listParent.width(); // Set widths
-    			itemsWidth = (innerWidth)/itemsVisible;
-    			childSet.width(itemsWidth);
-    			childSet.last().insertBefore(childSet.first());
-    			childSet.last().insertBefore(childSet.first());
-    			object.css({'left' : -itemsWidth}); 
+            /******************************
+            Initialize Items
+            *******************************/            
+            
+            initializeItems: function() {
+                
+                var obj = settings.responsiveBreakpoints;
+                for(var i in obj) { responsivePoints.push(obj[i]); }
+                responsivePoints.sort(function(a, b) { return a.changePoint - b.changePoint; });
+                var childSet = object.children();
+                itemsWidth = methods.getCurrentItemWidth();
+                itemCount = childSet.length;
+                childSet.width(itemsWidth);
+                object.css({ 'left': -itemsWidth * (itemsVisible + 1) });
+                object.fadeIn();
+                $(window).trigger('resize');
+                settings.loaded.call(this, object);
+                
+            },
+            
+            /******************************
+            Append HTML
+            *******************************/            
+            
+            appendHTML: function() {
+                
+                object.addClass("nbs-flexisel-ul");
+                object.wrap("<div class='nbs-flexisel-container'><div class='nbs-flexisel-inner'></div></div>");
+                object.find("li").addClass("nbs-flexisel-item");
+                
+                if(settings.navigationTargetSelector && $(settings.navigationTargetSelector).length > 0) {
+                    $("<div class='nbs-flexisel-nav-left'></div><div class='nbs-flexisel-nav-right'></div>").appendTo(settings.navigationTargetSelector);
+                } else {
+                    settings.navigationTargetSelector = object.parent();
+                    $("<div class='nbs-flexisel-nav-left'></div><div class='nbs-flexisel-nav-right'></div>").insertAfter(object);    
+                }
+                    
+                if(settings.infinite) {    
+                    var childSet = object.children();
+                    var cloneContentBefore = childSet.clone();
+                    var cloneContentAfter = childSet.clone();
+                    object.prepend(cloneContentBefore);
+                    object.append(cloneContentAfter);
+                }
+                
+            },
+                    
+            
+            /******************************
+            Set Event Handlers
+            *******************************/
+            setEventHandlers: function() {
+                
+                var childSet = object.children();
+                
+                $(window).on("resize", function(event){
+                    canNavigate = false;
+                    clearTimeout(resizeTimeout);
+                    resizeTimeout = setTimeout(function(){
+                        canNavigate = true;
+                        methods.calculateDisplay();
+                        itemsWidth = methods.getCurrentItemWidth();
+                        childSet.width(itemsWidth);
+                        
+                        if(settings.infinite) {
+                            object.css({
+                                'left': -itemsWidth * Math.floor(childSet.length / 2)
+                            });        
+                        } else {
+                            methods.clearDisabled();
+                            $(settings.navigationTargetSelector).find(".nbs-flexisel-nav-left").addClass('disabled');
+                            object.css({
+                                'left': 0
+                            });
+                        }                                                    
+                    }, 100);
+                    
+                });                    
+                
+                $(settings.navigationTargetSelector).find(".nbs-flexisel-nav-left").on("click", function (event) {
+                    methods.scroll(true);
+                });
+                
+                $(settings.navigationTargetSelector).find(".nbs-flexisel-nav-right").on("click", function (event) {
+                    methods.scroll(false);
+                });
+                
+                if(settings.autoPlay.enable) {
 
-    			object.fadeIn();
-				$(window).trigger("resize"); // needed to position arrows correctly
+                    methods.setAutoplayInterval();
 
-			},
-			
-			
-			/******************************
-			Append HTML
-			*******************************/			
-			
-			appendHTML: function() {
-				
-   			 	object.addClass("nbs-flexisel-ul");
-   			 	object.wrap("<div class='nbs-flexisel-container'><div class='nbs-flexisel-inner'></div></div>");
-   			 	object.find("li").addClass("nbs-flexisel-item");
- 
-   			 	if(settings.setMaxWidthAndHeight) {
-	   			 	var baseWidth = $(".nbs-flexisel-item > img").width();
-	   			 	var baseHeight = $(".nbs-flexisel-item > img").height();
-	   			 	$(".nbs-flexisel-item > img").css("max-width", baseWidth);
-	   			 	$(".nbs-flexisel-item > img").css("max-height", baseHeight);
-   			 	}
- 
-   			 	$("<div class='nbs-flexisel-nav-left'></div><div class='nbs-flexisel-nav-right'></div>").insertAfter(object);
-   			 	var cloneContent = object.children().clone();
-   			 	object.append(cloneContent);
-			},
-					
-			
-			/******************************
-			Set Event Handlers
-			*******************************/
-			setEventHandlers: function() {
-				
-				var listParent = object.parent();
-				var childSet = object.children();
-				var leftArrow = listParent.find($(".nbs-flexisel-nav-left"));
-				var rightArrow = listParent.find($(".nbs-flexisel-nav-right"));
-				
-				$(window).on("resize", function(event){
-					
-					methods.setResponsiveEvents();
-					
-					var innerWidth = $(listParent).width();
-					var innerHeight = $(listParent).height(); 
-					
-					itemsWidth = (innerWidth)/itemsVisible;
-					
-					childSet.width(itemsWidth);
-					object.css({'left' : -itemsWidth});
-					
-					var halfArrowHeight = (leftArrow.height())/2;
-					var arrowMargin = (innerHeight/2) - halfArrowHeight;
-					leftArrow.css("top", arrowMargin + "px");
-					rightArrow.css("top", arrowMargin + "px");
-					
-				});					
-				
-				$(leftArrow).on("click", function (event) {
-					methods.scrollLeft();
-				});
-				
-				$(rightArrow).on("click", function (event) {
-					methods.scrollRight();
-				});
-				
-				if(settings.pauseOnHover == true) {
-					$(".nbs-flexisel-item").on({
-						mouseenter: function () {
-							canNavigate = false;
-						}, 
-						mouseleave: function () {
-							canNavigate = true;
-						}
-					 });
-				}
+                    if (settings.autoPlay.pauseOnHover === true) {
+                        object.on({
+                            mouseenter : function() {
+                                canNavigate = false;
+                            },
+                            mouseleave : function() {
+                                canNavigate = true;
+                            }
+                        });        
+                    }            
+                    
+                }
+                
+                object[0].addEventListener('touchstart', methods.touchHandler.handleTouchStart, false);        
+                object[0].addEventListener('touchmove', methods.touchHandler.handleTouchMove, false);                
+                
+            },        
+            
+            /******************************
+            Calculate Display
+            *******************************/            
+            
+            calculateDisplay: function() {
+                var contentWidth = $('html').width();
+                var largestCustom = responsivePoints[responsivePoints.length-1].changePoint; // sorted array 
+                
+                for(var i in responsivePoints) {
+                    
+                    if(contentWidth >= largestCustom) { // set to default if width greater than largest custom responsiveBreakpoint 
+                        itemsVisible = settings.visibleItems;
+                        itemsToScroll = settings.itemsToScroll;
+                        break;
+                    }
+                    else { // determine custom responsiveBreakpoint to use
+                    
+                        if(contentWidth < responsivePoints[i].changePoint) {
+                            itemsVisible = responsivePoints[i].visibleItems;
+                            itemsToScroll = responsivePoints[i].itemsToScroll;
+                            break;
+                        }
+                        else {
+                            continue;
+                        }
+                    }
+                }
+                
+            },                
+            
+            /******************************
+            Scroll
+            *******************************/                
+            
+            scroll: function(reverse) {
 
-				if(settings.autoPlay == true) {
-					
-					setInterval(function () {
-						if(canNavigate == true)
-							methods.scrollRight();
-					}, settings.autoPlaySpeed);
-				}
-				
-			},
-			
-			/******************************
-			Set Responsive Events
-			*******************************/			
-			
-			setResponsiveEvents: function() {
-				var contentWidth = $('html').width();
-				
-				if(settings.enableResponsiveBreakpoints == true) {
-					if(contentWidth < settings.responsiveBreakpoints.portrait.changePoint) {
-						itemsVisible = settings.responsiveBreakpoints.portrait.visibleItems;
-					}
-					else if(contentWidth > settings.responsiveBreakpoints.portrait.changePoint && contentWidth < settings.responsiveBreakpoints.landscape.changePoint) {
-						itemsVisible = settings.responsiveBreakpoints.landscape.visibleItems;
-					}
-					else if(contentWidth > settings.responsiveBreakpoints.landscape.changePoint && contentWidth < settings.responsiveBreakpoints.tablet.changePoint) {
-						itemsVisible = settings.responsiveBreakpoints.tablet.visibleItems;
-					}
-					else {
-						itemsVisible = settings.visibleItems;
-					}
-				}
-			},			
-			
-			/******************************
-			Scroll Left
-			*******************************/				
-			
-			scrollLeft:function() {
+                if(typeof reverse === 'undefined') { reverse = true }
 
-				if(canNavigate == true) {
-					canNavigate = false;
-					
-					var listParent = object.parent();
-					var innerWidth = listParent.width();
-					
-					itemsWidth = (innerWidth)/itemsVisible;
-					
-					var childSet = object.children();
-					
-					object.animate({
-							'left' : "+=" + itemsWidth
-						},
-						{
-							queue:false, 
-							duration:settings.animationSpeed,
-							easing: "linear",
-							complete: function() {  
-								childSet.last().insertBefore(childSet.first()); // Get the first list item and put it after the last list item (that's how the infinite effects is made)   								
-								methods.adjustScroll();
-								canNavigate = true; 
-							}
-						}
-					);
-				}
-			},
-			
-			/******************************
-			Scroll Right
-			*******************************/				
-			
-			scrollRight:function() {
-				
-				if(canNavigate == true) {
-					canNavigate = false;
-					
-					var listParent = object.parent();
-					var innerWidth = listParent.width();
-					
-					itemsWidth = (innerWidth)/itemsVisible;
-					
-					var childSet = object.children();
-					
-					object.animate({
-							'left' : "-=" + itemsWidth
-						},
-						{
-							queue:false, 
-							duration:settings.animationSpeed,
-							easing: "linear",
-							complete: function() {  
-								childSet.first().insertAfter(childSet.last()); // Get the first list item and put it after the last list item (that's how the infinite effects is made)   
-								methods.adjustScroll();
-								canNavigate = true; 
-							}
-						}
-					);
-				}
-			},
-			
-			/******************************
-			Adjust Scroll 
-			*******************************/
-			
-			adjustScroll: function() {
-				
-				var listParent = object.parent();
-				var childSet = object.children();				
-				
-				var innerWidth = listParent.width(); 
-				itemsWidth = (innerWidth)/itemsVisible;
-				childSet.width(itemsWidth);
-				object.css({'left' : -itemsWidth});		
-			}			
-        
+                if(canNavigate == true) {
+                    canNavigate = false;
+                    settings.before.call(this, object);
+                    itemsWidth = methods.getCurrentItemWidth();
+                    
+                    if(settings.autoPlay.enable) {
+                        clearInterval(autoPlayInterval);
+                    }
+                    
+                    if(!settings.infinite) {
+                        
+                        var scrollDistance = itemsWidth * itemsToScroll;
+                        
+                        if(reverse) {                            
+                            object.animate({
+                                'left': methods.calculateNonInfiniteLeftScroll(scrollDistance)
+                            }, settings.animationSpeed, function(){
+                                settings.after.call(this, object);
+                                canNavigate = true;
+                            });                            
+                            
+                        } else {
+                            object.animate({
+                                'left': methods.calculateNonInfiniteRightScroll(scrollDistance)
+                            },settings.animationSpeed, function(){
+                                settings.after.call(this, object);
+                                canNavigate = true;
+                            });                                    
+                        }
+                        
+                        
+                        
+                    } else {                    
+                        object.animate({
+                            'left' : reverse ? "+=" + itemsWidth * itemsToScroll : "-=" + itemsWidth * itemsToScroll
+                        }, settings.animationSpeed, function() {
+                            settings.after.call(this, object);
+                            canNavigate = true;
+                            
+                            if(reverse) { 
+                                methods.offsetItemsToBeginning(itemsToScroll); 
+                            } else {
+                                methods.offsetItemsToEnd(itemsToScroll);
+                            }
+                            methods.offsetSliderPosition(reverse); 
+                            
+                        });
+                    }
+                    
+                    if(settings.autoPlay.enable) {
+                        methods.setAutoplayInterval();
+                    }
+                    
+                }
+            },
+            
+            touchHandler: {
+
+                xDown: null,
+                yDown: null,
+                handleTouchStart: function(evt) {                                         
+                    this.xDown = evt.touches[0].clientX;                                      
+                    this.yDown = evt.touches[0].clientY;
+                }, 
+                handleTouchMove: function (evt) {
+                    if (!this.xDown || !this.yDown) {
+                        return;
+                    }
+
+                    var xUp = evt.touches[0].clientX;                                    
+                    var yUp = evt.touches[0].clientY;
+
+                    var xDiff = this.xDown - xUp;
+                    var yDiff = this.yDown - yUp;
+                    
+                    // only comparing xDiff
+                    // compare which is greater against yDiff to determine whether left/right or up/down  e.g. if (Math.abs( xDiff ) > Math.abs( yDiff ))
+                    if (Math.abs( xDiff ) > 0) {
+                        if ( xDiff > 0 ) {
+                            // swipe left
+                            methods.scroll(false);
+                        } else {
+                            //swipe right
+                            methods.scroll(true);
+                        }                       
+                    }
+                    
+                    /* reset values */
+                    this.xDown = null;
+                    this.yDown = null;
+                    canNavigate = true;
+                }
+            },            
+            
+            /******************************
+            Utility Functions
+            *******************************/
+            
+            getCurrentItemWidth: function() {
+                return (object.parent().width())/itemsVisible;
+            },            
+            
+            offsetItemsToBeginning: function(number) {
+                if(typeof number === 'undefined') { number = 1 }
+                for(var i = 0; i < number; i++) {
+                    object.children().last().insertBefore(object.children().first());
+                }    
+            },                
+            
+            offsetItemsToEnd: function(number) {
+                if(typeof number === 'undefined') { number = 1 }
+                for(var i = 0; i < number; i++) {
+                    object.children().first().insertAfter(object.children().last());    
+                }
+            },            
+            
+            offsetSliderPosition: function(reverse) {
+                var left = parseInt(object.css('left').replace('px', ''));
+                if (reverse) { 
+                    left = left - itemsWidth * itemsToScroll; 
+                } else {
+                    left = left + itemsWidth * itemsToScroll;
+                }
+                object.css({
+                    'left': left
+                });
+            },
+
+            getOffsetPosition: function() {
+                return parseInt(object.css('left').replace('px', ''));    
+            },
+            
+            calculateNonInfiniteLeftScroll: function(toScroll) {
+                
+                methods.clearDisabled();
+                if(methods.getOffsetPosition() + toScroll >= 0) {
+                    $(settings.navigationTargetSelector).find(".nbs-flexisel-nav-left").addClass('disabled');
+                    return 0;
+                } else {
+                    return methods.getOffsetPosition() + toScroll;
+                }
+            },
+            
+            calculateNonInfiniteRightScroll: function(toScroll){
+                
+                methods.clearDisabled();
+                var negativeOffsetLimit = (itemCount * itemsWidth) - (itemsVisible * itemsWidth);
+                
+                if(methods.getOffsetPosition() - toScroll <= -negativeOffsetLimit) {
+                    $(settings.navigationTargetSelector).find(".nbs-flexisel-nav-right").addClass('disabled');
+                    return -negativeOffsetLimit;        
+                } else {
+                    return methods.getOffsetPosition() - toScroll;
+                }
+            },
+            
+            setAutoplayInterval: function(){
+                autoPlayInterval = setInterval(function() {
+                    if (canNavigate) {
+                        methods.scroll(false);
+                    }
+                }, settings.autoPlay.interval);                    
+            },
+            
+            clearDisabled: function() {
+                var parent = $(settings.navigationTargetSelector);
+                parent.find(".nbs-flexisel-nav-left").removeClass('disabled');
+                parent.find(".nbs-flexisel-nav-right").removeClass('disabled');
+            }                        
+            
         };
-        
-        if (methods[options]) { 	// $("#element").pluginName('methodName', 'arg1', 'arg2');
+
+        if (methods[options]) {     // $("#element").pluginName('methodName', 'arg1', 'arg2');
             return methods[options].apply(this, Array.prototype.slice.call(arguments, 1));
-        } else if (typeof options === 'object' || !options) { 	// $("#element").pluginName({ option: 1, option:2 });
+        } else if (typeof options === 'object' || !options) {     // $("#element").pluginName({ option: 1, option:2 });
             return methods.init.apply(this);  
         } else {
             $.error( 'Method "' +  method + '" does not exist in flexisel plugin!');

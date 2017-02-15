@@ -5,6 +5,7 @@
  */
 package com.niddah.configuration;
 
+import com.niddah.captcha.CaptchaSettings;
 import com.niddah.component.MailSenderNiddah;
 import java.io.FileNotFoundException;
 import java.util.Properties;
@@ -18,8 +19,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.ui.velocity.VelocityEngineFactoryBean;
+import org.springframework.web.client.RestOperations;
+import org.springframework.web.client.RestTemplate;
 
 /**
  *
@@ -29,7 +35,7 @@ import org.springframework.ui.velocity.VelocityEngineFactoryBean;
 @ComponentScan(basePackages = "com.niddah.core"/*,
         excludeFilters = {
             @ComponentScan.Filter(type = FilterType.ANNOTATION, value = Controller.class)})*/)
-
+@EnableAsync
 public class AppConfigCore {
 
     @Autowired
@@ -62,18 +68,43 @@ public class AppConfigCore {
         prop.put("mail.smtp.auth", "true");
         prop.put("mail.smtp.starttls.enable", "true");
         prop.put("mail.debug", "true");
+        mailSender.setJavaMailProperties(prop);
         return mailSender;
     }
 
-    @Bean
+    @Bean(name = "velocity")
     public VelocityEngineFactoryBean velocity() {
         VelocityEngineFactoryBean velocity = new VelocityEngineFactoryBean();
         velocity.setResourceLoaderPath("classpath:template");
+        velocity.setPreferFileSystemAccess(false);
         return velocity;
     }
+
     @Bean
-    public MailSenderNiddah maisSender(){
+    public MailSenderNiddah maisSender() {
         return new MailSenderNiddah();
+    }
+
+    @Bean
+    public CaptchaSettings captchaSettings() {
+        CaptchaSettings captchaSettings = new CaptchaSettings();
+        captchaSettings.setSite(environment.getProperty("google.recaptcha.key.site"));
+        captchaSettings.setSecret(environment.getProperty("google.recaptcha.key.secret"));
+        
+        return captchaSettings;
+    }
+     @Bean
+    public ClientHttpRequestFactory clientHttpRequestFactory() {
+        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
+        factory.setConnectTimeout(3 * 1000);
+        factory.setReadTimeout(7 * 1000);
+        return factory;
+    }
+
+    @Bean
+    public RestOperations restTemplate() {
+        RestTemplate restTemplate = new RestTemplate(this.clientHttpRequestFactory());
+        return restTemplate;
     }
 
 }

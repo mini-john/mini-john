@@ -1,5 +1,6 @@
 package com.niddah.configuration;
 
+import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 //public class AppInitializer implements WebApplicationInitializer {
@@ -34,8 +35,18 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
     protected String[] getServletMappings() {
         return new String[]{"/"};
     }
-    public void tot(){
-        
-    }
 
+//    @Override
+//    protected void registerContextLoaderListener(ServletContext servletContext) {
+//        
+//        CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
+//
+//        encodingFilter.setForceEncoding(true);
+//
+//        encodingFilter.setEncoding("UTF - 8");
+//        servletContext.addFilter("encoding", encodingFilter);//To change body of generated methods, choose Tools | Templates.
+//        super.registerContextLoaderListener(servletContext);
+//        
+//    }
+     
 }

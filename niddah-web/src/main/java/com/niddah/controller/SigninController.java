@@ -5,26 +5,30 @@
  */
 package com.niddah.controller;
 
-import com.niddah.core.entity.Femme;
-import com.niddah.core.service.FemmeService;
+import com.niddah.captcha.CaptchaService;
+import com.niddah.component.MailSenderNiddah;
+import com.niddah.controller.error.ReCaptchaInvalidException;
+import com.niddah.core.entity.Personne;
+import com.niddah.core.service.PersonneService;
 import com.niddah.library.constante.Constantes;
-import com.niddah.library.dto.FemmeDto;
+import com.niddah.library.dto.PersonneDto;
 import com.niddah.library.enumeration.EtatAccount;
 import com.niddah.library.enumeration.RoleUser;
-import java.math.BigDecimal;
+import com.niddah.library.exception.NiddahDataException;
+import com.niddah.niddah.web.NiddahToken;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import javax.validation.Valid;
-import org.hibernate.exception.ConstraintViolationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,14 +43,20 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class SigninController {
 
+    private static final Logger logger = LoggerFactory.getLogger(SigninController.class);
     @Autowired
-    FemmeService femmeService;
+    PersonneService personneService;
     @Autowired
     private MessageSource messageSource;
+    @Autowired
+    private MailSenderNiddah mailSenderNiddah;
+    @Autowired
+    private CaptchaService captchaService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/public/signin.do")
     public String getSignIn(ModelMap model) {
-        model.addAttribute("femme", new FemmeDto());
+        model.addAttribute("personne", new PersonneDto());
+        model.addAttribute("captchaService", captchaService);
         return "public/signin";
     }
 
@@ -57,47 +67,116 @@ public class SigninController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/public/signin.do")
-    public ModelAndView signin(@Valid @ModelAttribute("femme") FemmeDto femmeDto, BindingResult result, RedirectAttributes redirectAttributes, Locale locale) {
+    public String signin(@Valid @ModelAttribute("personne") PersonneDto personneDto,
+            BindingResult result, RedirectAttributes redirectAttributes, Locale locale, @RequestParam(value = "g-recaptcha-response") String grecaptcharesponse, Model m) {
+        m.addAttribute("captchaService", captchaService);
+        try {
+            captchaService.processResponse(grecaptcharesponse);
+        } catch (ReCaptchaInvalidException ex) {
+            result.rejectValue("captcha", "Captcha.error", messageSource.getMessage("Captcha.error", new String[]{}, new Locale("fr")));
+
+            return "public/signin";
+        }
+
         if (result.hasErrors()) {
 
-            return new ModelAndView("public/signin", "femme", femmeDto);
+            return "public/signin";
         }
-        try {
-            femmeDto.getAccount().setRole(RoleUser.Femme);
-            //TODO : mettre genereation jeton et date limite jeton
-            femmeDto.getAccount().setEtatAccount(EtatAccount.creation);
-            Calendar cal = GregorianCalendar.getInstance();
-            cal.add(Calendar.HOUR_OF_DAY, Constantes.NB_HOUR_JETON_VALIDE);
-            femmeDto.getAccount().setDateLimiteJeton(cal.getTime());
-            femmeDto.getAccount().setJeton(BigDecimal.valueOf(Math.random()));
-            Long femmeDtoId = femmeService.add(femmeDto, Femme.class);
-            femmeDto.setId(femmeDtoId);
-            //TODO : rajouter fonction envoi mail d'inscription
-            //mailService.envoiMailInscription(femmeDto)
-        } catch (DataIntegrityViolationException ex) {
-            if (ex.getCause() instanceof ConstraintViolationException) {
-                ConstraintViolationException cdts = (ConstraintViolationException) ex.getCause();
-                if (cdts.getConstraintName().equalsIgnoreCase("emailExist")) {
-                    ObjectError error = new ObjectError("mail", messageSource.getMessage("Account.add.error.mail.exist", new String[]{femmeDto.getAccount().getMail()}, new Locale("fr")));
-                    result.addError(error);
-                    return new ModelAndView("public/signin", "femme", femmeDto);
-                }
-                if (cdts.getConstraintName().equalsIgnoreCase("loginExist")) {
-                    ObjectError error = new ObjectError("login", messageSource.getMessage("Account.add.error.login.exist", new String[]{femmeDto.getAccount().getLogin()}, new Locale("fr")));
-                    result.addError(error);
-                    return new ModelAndView("public/signin", "femme", femmeDto);
-                }
-            }
+
+        switch (personneDto.getSexe()) {
+            case Femme:
+                personneDto.getAccount().setRole(RoleUser.Femme);
+
+                break;
+            case Homme:
+                personneDto.getAccount().setRole(RoleUser.Homme);
+                break;
         }
-        return new ModelAndView("public/signinsuccess");
+
+        //TODO : mettre genereation jeton et date limite jeton
+        personneDto.getAccount().setEtatAccount(EtatAccount.creation);
+        Calendar cal = GregorianCalendar.getInstance();
+        cal.add(Calendar.HOUR_OF_DAY, Constantes.NB_HOUR_JETON_VALIDE);
+        personneDto.getAccount().setDateLimiteJeton(cal.getTime());
+        personneDto.getAccount().setJeton(NiddahToken.getToken());
+        personneDto.getAccount().setPersonne(personneDto);
+        PersonneDto personneExist;
+        if (personneService.isMailActifExist(personneDto.getAccount().getMail())) {
+            result.rejectValue("account.mail", "Account.add.error.mail.exist", messageSource.getMessage("Account.add.error.mail.exist", new String[]{personneDto.getAccount().getMail()}, new Locale("fr")));
+            return "public/signin";
+        }
+        if (personneService.isLoginActifExist(personneDto.getAccount().getLogin())) {
+            result.rejectValue("account.login", "Account.add.error.login.exist", messageSource.getMessage("Account.add.error.login.exist", new String[]{personneDto.getAccount().getLogin()}, new Locale("fr")));
+
+            return "public/signin";
+        }
+        if ((personneExist = personneService.isMailCreationExist(personneDto.getAccount().getMail())) != null) {
+            result.rejectValue("account.mail", "Account.add.error.mail.exist", messageSource.getMessage("Account.add.error.mail.exist", new String[]{personneDto.getAccount().getMail()}, new Locale("fr")));
+            return "redirect:signinExist.do?id=" + personneExist.getId() + "&type=1";
+        }
+        if ((personneExist = personneService.isLoginCreationExist(personneDto.getAccount().getLogin())) != null) {
+            result.rejectValue("account.login", "Account.add.error.login.exist", messageSource.getMessage("Account.add.error.login.exist", new String[]{personneDto.getAccount().getLogin()}, new Locale("fr")));
+            return "redirect:signinExist.do?id=" + personneExist.getId() + "&type=2";
+        }
+        personneDto = personneService.merge(personneDto, Personne.class);
+
+        //TODO : rajouter fonction envoi mail d'inscription
+        mailSenderNiddah.sendMailActivationAccount(personneDto);
+
+        return "public/signinsuccess";
 
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/public/signinExist.do")
+    public String signinExist(ModelMap m, @RequestParam("id") Long id, @RequestParam("type") Integer type) throws NiddahDataException {
+        PersonneDto personneDto = personneService.getById(id, Personne.class, PersonneDto.class);
+
+        if (personneDto == null || personneDto.getAccount().getEtatAccount() != EtatAccount.creation) {
+
+            logger.error("Le compte d'id {} n'est pas en activation ou n'existe pas", id);
+            throw new NiddahDataException("Une erreur de recherche de compte est apparu");
+        }
+        if (type != 1 && type != 2) {
+            throw new NiddahDataException("Le compte n'est pas en état d'activation");
+
+        }
+        switch (type) {
+            case 1:
+                m.addAttribute("exist", "une adresse mail identique");
+                break;
+            case 2:
+                m.addAttribute("exist", "un identifiant identique");
+
+                break;
+
+        }
+        m.addAttribute("personne", personneDto);
+        return "public/signinExist";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/public/validSignin.do")
+    public String validSignin(@Valid @ModelAttribute("personne") PersonneDto personneDto, BindingResult result, RedirectAttributes redirectAttributes, Locale locale, Model m) {
+
+        if (result.hasErrors()) {
+
+            return "public/validSignin";
+        }
+        Calendar cal = GregorianCalendar.getInstance();
+        cal.add(Calendar.HOUR_OF_DAY, Constantes.NB_HOUR_JETON_VALIDE);
+        personneDto.getAccount().setDateLimiteJeton(cal.getTime());
+        personneDto.getAccount().setJeton(NiddahToken.getToken());
+        mailSenderNiddah.sendMailActivationAccount(personneDto);
+       personneService.merge(personneDto, Personne.class);
+
+        return "public/signinsuccess";
+    }
+
     @RequestMapping(value = "/public/verify.do", method = RequestMethod.GET)
-    public ModelAndView verifyAccount(@RequestParam("id") Long femmeId, @RequestParam("jeton") BigDecimal jeton) {
-        FemmeDto femmeDto = femmeService.getById(femmeId, Femme.class, FemmeDto.class);
+    public ModelAndView verifyAccount(@RequestParam("id") Long personneId, @RequestParam("jeton") String jeton) {
+        PersonneDto personneDto = personneService.getById(personneId, Personne.class, PersonneDto.class);
+
         Date date = GregorianCalendar.getInstance().getTime();
-        if (date.compareTo(femmeDto.getAccount().getDateLimiteJeton()) > 0 || jeton != femmeDto.getAccount().getJeton()) {
+        if (personneDto == null || date.compareTo(personneDto.getAccount().getDateLimiteJeton()) > 0 || !jeton.equals(personneDto.getAccount().getJeton())) {
             return new ModelAndView("public/verifyfail");
 
         } else {

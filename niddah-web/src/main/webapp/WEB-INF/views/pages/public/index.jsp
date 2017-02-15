@@ -75,7 +75,7 @@
     </ul>
 </div>
 <script type="text/javascript">
-    $(window).load(function () {
+    $(window).on('load', function () {
         $("#flexiselDemo1").flexisel({
             visibleItems: 1,
             animationSpeed: 1000,
@@ -106,7 +106,17 @@
 
 
 <div class="banner-bottom">
-    <ul id="flexiselDemo2">			
+    <ul id="flexiselDemo2">	
+        <li>
+            <div class="banner-bottom-grid">
+                <img src="<c:url value="/static/images/livreor.png"/>" alt=" " class="img-responsive" />
+                <h3>Livre d'or</h3>
+                <p>JKalVered est votre outil, elle laisse la place &agrave; votre opinion. Laissez vos commentaires ou lisez les commentaires sur cet outil.</p>
+                <div class="more">
+                    <a href="single.html" class="hvr-bounce-to-bottom sint">Livre d'or</a>
+                </div>
+            </div>
+        </li>
         <li>
             <div class="banner-bottom-grid">
                 <img src="<c:url value="/static/images/inscription.jpg"/>" alt="inscription " class="img-responsive" />
@@ -131,19 +141,10 @@
                 </div>
             </div>
         </li>
-        <li>
-            <div class="banner-bottom-grid">
-                <img src="<c:url value="/static/images/livreor.png"/>" alt=" " class="img-responsive" />
-                <h3>Livre d'or</h3>
-                <p>JKalVered est votre outil, elle laisse la place &agrave; votre opinion. Laissez vos commentaires ou lisez les commentaires sur cet outil.</p>
-                <div class="more">
-                    <a href="single.html" class="hvr-bounce-to-bottom sint">Livre d'or</a>
-                </div>
-            </div>
-        </li>
+
     </ul>
     <script type="text/javascript">
-    $(window).load(function () {
+    $(window).on('load', function () {
         $("#flexiselDemo2").flexisel({
             visibleItems: 3,
             animationSpeed: 1000,

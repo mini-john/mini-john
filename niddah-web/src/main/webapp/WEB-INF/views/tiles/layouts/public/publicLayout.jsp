@@ -14,9 +14,10 @@
         <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
             function hideURLbar(){ window.scrollTo(0,1); } </script>
         <!-- //for-mobile-apps -->
-        <link href="<c:url value="/static/css/bootstrap.css"/>" rel="stylesheet" type="text/css" media="all" />
+         <link href="<c:url value="/static/css/jquery-ui.css"/>" rel="stylesheet" type="text/css" media="all" />
         <link href="<c:url value="/static/css/style.css"/>" rel="stylesheet" type="text/css" media="all" />
         <link href="<c:url value="/static/css/niddah.css"/>" rel="stylesheet" type="text/css" media="all" />
+        <link href="<c:url value="/static/css/bootstrap.css"/>" rel="stylesheet" type="text/css" media="all" />
 
         <title>JKalVered - La puret&eacute; en toute simplicit&eacute;</title>
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
@@ -24,6 +25,7 @@
         <link href="https://fonts.googleapis.com/css?family=Suez+One" rel="stylesheet">
         <!-- js -->
         <script src="<c:url value="/static/js/jquery.min.js"/>"></script>
+          <script src="<c:url value="/static/js/jquery-ui.js"/>"></script>
         <!-- //js -->
         <!-- start-smoth-scrolling -->
 <!--        <script type="text/javascript" src="<c:url value="/static/js/move-top.js"/>"></script>
@@ -56,7 +58,7 @@
                                     <span class="icon-bar"></span>
                                     <span class="icon-bar"></span>
                                 </button>
-                                <a class="navbar-brand" href="index.html"><span>j</span>KalVered </a>
+                                <a class="navbar-brand" href="index.do"><span>j</span>KalVered </a>
 
                             </div>
 
