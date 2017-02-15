@@ -11,8 +11,9 @@ package com.niddah.library.enumeration;
  */
 public enum EtatAccount {
     creation("Creation"),
-    activation("activation"),
-    actif("actif"),bloque("bloque"),
+    
+    actif("actif"),
+    bloque("bloque"),
     changementMotDePasse("ChangementMotDePasse");
     private String name;
      //Constructeur

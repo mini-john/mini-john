@@ -5,12 +5,12 @@
  */
 package com.niddah.library.dto;
 
-import com.niddah.library.constraint.Mail;
 import com.niddah.library.enumeration.EtatAccount;
 import com.niddah.library.enumeration.RoleUser;
-import java.math.BigDecimal;
 import java.util.Date;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.Email;
 
 /**
  *
@@ -19,18 +19,20 @@ import javax.validation.constraints.Size;
 public class AccountDto {
 
     private Long id;
-    @Size(min = 1, message = "Taille Invalide")
+    @Size(min = 1)
+    @Pattern(regexp = "^[a-zA-Z0-9]*")
     private String login;
-    @Size(min = 1, message = "Taille Invalide")
+    @Size(min = 1, message = "Veuillez saisir un mot de passe")
     private String password;
-    @Mail
+    @Email
+    @Size(min=1)
     private String mail;
     private int nbEssais;
-    private BigDecimal jeton;
+    private String jeton;
     private Boolean accountBlock;
     private Date dateLimiteJeton;
     private EtatAccount etatAccount;
-    private FemmeDto femme;
+    private PersonneDto personne;
     private RoleUser role;
 
     public Long getId() {
@@ -73,11 +75,11 @@ public class AccountDto {
         this.nbEssais = nbEssais;
     }
 
-    public BigDecimal getJeton() {
+    public String getJeton() {
         return jeton;
     }
 
-    public void setJeton(BigDecimal jeton) {
+    public void setJeton(String jeton) {
         this.jeton = jeton;
     }
 
@@ -105,13 +107,11 @@ public class AccountDto {
         this.etatAccount = etatAccount;
     }
 
-    public FemmeDto getFemme() {
-        return femme;
+    public void setPersonne(PersonneDto personne) {
+        this.personne = personne;
     }
 
-    public void setFemme(FemmeDto femme) {
-        this.femme = femme;
-    }
+    
 
     public RoleUser getRole() {
         return role;

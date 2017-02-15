@@ -10,7 +10,10 @@ import com.niddah.library.enumeration.RoleUser;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,9 +29,10 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(name = "Account",
-        uniqueConstraints ={
-        @UniqueConstraint(name = "emailExist",columnNames = {"mail"}),
-            @UniqueConstraint(name = "loginExist",columnNames = {"login"})})
+        uniqueConstraints = {
+            @UniqueConstraint(name = "emailExist", columnNames = {"mail"})
+            ,
+            @UniqueConstraint(name = "loginExist", columnNames = {"login"})})
 public class Account implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -41,13 +45,15 @@ public class Account implements Serializable {
     private String password;
     private String mail;
     private int nbEssais;
-    private BigDecimal jeton;
+    private String jeton;
     private Boolean accountBlock;
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dateLimiteJeton;
+    @Enumerated(EnumType.STRING)
     private EtatAccount etatAccount;
-    @OneToOne()
-    private Femme femme;
+    @OneToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST})
+    private Personne personne;
+    @Enumerated(EnumType.STRING)
     private RoleUser role;
 
     public Long getId() {
@@ -70,14 +76,13 @@ public class Account implements Serializable {
         return login;
     }
 
-    public BigDecimal getJeton() {
+    public String getJeton() {
         return jeton;
     }
 
-    public void setJeton(BigDecimal jeton) {
+    public void setJeton(String jeton) {
         this.jeton = jeton;
     }
-    
 
     public void setLogin(String login) {
         this.login = login;
@@ -131,12 +136,12 @@ public class Account implements Serializable {
         this.etatAccount = etatAccount;
     }
 
-    public Femme getFemme() {
-        return femme;
+    public Personne getPersonne() {
+        return personne;
     }
 
-    public void setFemme(Femme femme) {
-        this.femme = femme;
+    public void setPersonne(Personne personne) {
+        this.personne = personne;
     }
 
     @Override

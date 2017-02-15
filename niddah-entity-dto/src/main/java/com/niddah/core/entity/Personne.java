@@ -5,8 +5,10 @@
  */
 package com.niddah.core.entity;
 
+import com.niddah.library.enumeration.Sexe;
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,7 +22,7 @@ import javax.persistence.SequenceGenerator;
  * @author mini-john
  */
 @Entity
-public class Femme implements Serializable {
+public class Personne implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -33,11 +35,13 @@ public class Femme implements Serializable {
     private double latitude;
     private double longitude;
     private double elevation;
-    @OneToOne()
+    
+    private Sexe sexe;
+    @OneToOne(cascade ={CascadeType.PERSIST, CascadeType.MERGE,})
     private Account account;
     @OneToOne()
     private Configuration configuration;
-    @OneToMany(mappedBy = "femme")
+    @OneToMany(mappedBy = "personne",cascade ={CascadeType.PERSIST, CascadeType.MERGE})
     private List<Agenda> agenda;
 
     public Long getId() {
@@ -119,6 +123,14 @@ public class Femme implements Serializable {
     public void setConfiguration(Configuration configuration) {
         this.configuration = configuration;
     }
+
+    public Sexe getSexe() {
+        return sexe;
+    }
+
+    public void setSexe(Sexe sexe) {
+        this.sexe = sexe;
+    }
     
 
     @Override
@@ -131,10 +143,10 @@ public class Femme implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Femme)) {
+        if (!(object instanceof Personne)) {
             return false;
         }
-        Femme other = (Femme) object;
+        Personne other = (Personne) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

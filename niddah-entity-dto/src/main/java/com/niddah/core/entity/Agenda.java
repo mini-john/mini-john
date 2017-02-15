@@ -7,6 +7,7 @@ package com.niddah.core.entity;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -29,8 +30,8 @@ public class Agenda implements Serializable {
     @SequenceGenerator(name = "agenda_sequence", sequenceName = "agenda_sequence")
     private Long id;
     private String nom;
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Femme femme;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    private Personne personne;
     @OneToMany(mappedBy = "agenda")
     private List<Evenement> evenements;
 
@@ -50,12 +51,12 @@ public class Agenda implements Serializable {
         this.nom = nom;
     }
 
-    public Femme getFemme() {
-        return femme;
+    public Personne getPersonne() {
+        return personne;
     }
 
-    public void setFemme(Femme femme) {
-        this.femme = femme;
+    public void setPersonne(Personne personne) {
+        this.personne = personne;
     }
 
     public List<Evenement> getEvenements() {
@@ -65,7 +66,6 @@ public class Agenda implements Serializable {
     public void setEvenements(List<Evenement> evenements) {
         this.evenements = evenements;
     }
-    
 
     @Override
     public int hashCode() {
@@ -91,5 +91,5 @@ public class Agenda implements Serializable {
     public String toString() {
         return "com.niddah.core.entity.Agenda[ id=" + id + " ]";
     }
-    
+
 }

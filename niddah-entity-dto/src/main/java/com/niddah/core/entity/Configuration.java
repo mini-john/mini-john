@@ -26,7 +26,7 @@ public class Configuration implements Serializable {
     @SequenceGenerator(name = "configuration_sequence", sequenceName = "configuration_sequence")
     private Long id;
      @OneToOne()
-    private Femme femme;
+    private Personne personne;
 
     public Long getId() {
         return id;
@@ -36,13 +36,15 @@ public class Configuration implements Serializable {
         this.id = id;
     }
 
-    public Femme getFemme() {
-        return femme;
+    public Personne getPersonne() {
+        return personne;
     }
 
-    public void setFemme(Femme femme) {
-        this.femme = femme;
+    public void setPersonne(Personne personne) {
+        this.personne = personne;
     }
+
+    
 
     
     @Override

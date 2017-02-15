@@ -5,25 +5,33 @@
  */
 package com.niddah.library.dto;
 
+import com.niddah.library.enumeration.Sexe;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
  *
  * @author mini-john
  */
-public class FemmeDto {
+public class PersonneDto {
 
     private Long id;
-    @Size(min = 1, message = "Taille Invalide")
+    @Size(min = 1)
     private String nom;
-    @Size(min = 1, message = "Taille Invalide")
+    @Size(min = 1)
     private String prenom;
+    private String confirmation;
     private Boolean autoLocalisation;
     private double latitude;
     private double longitude;
     private double elevation;
+    @Valid
     private AccountDto account;
     private ConfigurationDto configuration;
+    @NotNull
+    private Sexe sexe;
+    String captcha;
 
     public Long getId() {
         return id;
@@ -96,5 +104,30 @@ public class FemmeDto {
     public void setConfiguration(ConfigurationDto configuration) {
         this.configuration = configuration;
     }
+
+    public Sexe getSexe() {
+        return sexe;
+    }
+
+    public void setSexe(Sexe sexe) {
+        this.sexe = sexe;
+    }
+
+    public String getConfirmation() {
+        return confirmation;
+    }
+
+    public void setConfirmation(String confirmation) {
+        this.confirmation = confirmation;
+    }
+
+    public String getCaptcha() {
+        return captcha;
+    }
+
+    public void setCaptcha(String captcha) {
+        this.captcha = captcha;
+    }
+    
 
 }
