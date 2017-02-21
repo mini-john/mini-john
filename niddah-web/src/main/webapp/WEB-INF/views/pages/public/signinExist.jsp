@@ -18,6 +18,7 @@ If you found this us
         <form:form action="./validSignin.do" modelAttribute="personne" method="post" >
             <form:hidden path="id"  />
             <form:hidden path="account.id"  />
+             <form:hidden path="sexe"  />
             <div class="sign-u">
                 <div class="sign-up1">
                     <h4 class="a">Prenom* :</h4>
@@ -38,17 +39,7 @@ If you found this us
                     </div>
                     <div class="clearfix"> </div>
                 </div>
-                <div class="sign-u">
-                    <div class="sign-up1">
-                        <h4 class="b">Genre* :</h4>
-                    </div>
-                    <div class="sign-up2" style="margin-top: 25px;">
-                    <form:radiobutton path="sexe" value="Homme" disabled="true"/>Homme
-                    <form:radiobutton path="sexe" value="Femme" disabled="true"/>Femme
-                    <p style="color:#333;text-align: left;font-size: 100%"> <form:errors path="sexe" cssclass="error" ></form:errors></p>
-                    </div>
-                    <div class="clearfix"> </div>
-                </div>
+                
 
                 <h6>Information du compte</h6>
                 <div class="sign-u">

@@ -28,7 +28,7 @@ public class CrudService {
     CrudRepository crudRepository;
     @Autowired
     NiddahCastor niddahCastor;
-    private static final Logger logger = LoggerFactory.getLogger(CrudService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CrudService.class);
 
     public <T> Long add(T entityDTO, Class entity) {
 

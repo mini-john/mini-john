@@ -8,6 +8,7 @@ package com.niddah.controller;
 import com.niddah.captcha.CaptchaService;
 import com.niddah.component.MailSenderNiddah;
 import com.niddah.controller.error.ReCaptchaInvalidException;
+import com.niddah.core.entity.Account;
 import com.niddah.core.entity.Personne;
 import com.niddah.core.service.PersonneService;
 import com.niddah.library.constante.Constantes;
@@ -16,10 +17,13 @@ import com.niddah.library.enumeration.EtatAccount;
 import com.niddah.library.enumeration.RoleUser;
 import com.niddah.library.exception.NiddahDataException;
 import com.niddah.niddah.web.NiddahToken;
+import com.niddah.web.validator.PasswordValidator;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +32,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -118,7 +123,7 @@ public class SigninController {
             result.rejectValue("account.login", "Account.add.error.login.exist", messageSource.getMessage("Account.add.error.login.exist", new String[]{personneDto.getAccount().getLogin()}, new Locale("fr")));
             return "redirect:signinExist.do?id=" + personneExist.getId() + "&type=2";
         }
-        personneDto = personneService.merge(personneDto, Personne.class);
+        personneDto.setId(personneService.add(personneDto, Personne.class));
 
         //TODO : rajouter fonction envoi mail d'inscription
         mailSenderNiddah.sendMailActivationAccount(personneDto);
@@ -159,27 +164,29 @@ public class SigninController {
 
         if (result.hasErrors()) {
 
-            return "public/validSignin";
+            return "public/signinExist";
         }
+        personneDto = personneService.getById(personneDto.getId(), Personne.class, PersonneDto.class);
         Calendar cal = GregorianCalendar.getInstance();
         cal.add(Calendar.HOUR_OF_DAY, Constantes.NB_HOUR_JETON_VALIDE);
         personneDto.getAccount().setDateLimiteJeton(cal.getTime());
         personneDto.getAccount().setJeton(NiddahToken.getToken());
         mailSenderNiddah.sendMailActivationAccount(personneDto);
-       personneService.merge(personneDto, Personne.class);
+        personneService.update(personneDto, Personne.class);
 
         return "public/signinsuccess";
     }
 
     @RequestMapping(value = "/public/verify.do", method = RequestMethod.GET)
-    public ModelAndView verifyAccount(@RequestParam("id") Long personneId, @RequestParam("jeton") String jeton) {
+    public ModelAndView verifyAccount(@RequestParam("id") Long personneId, @RequestParam("jeton") String jeton, Model map) {
         PersonneDto personneDto = personneService.getById(personneId, Personne.class, PersonneDto.class);
 
         Date date = GregorianCalendar.getInstance().getTime();
-        if (personneDto == null || date.compareTo(personneDto.getAccount().getDateLimiteJeton()) > 0 || !jeton.equals(personneDto.getAccount().getJeton())) {
+        if (personneDto == null || personneDto.getAccount().getEtatAccount() != EtatAccount.creation || date.compareTo(personneDto.getAccount().getDateLimiteJeton()) > 0 || !jeton.equals(personneDto.getAccount().getJeton())) {
             return new ModelAndView("public/verifyfail");
 
         } else {
+            map.addAttribute("personne", personneDto);
             return new ModelAndView("public/verifysuccess");
 
         }
@@ -187,9 +194,28 @@ public class SigninController {
     }
 
     @RequestMapping(value = "/public/addPassword.do", method = RequestMethod.POST)
-    public ModelAndView addPaswword(@RequestParam("id") Long femmeId,
-            @RequestParam("password") String password,
-            BindingResult result, RedirectAttributes redirectAttributes, Locale locale) {
+    public ModelAndView addPaswword(@ModelAttribute("personne") PersonneDto personneDto,
+            BindingResult result, RedirectAttributes redirectAttributes, Locale locale, Model map) {
+        PersonneDto personneFromDB = personneService.getById(personneDto.getId(), Personne.class, PersonneDto.class);
+        result = new BeanPropertyBindingResult(personneDto, "personne");
+
+        PasswordValidator passwordValidator = new PasswordValidator(messageSource);
+        passwordValidator.validate(personneDto, result);
+
+        if (result.hasErrors()) {
+
+            Map<String, Object> mapi = new HashMap<>();
+            mapi.put("personne", personneFromDB);
+            mapi.put("org.springframework.validation.BindingResult.personne", result);
+            return new ModelAndView("public/verifysuccess", mapi);
+
+        }
+
+        personneFromDB.getAccount().setPassword(personneDto.getAccount().getPassword());
+        personneFromDB.getAccount().setEtatAccount(EtatAccount.actif);
+        personneService.update(personneFromDB.getAccount(), Account.class);
+        mailSenderNiddah.sendMailCompteCree(personneFromDB);
+
         return new ModelAndView("public/accountCreate");
 
     }

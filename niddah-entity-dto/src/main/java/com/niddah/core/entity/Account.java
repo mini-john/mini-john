@@ -51,7 +51,7 @@ public class Account implements Serializable {
     private Date dateLimiteJeton;
     @Enumerated(EnumType.STRING)
     private EtatAccount etatAccount;
-    @OneToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST})
+    @OneToOne
     private Personne personne;
     @Enumerated(EnumType.STRING)
     private RoleUser role;

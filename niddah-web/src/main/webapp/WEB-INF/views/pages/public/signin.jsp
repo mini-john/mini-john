@@ -45,8 +45,8 @@
                         <h4 class="b">Genre* :</h4>
                     </div>
                     <div class="sign-up2" style="margin-top: 25px;">
-                    <form:radiobutton path="sexe" value="Homme"/>Homme
-                    <form:radiobutton path="sexe" value="Femme"/>Femme
+                    <form:radiobuttons path="sexe" />
+                  
                     <p style="color:#333;text-align: left;font-size: 100%"> <form:errors path="sexe" class="alert alert-danger"  element="div"></form:errors></p>
                     </div>
                     <div class="clearfix"> </div>

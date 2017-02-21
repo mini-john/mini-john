@@ -21,7 +21,7 @@ public class PersonneDto {
     private String nom;
     @Size(min = 1)
     private String prenom;
-    private String confirmation;
+  
     private Boolean autoLocalisation;
     private double latitude;
     private double longitude;
@@ -113,13 +113,7 @@ public class PersonneDto {
         this.sexe = sexe;
     }
 
-    public String getConfirmation() {
-        return confirmation;
-    }
-
-    public void setConfirmation(String confirmation) {
-        this.confirmation = confirmation;
-    }
+    
 
     public String getCaptcha() {
         return captcha;

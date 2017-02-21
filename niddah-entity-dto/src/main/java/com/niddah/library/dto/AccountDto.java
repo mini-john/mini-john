@@ -22,10 +22,12 @@ public class AccountDto {
     @Size(min = 1)
     @Pattern(regexp = "^[a-zA-Z0-9]*")
     private String login;
-    @Size(min = 1, message = "Veuillez saisir un mot de passe")
+   
     private String password;
+    
+    private String confirmation;
     @Email
-    @Size(min=1)
+    @Size(min = 1)
     private String mail;
     private int nbEssais;
     private String jeton;
@@ -111,7 +113,9 @@ public class AccountDto {
         this.personne = personne;
     }
 
-    
+    public PersonneDto getPersonne() {
+        return personne;
+    }
 
     public RoleUser getRole() {
         return role;
@@ -119,6 +123,14 @@ public class AccountDto {
 
     public void setRole(RoleUser role) {
         this.role = role;
+    }
+
+    public String getConfirmation() {
+        return confirmation;
+    }
+
+    public void setConfirmation(String confirmation) {
+        this.confirmation = confirmation;
     }
 
 }

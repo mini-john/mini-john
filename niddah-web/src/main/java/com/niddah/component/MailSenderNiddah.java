@@ -51,26 +51,41 @@ public class MailSenderNiddah {
 
     @Async
     public void sendMailActivationAccount(final PersonneDto personneDto) {
-        MimeMessagePreparator preparator = new MimeMessagePreparator() {
-            @Override
-            public void prepare(MimeMessage mm) throws Exception {
+        MimeMessagePreparator preparator = (MimeMessage mm) -> {
+            MimeMessageHelper message = new MimeMessageHelper(mm);
+            message.setTo(personneDto.getAccount().getMail());
+            message.setBcc("adrianmatei@gmail.com");
+            message.setFrom(new InternetAddress("michel.jettest@gmaioll.com"));
+            message.setSubject("Creation du compte sur jKalVered");
+            message.setSentDate(new Date());
+            Map model = new HashMap();
+            model.put("personneDto", personneDto);
 
-                MimeMessageHelper message = new MimeMessageHelper(mm);
-                message.setTo(personneDto.getAccount().getMail());
-                message.setBcc("adrianmatei@gmail.com");
-                message.setFrom(new InternetAddress("michel.jettest@gmaioll.com"));
-                message.setSubject("Creation du compte sur jKalVered");
-                message.setSentDate(new Date());
-                Map model = new HashMap();
-                model.put("personneDto", personneDto);
-
-                String text = VelocityEngineUtils.mergeTemplateIntoString(
-                        velocity, "/emailActivation.html", "UTF-8", model);
-                message.setText(text, true);
-            }
+            String text = VelocityEngineUtils.mergeTemplateIntoString(
+                    velocity, "/emailActivation.html", "UTF-8", model);
+            message.setText(text, true);
         };
         maisSender.send(preparator);
 
+    }
+
+    @Async
+    public void sendMailCompteCree(PersonneDto personneDto) {
+        MimeMessagePreparator preparator = (MimeMessage mm) -> {
+            MimeMessageHelper message = new MimeMessageHelper(mm);
+            message.setTo(personneDto.getAccount().getMail());
+            message.setBcc("adrianmatei@gmail.com");
+            message.setFrom(new InternetAddress("michel.jettest@gmaioll.com"));
+            message.setSubject("Creation du compte sur jKalVered");
+            message.setSentDate(new Date());
+            Map model = new HashMap();
+            model.put("personneDto", personneDto);
+
+            String text = VelocityEngineUtils.mergeTemplateIntoString(
+                    velocity, "/emailCreation.html", "UTF-8", model);
+            message.setText(text, true);
+        };
+        maisSender.send(preparator);
     }
 
 }

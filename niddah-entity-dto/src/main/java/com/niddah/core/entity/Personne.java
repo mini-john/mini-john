@@ -35,13 +35,13 @@ public class Personne implements Serializable {
     private double latitude;
     private double longitude;
     private double elevation;
-    
+
     private Sexe sexe;
-    @OneToOne(cascade ={CascadeType.PERSIST, CascadeType.MERGE,})
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private Account account;
     @OneToOne()
     private Configuration configuration;
-    @OneToMany(mappedBy = "personne",cascade ={CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "personne", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Agenda> agenda;
 
     public Long getId() {
@@ -131,7 +131,6 @@ public class Personne implements Serializable {
     public void setSexe(Sexe sexe) {
         this.sexe = sexe;
     }
-    
 
     @Override
     public int hashCode() {
