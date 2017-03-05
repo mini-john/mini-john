@@ -26,8 +26,8 @@ public class Personne implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "femme_sequence")
-    @SequenceGenerator(name = "femme_sequence", sequenceName = "femme_sequence")
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "personne_sequence")
+    @SequenceGenerator(name = "personne_sequence", sequenceName = "personne_sequence")
     private Long id;
     private String nom;
     private String prenom;
@@ -37,7 +37,7 @@ public class Personne implements Serializable {
     private double elevation;
 
     private Sexe sexe;
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,},mappedBy = "personne")
     private Account account;
     @OneToOne()
     private Configuration configuration;

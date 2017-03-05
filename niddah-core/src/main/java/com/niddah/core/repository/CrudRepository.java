@@ -18,16 +18,16 @@ public class CrudRepository {
 
     @Autowired
     SessionFactory sessionFactory;
-    
-    protected Session getSession(){
+
+    protected Session getSession() {
         return sessionFactory.getCurrentSession();
     }
 
-    public <T> T persist(T entity) {
-        return (T) sessionFactory.getCurrentSession().save(entity);
+    public <T> void persist(T entity) {
+        sessionFactory.getCurrentSession().persist(entity);
 
     }
-    
+
     public <T> T merge(T entity) {
         return (T) sessionFactory.getCurrentSession().merge(entity);
 
@@ -59,6 +59,7 @@ public class CrudRepository {
         return criteria.list();
 
     }
+
     protected Criteria createEntityCriteria(Class entity) {
         return getSession().createCriteria(entity);
     }

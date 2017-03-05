@@ -24,7 +24,7 @@ import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "com.niddah")
-public class AppConfigWeb extends WebMvcConfigurerAdapter implements WebApplicationInitializer {
+public class AppConfigWeb extends WebMvcConfigurerAdapter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AppConfigWeb.class);
 
@@ -81,13 +81,5 @@ public class AppConfigWeb extends WebMvcConfigurerAdapter implements WebApplicat
         registry.addResourceHandler("/static/**").addResourceLocations("/static/");
     }
 
-    @Override
-    public void onStartup(ServletContext sc) throws ServletException {
-        FilterRegistration.Dynamic fr = sc.addFilter("encodingFilter",
-                new CharacterEncodingFilter());
-        fr.setInitParameter("encoding", "UTF-8");
-        fr.setInitParameter("forceEncoding", "true");
-        fr.addMappingForUrlPatterns(null, true, "/*");
-    }
-
+    
 }

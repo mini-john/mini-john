@@ -5,7 +5,6 @@
  */
 package com.niddah.core.service;
 
-
 import com.niddah.core.castor.NiddahCastor;
 import com.niddah.core.repository.CrudRepository;
 import java.util.ArrayList;
@@ -30,17 +29,13 @@ public class CrudService {
     NiddahCastor niddahCastor;
     private static final Logger LOGGER = LoggerFactory.getLogger(CrudService.class);
 
-    public <T> Long add(T entityDTO, Class entity) {
+    public <T> T add(T entityDTO, Class entity) {
 
-        T adherent = (T) niddahCastor.convert(entityDTO, entity);
-        Long idAdherent = (Long) crudRepository.persist(adherent);
-        
-      
-     
-        return idAdherent;
+        T object = (T) niddahCastor.convert(entityDTO, entity);
+        crudRepository.persist(object);
+        return niddahCastor.convert(object, entityDTO.getClass());
 
     }
-    
 
     public <T> T merge(T entityDTO, Class entity) {
 
@@ -71,10 +66,11 @@ public class CrudService {
         }
         return (T) object;
     }
-     public <T> T getById(Long id, Class entity) {
+
+    public <T> T getById(Long id, Class entity) {
 
         Object object = crudRepository.findById(entity, id);
-        
+
         return (T) object;
     }
 

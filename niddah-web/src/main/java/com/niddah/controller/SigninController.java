@@ -29,6 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -73,7 +74,7 @@ public class SigninController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/public/signin.do")
     public String signin(@Valid @ModelAttribute("personne") PersonneDto personneDto,
-            BindingResult result, RedirectAttributes redirectAttributes, Locale locale, @RequestParam(value = "g-recaptcha-response") String grecaptcharesponse, Model m) {
+            BindingResult result, RedirectAttributes redirectAttributes, Locale locale, @RequestParam(value = "g-recaptcha-response") String grecaptcharesponse, Model m, Device device) {
         m.addAttribute("captchaService", captchaService);
         try {
             captchaService.processResponse(grecaptcharesponse);
@@ -98,13 +99,12 @@ public class SigninController {
                 break;
         }
 
-        //TODO : mettre genereation jeton et date limite jeton
         personneDto.getAccount().setEtatAccount(EtatAccount.creation);
         Calendar cal = GregorianCalendar.getInstance();
         cal.add(Calendar.HOUR_OF_DAY, Constantes.NB_HOUR_JETON_VALIDE);
         personneDto.getAccount().setDateLimiteJeton(cal.getTime());
         personneDto.getAccount().setJeton(NiddahToken.getToken());
-        personneDto.getAccount().setPersonne(personneDto);
+        //personneDto.getAccount().setPersonne(personneDto);
         PersonneDto personneExist;
         if (personneService.isMailActifExist(personneDto.getAccount().getMail())) {
             result.rejectValue("account.mail", "Account.add.error.mail.exist", messageSource.getMessage("Account.add.error.mail.exist", new String[]{personneDto.getAccount().getMail()}, new Locale("fr")));
@@ -123,7 +123,7 @@ public class SigninController {
             result.rejectValue("account.login", "Account.add.error.login.exist", messageSource.getMessage("Account.add.error.login.exist", new String[]{personneDto.getAccount().getLogin()}, new Locale("fr")));
             return "redirect:signinExist.do?id=" + personneExist.getId() + "&type=2";
         }
-        personneDto.setId(personneService.add(personneDto, Personne.class));
+        personneDto = personneService.add(personneDto, Personne.class);
 
         //TODO : rajouter fonction envoi mail d'inscription
         mailSenderNiddah.sendMailActivationAccount(personneDto);

@@ -8,15 +8,14 @@ package com.niddah.core.entity;
 import com.niddah.library.enumeration.EtatAccount;
 import com.niddah.library.enumeration.RoleUser;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -52,6 +51,7 @@ public class Account implements Serializable {
     @Enumerated(EnumType.STRING)
     private EtatAccount etatAccount;
     @OneToOne
+    @JoinColumn(name="id")
     private Personne personne;
     @Enumerated(EnumType.STRING)
     private RoleUser role;
