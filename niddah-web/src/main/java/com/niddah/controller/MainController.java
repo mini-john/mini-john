@@ -20,16 +20,15 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public class MainController {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(MainController.class);
     @Autowired
     AccountService accountService;
+
     @RequestMapping("/index.do")
     public ModelAndView index() {
-        Account account = new Account();
-        account.setLogin("test");
-        accountService.AddAcount(account);
+        logger.info("La page index est demandée");
         return new ModelAndView("index");
     }
-    
+
 }

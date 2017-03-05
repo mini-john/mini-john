@@ -5,7 +5,6 @@
  */
 package com.niddah.core.castor;
 
-import javax.annotation.PostConstruct;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,9 +23,6 @@ public class NiddahCastor {
         return (T) castorMarshaller.map(object, destination);
     }
 
-    @PostConstruct
-    public void test() {
-        System.out.println("com.niddah.core.castor.NiddahCastor.test() je suis construit");
-    }
+    
 
 }

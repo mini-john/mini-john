@@ -1,8 +1,11 @@
 package com.niddah.configuration;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -23,15 +26,13 @@ import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 @ComponentScan(basePackages = "com.niddah")
 public class AppConfigWeb extends WebMvcConfigurerAdapter implements WebApplicationInitializer {
 
-//    @Bean
-//    public ViewResolver viewResolver() {
-//        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-//        viewResolver.setViewClass(JstlView.class);
-//        viewResolver.setPrefix("/WEB-INF/views/");
-//        viewResolver.setSuffix(".jsp");
-//
-//        return viewResolver;
-//    }
+    private static final Logger LOGGER = LoggerFactory.getLogger(AppConfigWeb.class);
+
+    @PostConstruct
+    public void postConstruct() {
+        LOGGER.info("Configuation web - done");
+    }
+
     @Bean
     public MessageSource messageSource() {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
