@@ -7,11 +7,8 @@ package com.niddah.web.validator;
 
 import com.niddah.library.dto.PersonneDto;
 import java.util.Locale;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 /**
@@ -20,7 +17,6 @@ import org.springframework.validation.Validator;
  */
 public class PasswordValidator implements Validator {
 
-    private static final Logger logger = LoggerFactory.getLogger(PasswordValidator.class);
     MessageSource messageSource;
 
     public PasswordValidator(MessageSource messageSource) {

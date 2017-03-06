@@ -11,22 +11,21 @@
 <div class="login">
     <div class="login-grids">
         <div class="col-md-6 log">
-            <h3>Login</h3>
-            <p>Welcome, please enter the following to continue.</p>
-            <p>If you have previously Login with us, <a href="#">click here</a></p>
+            <h3>Vous avez d&eacute;j&agrave; un compte ?</h3>
+            
             <form>
-                <h5>User Name:</h5>	
+                <h5>Identifiant:</h5>	
                 <input type="text" value="">
-                <h5>Password:</h5>
+                <h5>Mot de passe : </h5>
                 <input type="password" value="">					
-                <input type="submit" value="Login">
+                <input type="submit" value="Connexion">
 
             </form>
-            <a href="#">Forgot Password ?</a>
+            <a href="#">Vous avez oubli&eacute; votre mot de passe ?</a>
         </div>
         <div class="col-md-6 login-right">
-            <h3>New Registration</h3>
-            <p>By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.</p>
-            <a href="<c:url value="/public/signin.do"/>">Inscription </a>
+            <h3>Nouveau sur jKalVered ?</h3>
+            <p>L'inscription est simple est sans engagement. Essayer jKalVered c'est l'adopt&eacute;</p>
+            <a href="<c:url value="/public/signin.do"/>">Cr&eacute;z votre compte </a>
         </div>
         <div class="clearfix"></div>

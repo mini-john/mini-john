@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.mobile.device.Device;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -58,11 +59,14 @@ public class SigninController {
     private MailSenderNiddah mailSenderNiddah;
     @Autowired
     private CaptchaService captchaService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @RequestMapping(method = RequestMethod.GET, value = "/public/signin.do")
-    public String getSignIn(ModelMap model) {
+    public String getSignIn(ModelMap model, Device device) {
         model.addAttribute("personne", new PersonneDto());
         model.addAttribute("captchaService", captchaService);
+        model.addAttribute("device", device);
         return "public/signin";
     }
 
@@ -74,14 +78,17 @@ public class SigninController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/public/signin.do")
     public String signin(@Valid @ModelAttribute("personne") PersonneDto personneDto,
-            BindingResult result, RedirectAttributes redirectAttributes, Locale locale, @RequestParam(value = "g-recaptcha-response") String grecaptcharesponse, Model m, Device device) {
+            BindingResult result, RedirectAttributes redirectAttributes, Locale locale, @RequestParam(value = "g-recaptcha-response", required = false) String grecaptcharesponse, Model m, Device device) {
         m.addAttribute("captchaService", captchaService);
-        try {
-            captchaService.processResponse(grecaptcharesponse);
-        } catch (ReCaptchaInvalidException ex) {
-            result.rejectValue("captcha", "Captcha.error", messageSource.getMessage("Captcha.error", new String[]{}, new Locale("fr")));
+        m.addAttribute("device", device);
+        if (device.isNormal()) {
+            try {
+                captchaService.processResponse(grecaptcharesponse);
+            } catch (ReCaptchaInvalidException ex) {
+                result.rejectValue("captcha", "Captcha.error", messageSource.getMessage("Captcha.error", new String[]{}, new Locale("fr")));
 
-            return "public/signin";
+                return "public/signin";
+            }
         }
 
         if (result.hasErrors()) {
@@ -195,9 +202,13 @@ public class SigninController {
 
     @RequestMapping(value = "/public/addPassword.do", method = RequestMethod.POST)
     public ModelAndView addPaswword(@ModelAttribute("personne") PersonneDto personneDto,
-            BindingResult result, RedirectAttributes redirectAttributes, Locale locale, Model map) {
+            BindingResult result, RedirectAttributes redirectAttributes, Locale locale, Model map) throws NiddahDataException {
         PersonneDto personneFromDB = personneService.getById(personneDto.getId(), Personne.class, PersonneDto.class);
         result = new BeanPropertyBindingResult(personneDto, "personne");
+        if (personneFromDB.getAccount().getEtatAccount() == EtatAccount.actif) {
+            logger.error("Le compte d'id {} est déjà actif", personneDto.getId());
+            throw new NiddahDataException("Le compte est déjà actif");
+        }
 
         PasswordValidator passwordValidator = new PasswordValidator(messageSource);
         passwordValidator.validate(personneDto, result);
@@ -211,10 +222,10 @@ public class SigninController {
 
         }
 
-        personneFromDB.getAccount().setPassword(personneDto.getAccount().getPassword());
+        personneFromDB.getAccount().setPassword(passwordEncoder.encode(personneDto.getAccount().getPassword()));
         personneFromDB.getAccount().setEtatAccount(EtatAccount.actif);
         personneService.update(personneFromDB.getAccount(), Account.class);
-        mailSenderNiddah.sendMailCompteCree(personneFromDB);
+        mailSenderNiddah.sendMailCompteCree(personneFromDB, personneDto.getAccount().getPassword());
 
         return new ModelAndView("public/accountCreate");
 

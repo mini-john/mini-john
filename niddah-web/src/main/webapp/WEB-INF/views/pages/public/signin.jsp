@@ -46,13 +46,13 @@
                     </div>
                     <div class="sign-up2" style="margin-top: 25px;">
                     <form:radiobuttons path="sexe" />
-                  
+
                     <p style="color:#333;text-align: left;font-size: 100%"> <form:errors path="sexe" class="alert alert-danger"  element="div"></form:errors></p>
                     </div>
                     <div class="clearfix"> </div>
                 </div>
 
-                <h6>Information du compte</h6>
+                <h6>Information du compte </h6>
                 <div class="sign-u">
                     <div class="sign-up1">
                         <h4 class="c">Identifiant* :</h4>
@@ -71,24 +71,25 @@
                     <form:input path="account.mail"  type="text" placeholder=" " required="required"/>
                     <form:errors path="account.mail" class="alert alert-danger"  element="div"></form:errors>
 
-                </div>
-                <div class="clearfix"> </div>
-            </div>
-            <div class="sign-u">
-                <div class="sign-up1">
-                    <h4 class="c">Captcha :</h4>
-                </div>
-                <div class="sign-up2">
-                    
-                    <div class="g-recaptcha" data-sitekey="${captchaService.getReCaptchaSite()}" data-callback="onReCaptchaSuccess" data-expired-callback="onReCaptchaExpired"></div>
-                    <form:errors path="captcha" class="alert alert-danger"  element="div"></form:errors>
-                        <span id="captchaError" class="alert alert-danger" style="display:none"></span>
-
                     </div>
                     <div class="clearfix"> </div>
                 </div>
+            <c:if test="${device.isNormal()}">
+                <div class="sign-u">
+                    <div class="sign-up1">
+                        <h4 class="c">Captcha :</h4>
+                    </div>
+                    <div class="sign-up2">
 
-                <input type="submit" value="Inscription">
+                        <div class="g-recaptcha" data-sitekey="${captchaService.getReCaptchaSite()}" data-callback="onReCaptchaSuccess" data-expired-callback="onReCaptchaExpired"></div>
+                        <form:errors path="captcha" class="alert alert-danger"  element="div"></form:errors>
+                            <span id="captchaError" class="alert alert-danger" style="display:none"></span>
+
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+            </c:if>
+            <input type="submit" value="Inscription">
         </form:form>
     </div>
 
@@ -116,8 +117,8 @@
             // use the built-in fadeIn/fadeOut effect
             effect: "fade"
 
-            // custom opacity setting
-            // opacity: 0.7
+                    // custom opacity setting
+                    // opacity: 0.7
 
 
         });

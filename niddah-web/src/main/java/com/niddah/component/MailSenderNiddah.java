@@ -70,7 +70,7 @@ public class MailSenderNiddah {
     }
 
     @Async
-    public void sendMailCompteCree(PersonneDto personneDto) {
+    public void sendMailCompteCree(PersonneDto personneDto, String password) {
         MimeMessagePreparator preparator = (MimeMessage mm) -> {
             MimeMessageHelper message = new MimeMessageHelper(mm);
             message.setTo(personneDto.getAccount().getMail());
@@ -80,6 +80,7 @@ public class MailSenderNiddah {
             message.setSentDate(new Date());
             Map model = new HashMap();
             model.put("personneDto", personneDto);
+            model.put("password", password);
 
             String text = VelocityEngineUtils.mergeTemplateIntoString(
                     velocity, "/emailCreation.html", "UTF-8", model);

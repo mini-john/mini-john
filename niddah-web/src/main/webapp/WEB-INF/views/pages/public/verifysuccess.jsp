@@ -8,7 +8,6 @@
 
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<script src='https://www.google.com/recaptcha/api.js'></script>
 <!-- register -->
 <div class="sign-up-form">
     <h3>Inscription sur le site JKalVered</h3>
