@@ -7,6 +7,7 @@ package com.niddah.configuration;
 
 import com.niddah.captcha.CaptchaSettings;
 import com.niddah.component.MailSenderNiddah;
+import com.niddah.controller.listener.ActiveUserStore;
 import java.io.FileNotFoundException;
 import java.util.Properties;
 import org.dozer.DozerBeanMapper;
@@ -32,9 +33,7 @@ import org.springframework.web.client.RestTemplate;
  * @author mini-john
  */
 @Configuration
-@ComponentScan(basePackages = "com.niddah.core"/*,
-        excludeFilters = {
-            @ComponentScan.Filter(type = FilterType.ANNOTATION, value = Controller.class)})*/)
+@ComponentScan(basePackages = "com.niddah")
 @EnableAsync
 public class AppConfigCore {
 
@@ -90,10 +89,11 @@ public class AppConfigCore {
         CaptchaSettings captchaSettings = new CaptchaSettings();
         captchaSettings.setSite(environment.getProperty("google.recaptcha.key.site"));
         captchaSettings.setSecret(environment.getProperty("google.recaptcha.key.secret"));
-        
+
         return captchaSettings;
     }
-     @Bean
+
+    @Bean
     public ClientHttpRequestFactory clientHttpRequestFactory() {
         SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
         factory.setConnectTimeout(3 * 1000);
@@ -107,4 +107,10 @@ public class AppConfigCore {
         return restTemplate;
     }
 
+    @Bean
+    public ActiveUserStore activeUserStore() {
+        return new ActiveUserStore();
+    }
+
+  
 }

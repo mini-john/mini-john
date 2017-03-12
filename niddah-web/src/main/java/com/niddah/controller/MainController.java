@@ -31,4 +31,10 @@ public class MainController {
         return new ModelAndView("index");
     }
 
+    @RequestMapping("/private/index.do")
+    public ModelAndView privateIndex() {
+        logger.info("La page index est demandée");
+        return new ModelAndView("private/index");
+    }
+
 }

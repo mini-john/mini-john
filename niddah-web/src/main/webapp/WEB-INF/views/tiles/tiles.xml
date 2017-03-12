@@ -25,6 +25,12 @@
         <put-attribute name="body" value="/WEB-INF/views/pages/public/{1}.jsp" /> 
        
     </definition> 
+     <definition name="private/*" extends="base-definition">  
+        
+    
+        <put-attribute name="body" value="/WEB-INF/views/pages/private/{1}.jsp" /> 
+       
+    </definition> 
     
  
 </tiles-definitions>

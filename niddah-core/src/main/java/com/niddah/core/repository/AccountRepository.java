@@ -6,7 +6,6 @@
 package com.niddah.core.repository;
 
 import com.niddah.core.entity.Account;
-import java.io.Serializable;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -18,15 +17,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class AccountRepository extends CrudRepository {
 
-    public void addAccount(Account account) {
-        this.getSession().persist(account);
-
-    }
+   
 
     public Account findByUserName(String userName) {
 
         Criteria crit = createEntityCriteria(Account.class);
-        crit.add(Restrictions.eq("logine", userName));
+        crit.add(Restrictions.eq("login", userName));
         return (Account) crit.uniqueResult();
     }
 }

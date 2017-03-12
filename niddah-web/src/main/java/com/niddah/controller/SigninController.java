@@ -96,15 +96,7 @@ public class SigninController {
             return "public/signin";
         }
 
-        switch (personneDto.getSexe()) {
-            case Femme:
-                personneDto.getAccount().setRole(RoleUser.Femme);
-
-                break;
-            case Homme:
-                personneDto.getAccount().setRole(RoleUser.Homme);
-                break;
-        }
+        personneDto.getAccount().setRole(RoleUser.Personne);
 
         personneDto.getAccount().setEtatAccount(EtatAccount.creation);
         Calendar cal = GregorianCalendar.getInstance();

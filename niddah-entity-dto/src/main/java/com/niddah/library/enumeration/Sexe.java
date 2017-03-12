@@ -11,7 +11,7 @@ package com.niddah.library.enumeration;
  */
 public enum Sexe {
     Femme("Femme"),Homme("Homme");
-    private String name;
+    private final String name;
      //Constructeur
     Sexe(String name) {
         this.name = name;

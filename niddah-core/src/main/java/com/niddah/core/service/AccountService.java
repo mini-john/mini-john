@@ -22,10 +22,7 @@ public class AccountService extends CrudService{
     @Autowired
     private AccountRepository accountRepository;
 
-    public void AddAcount(Account account) {
-        accountRepository.persist(account);
-    }
-
+   
     public Account findByUserName(String userName) {
         return accountRepository.findByUserName(userName);
     }

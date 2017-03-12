@@ -10,8 +10,8 @@ package com.niddah.library.enumeration;
  * @author mini-john
  */
 public enum RoleUser {
-    Admin("Admin"),Femme("Femme"),Rav("Rav"),Homme("Homme");
-    private String name;
+    Admin("Admin"),Personne("Personne"),Rav("Rav");
+    private final String name;
      //Constructeur
     RoleUser(String name) {
         this.name = name;

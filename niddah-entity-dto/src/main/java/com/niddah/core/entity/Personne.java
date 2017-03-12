@@ -10,6 +10,8 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,9 +37,9 @@ public class Personne implements Serializable {
     private double latitude;
     private double longitude;
     private double elevation;
-
+    @Enumerated(EnumType.STRING)
     private Sexe sexe;
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,},mappedBy = "personne")
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,}, mappedBy = "personne")
     private Account account;
     @OneToOne()
     private Configuration configuration;
