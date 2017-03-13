@@ -89,7 +89,7 @@ public class Agenda implements Serializable {
 
     @Override
     public String toString() {
-        return "com.niddah.core.entity.Agenda[ id=" + id + " ]";
+        return "Agenda{" + "id=" + id + ", nom=" + nom + ", personne=" + personne + ", evenements=" + evenements + '}';
     }
 
 }

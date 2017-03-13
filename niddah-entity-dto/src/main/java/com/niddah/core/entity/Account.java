@@ -45,13 +45,13 @@ public class Account implements Serializable {
     private String mail;
     private int nbEssais;
     private String jeton;
-    private Boolean accountBlock;
+    private Boolean accountBlock = false;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dateLimiteJeton;
     @Enumerated(EnumType.STRING)
     private EtatAccount etatAccount;
     @OneToOne
-    @JoinColumn(name="id")
+    @JoinColumn(name = "id")
     private Personne personne;
     @Enumerated(EnumType.STRING)
     private RoleUser role;
@@ -166,7 +166,7 @@ public class Account implements Serializable {
 
     @Override
     public String toString() {
-        return "com.niddah.entity.Account[ id=" + id + " ]";
+        return "Account{" + "id=" + id + ", login=" + login + ", password=" + password + ", mail=" + mail + ", nbEssais=" + nbEssais + ", jeton=" + jeton + ", accountBlock=" + accountBlock + ", dateLimiteJeton=" + dateLimiteJeton + ", etatAccount=" + etatAccount + ", personne=" + personne + ", role=" + role + '}';
     }
 
 }

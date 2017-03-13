@@ -2,7 +2,7 @@ package com.niddah.controller.listener;
 
 
 import com.niddah.core.entity.Account;
-import com.niddah.core.repository.AccountRepository;
+import com.niddah.core.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,7 +14,7 @@ import org.springframework.security.core.AuthenticationException;
 public class CustomAuthenticationProvider extends DaoAuthenticationProvider {
 
     @Autowired
-    private AccountRepository userRepository;
+    private AccountService userRepository;
 
     @Override
     public Authentication authenticate(Authentication auth) throws AuthenticationException {

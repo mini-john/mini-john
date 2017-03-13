@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,7 +27,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
-
 
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -68,7 +66,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(final WebSecurity web) throws Exception {
-        
+
         web.ignoring()
                 .antMatchers("/static/**");
     }
@@ -81,11 +79,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/public/*").anonymous()
-                .antMatchers("/private/**").access("hasRole('ADMIN')")
+                .antMatchers("/private/**").authenticated()
+                .antMatchers("/private/rav/**").hasRole("Rav")
+                .antMatchers("/admin/**").hasRole("Admin")
                 .and()
                 .formLogin()
+                .loginProcessingUrl("/j_spring_security_check")
                 .loginPage("/public/signup.do")
-                .defaultSuccessUrl("/private/redirect.do")
                 .failureUrl("/public/signup.do?error=true")
                 .successHandler(myAuthenticationSuccessHandler)
                 .failureHandler(authenticationFailureHandler)
@@ -128,5 +128,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void postConstruc() {
         LOGGER.info("Security Config - done");
     }
-    
+
 }

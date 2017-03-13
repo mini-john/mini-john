@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 
 @Component("myAuthenticationSuccessHandler")
 public class MySimpleUrlAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
@@ -51,22 +52,35 @@ public class MySimpleUrlAuthenticationSuccessHandler implements AuthenticationSu
     }
 
     protected String determineTargetUrl(final Authentication authentication) {
-        boolean isUser = false;
+        boolean isFemme = false;
+        boolean isHomme = false;
+        boolean isRav = false;
         boolean isAdmin = false;
         final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (final GrantedAuthority grantedAuthority : authorities) {
-            if (grantedAuthority.getAuthority().equals("READ_PRIVILEGE")) {
-                isUser = true;
-            } else if (grantedAuthority.getAuthority().equals("WRITE_PRIVILEGE")) {
-                isAdmin = true;
-                isUser = false;
-                break;
+            switch (grantedAuthority.getAuthority()) {
+                case "ROLE_Femme":
+                    isFemme = true;
+                    break;
+                case "ROLE_Homme":
+                    isHomme = true;
+                    break;
+                case "ROLE_Rav":
+                    isRav = true;
+                    break;
+                case "ROLE_Admin":
+                    isAdmin = true;
+                    break;
+                default:
+                    break;
             }
         }
-        if (isUser) {
-            return "/homepage.html?user=" + authentication.getName();
+        if (isFemme || isHomme) {
+            return "/private/index.do";
         } else if (isAdmin) {
-            return "/console.html";
+            return "/private/admin/index.do";
+        } else if (isRav) {
+            return "/private/rav/index.do";
         } else {
             throw new IllegalStateException();
         }
