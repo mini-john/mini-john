@@ -20,7 +20,9 @@
         <div class="banner-bottom">
             <div class="banner-bottom-grid">
                 <div class="more">
-                    <a href="<c:url value="/public/signin.do"/>" style="display:inline; padding-top: 9px;">R&eacute;inscription </a>
+                    <div class="nbs-flexisel-item">
+                        <a href="<c:url value="/public/signin.do"/>" style="display:inline; padding-top: 9px;" class="hvr-bounce-to-bottom sint">R&eacute;inscription </a>
+                    </div>
                 </div>
             </div>
         </div>
