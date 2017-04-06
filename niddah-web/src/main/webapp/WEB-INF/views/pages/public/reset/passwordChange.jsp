@@ -8,12 +8,12 @@
 
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <div class="alert alert-success">
-    <h3 class="ghj" style="text-align: center">Inscription sur le site JKalVered</h3>
-    <p>Votre inscription est maintenant termin&eacute;e, rendez vous sur la page de connexion. </p>
+    <h3 class="ghj" style="text-align: center">Changement de mot de passe</h3>
+    <p>Votre changement de mot de passe est maintenant termin&eacute;e, rendez vous sur la page de connexion. </p>
     <div class="banner-bottom">
         <div class="banner-bottom-grid">
-            <div class="more">
-                <a href="<c:url value="/public/signup.do"/>" style="display:inline; padding-top: 9px;">Connexion </a>
+             <div class="nbs-flexisel-item">
+                <a href="<c:url value="/public/signup.do"/>" style="display:inline; padding-top: 9px;"  class="hvr-bounce-to-bottom sint">Connexion </a>
             </div>
         </div>
     </div>

@@ -39,7 +39,7 @@ public class Personne implements Serializable {
     private double elevation;
     @Enumerated(EnumType.STRING)
     private Sexe sexe;
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,}, mappedBy = "personne")
+    @OneToOne(cascade = {CascadeType.ALL}, mappedBy = "personne")
     private Account account;
     @OneToOne()
     private Configuration configuration;

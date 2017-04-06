@@ -53,7 +53,6 @@ public class MailSenderNiddah {
         MimeMessagePreparator preparator = (MimeMessage mm) -> {
             MimeMessageHelper message = new MimeMessageHelper(mm);
             message.setTo(personneDto.getAccount().getMail());
-            message.setBcc("adrianmatei@gmail.com");
             message.setFrom(new InternetAddress("michel.jettest@gmaioll.com"));
             message.setSubject("Creation du compte sur jKalVered");
             message.setSentDate(new Date());
@@ -73,7 +72,6 @@ public class MailSenderNiddah {
         MimeMessagePreparator preparator = (MimeMessage mm) -> {
             MimeMessageHelper message = new MimeMessageHelper(mm);
             message.setTo(personneDto.getAccount().getMail());
-            message.setBcc("adrianmatei@gmail.com");
             message.setFrom(new InternetAddress("michel.jettest@gmaioll.com"));
             message.setSubject("Creation du compte sur jKalVered");
             message.setSentDate(new Date());
@@ -83,6 +81,41 @@ public class MailSenderNiddah {
 
             String text = VelocityEngineUtils.mergeTemplateIntoString(
                     velocity, "/emailCreation.html", "UTF-8", model);
+            message.setText(text, true);
+        };
+        maisSender.send(preparator);
+    }
+
+    public void sendMailResetPassword(PersonneDto personneDto) {
+        MimeMessagePreparator preparator = (MimeMessage mm) -> {
+            MimeMessageHelper message = new MimeMessageHelper(mm);
+            message.setTo(personneDto.getAccount().getMail());
+            message.setFrom(new InternetAddress("michel.jettest@gmaioll.com"));
+            message.setSubject("Réinitialisation du mot de passe sur jKalVered");
+            message.setSentDate(new Date());
+            Map model = new HashMap();
+            model.put("personneDto", personneDto);
+
+            String text = VelocityEngineUtils.mergeTemplateIntoString(
+                    velocity, "/emailVerificationResetPassword.html", "UTF-8", model);
+            message.setText(text, true);
+        };
+        maisSender.send(preparator);
+    }
+
+    public void sendMailPasswordChange(PersonneDto personneDto, String password) {
+        MimeMessagePreparator preparator = (MimeMessage mm) -> {
+            MimeMessageHelper message = new MimeMessageHelper(mm);
+            message.setTo(personneDto.getAccount().getMail());
+            message.setFrom(new InternetAddress("michel.jettest@gmaioll.com"));
+            message.setSubject("Creation du compte sur jKalVered");
+            message.setSentDate(new Date());
+            Map model = new HashMap();
+            model.put("personneDto", personneDto);
+            model.put("password", password);
+
+            String text = VelocityEngineUtils.mergeTemplateIntoString(
+                    velocity, "/emailChangePassword.html", "UTF-8", model);
             message.setText(text, true);
         };
         maisSender.send(preparator);

@@ -5,6 +5,8 @@
  */
 package com.niddah.core.castor;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,10 +21,20 @@ public class NiddahCastor {
     @Autowired
     Mapper castorMarshaller;
 
-    public <T> T convert(Object object,Class destination)  {
+    public <T> T convert(Object object, Class destination) {
+        if (object == null) {
+            return null;
+        }
         return (T) castorMarshaller.map(object, destination);
     }
 
-    
+    public <T> List convertList(List objectList, Class destination) {
+        List<T> tmpList = new ArrayList();
+        objectList.stream().filter((object) -> (object != null)).forEachOrdered((object) -> {
+            tmpList.add((T) castorMarshaller.map(object, destination));
+        });
+
+        return tmpList;
+    }
 
 }

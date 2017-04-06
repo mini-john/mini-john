@@ -24,6 +24,12 @@
         <put-attribute name="body" value="/WEB-INF/views/pages/public/{1}.jsp" /> 
        
     </definition> 
+    <definition name="public/*/*" extends="public-definition">  
+        
+    
+        <put-attribute name="body" value="/WEB-INF/views/pages/public/{1}/{2}.jsp" /> 
+       
+    </definition> 
    
     <!-- Fin Public Template -->
     <!-- Private Template -->
@@ -41,4 +47,21 @@
     
     
     <!-- Fin Private Template -->
+    <!--Debut admin template begin with publi -->
+     <definition name="admin-definition"
+                template="/WEB-INF/views/tiles/layouts/public/publicLayout.jsp">  
+        <put-attribute name="body" value="" /> 
+    </definition>  
+    <definition name="admin/*" extends="admin-definition">  
+        
+    
+        <put-attribute name="body" value="/WEB-INF/views/pages/admin/{1}.jsp" /> 
+       
+    </definition> 
+    <definition name="admin/*/*" extends="admin-definition">  
+        
+    
+        <put-attribute name="body" value="/WEB-INF/views/pages/admin/{1}/{2}.jsp" /> 
+       
+    </definition> 
 </tiles-definitions>

@@ -14,23 +14,23 @@
         <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
             function hideURLbar(){ window.scrollTo(0,1); } </script>
         <!-- //for-mobile-apps -->
-         <link href="<c:url value="/static/css/jquery-ui.css"/>" rel="stylesheet" type="text/css" media="all" />
-        <link href="<c:url value="/static/css/style.css"/>" rel="stylesheet" type="text/css" media="all" />
-        <link href="<c:url value="/static/css/niddah.css"/>" rel="stylesheet" type="text/css" media="all" />
-        <link href="<c:url value="/static/css/bootstrap.css"/>" rel="stylesheet" type="text/css" media="all" />
+         <link href="<c:url value="/static/public/css/jquery-ui.css"/>" rel="stylesheet" type="text/css" media="all" />
+        <link href="<c:url value="/static/public/css/style.css"/>" rel="stylesheet" type="text/css" media="all" />
+        <link href="<c:url value="/static/public/css/niddah.css"/>" rel="stylesheet" type="text/css" media="all" />
+        <link href="<c:url value="/static/public/css/bootstrap.css"/>" rel="stylesheet" type="text/css" media="all" />
 
         <title>JKalVered - La puret&eacute; en toute simplicit&eacute;</title>
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
         <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Suez+One" rel="stylesheet">
         <!-- js -->
-        <script src="<c:url value="/static/js/jquery.min.js"/>"></script>
-          <script src="<c:url value="/static/js/jquery-ui.js"/>"></script>
+        <script src="<c:url value="/static/public/js/jquery.min.js"/>"></script>
+          <script src="<c:url value="/static/public/js/jquery-ui.js"/>"></script>
         <!-- //js -->
         <!-- start-smoth-scrolling -->
-<!--        <script type="text/javascript" src="<c:url value="/static/js/move-top.js"/>"></script>
-        <script type="text/javascript" src="<c:url value="/static/js/jquery.flexisel.js"/>"></script>
-        <script type="text/javascript" src="<c:url value="/static/js/easing.js"/>"></script>-->
+<!--        <script type="text/javascript" src="<c:url value="/static/public/js/move-top.js"/>"></script>
+        <script type="text/javascript" src="<c:url value="/static/public/s/jquery.flexisel.js"/>"></script>
+        <script type="text/javascript" src="<c:url value="/static/public/js/easing.js"/>"></script>-->
         <script type="text/javascript">
             jQuery(document).ready(function ($) {
                 $(".scroll").click(function (event) {
@@ -67,7 +67,7 @@
                                 <ul class="nav navbar-nav">
                                     <li id="linkacceuil" class="hvr-bounce-to-bottom"><a href="<c:url value="/public/index.do"/>">Acceuil</a></li>
                                     <li class="hvr-bounce-to-bottom"><a href="Portfolio.html">Pr&eacute;sentation</a></li>
-                                    <li class="hvr-bounce-to-bottom"><a href="Portfolio.html">Blog</a></li>
+                                    <li class="hvr-bounce-to-bottom"><a href="<c:url value="/public/blog/index.do"/>">Blog</a></li>
                                     <li class="hvr-bounce-to-bottom"><a href="Portfolio.html">Visite Guid&eacute;e</a></li>
                                     <li class="hvr-bounce-to-bottom"><a href="contact.html">Qui sommes nous ?</a></li>
                                 </ul>
@@ -102,7 +102,7 @@
 
 
                     <tiles:insertAttribute name="body" />
-                    <script type="text/javascript" src="<c:url value="/static/js/jquery.flexisel.js"/>"></script>
+                    <script type="text/javascript" src="<c:url value="/static/public/js/jquery.flexisel.js"/>"></script>
                 </div>
             </div>
         </div>
@@ -113,7 +113,7 @@
                     <div class="col-md-3 footer-grid">
                         <h3>L'auteur</h3>
                         <div class="footer-grd-left">
-                            <img src="<c:url value="/static/images/18.jpg"/>" class="img-responsive" alt=" " />
+                            <img src="<c:url value="/static/public/images/18.jpg"/>" class="img-responsive" alt=" " />
                         </div>
                         <div class="footer-grd-left">
                             <p>Jonathan Boccara<br/> Avreh au collel de la <a href="http://www.cejnice.com" target="_blank">Yechivat Torat Haim</a> de Nice,
@@ -148,7 +148,7 @@
     </div>
     <!-- //footer -->
     <!-- for bootstrap working -->
-    <script src="<c:url value="/static/js/bootstrap.min.js"/>"></script>
+    <script src="<c:url value="/static/public/js/bootstrap.min.js"/>"></script>
     <!-- //for bootstrap working -->
     <script type="text/javascript">
    

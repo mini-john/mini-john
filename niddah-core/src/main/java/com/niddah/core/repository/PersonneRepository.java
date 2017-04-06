@@ -21,7 +21,7 @@ public class PersonneRepository extends CrudRepository {
 
     public Personne getByEmail(String email) {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Personne.class).createAlias("account", "account")
-                .add(Restrictions.like("account.mail", email, MatchMode.START));
+                .add(Restrictions.eq("account.mail", email));
 
         return (Personne) criteria.uniqueResult();
     }

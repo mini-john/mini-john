@@ -30,7 +30,7 @@
                     <img src="<c:url value="/static/images/erreur.png"/>" style="width:25px; height: 25px"/>${sessionScope.SPRING_SECURITY_LAST_EXCEPTION}
                 </div>
             </c:if>
-            <a href="#">Vous avez oubli&eacute; votre mot de passe ?</a>
+            <a href="./reset/index.do">Vous avez oubli&eacute; votre mot de passe ?</a>
         </div>
         <div class="col-md-6 login-right">
             <h3>Nouveau sur jKalVered ?</h3>

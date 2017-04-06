@@ -34,7 +34,7 @@ public class CrudRepository {
     }
 
     public <T> void update(T entity) {
-        sessionFactory.getCurrentSession().update(entity);
+        sessionFactory.getCurrentSession().saveOrUpdate(entity);
 
     }
 

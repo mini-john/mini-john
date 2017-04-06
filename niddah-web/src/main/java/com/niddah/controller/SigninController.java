@@ -86,6 +86,7 @@ public class SigninController {
                 captchaService.processResponse(grecaptcharesponse);
             } catch (ReCaptchaInvalidException ex) {
                 result.rejectValue("captcha", "Captcha.error", messageSource.getMessage("Captcha.error", new String[]{}, new Locale("fr")));
+                logger.info("Erreur de validation du captcha : &1",ex );
 
                 return "public/signin";
             }
