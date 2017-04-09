@@ -78,7 +78,7 @@ public class MySimpleUrlAuthenticationSuccessHandler implements AuthenticationSu
         if (isFemme || isHomme) {
             return "/private/index.do";
         } else if (isAdmin) {
-            return "/private/admin/index.do";
+            return "/admin/index.do";
         } else if (isRav) {
             return "/private/rav/index.do";
         } else {

@@ -49,7 +49,7 @@
     <!-- Fin Private Template -->
     <!--Debut admin template begin with publi -->
      <definition name="admin-definition"
-                template="/WEB-INF/views/tiles/layouts/public/publicLayout.jsp">  
+                template="/WEB-INF/views/tiles/layouts/admin/adminLayout.jsp">  
         <put-attribute name="body" value="" /> 
     </definition>  
     <definition name="admin/*" extends="admin-definition">  

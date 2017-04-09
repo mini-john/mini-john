@@ -19,8 +19,9 @@ public class MyLogoutSuccessHandler implements LogoutSuccessHandler {
         final HttpSession session = request.getSession();
         if (session != null) {
             session.removeAttribute("user");
+            session.invalidate();
         }
 
-        response.sendRedirect("/logout.html?logSucc=true");
+        response.sendRedirect("/public/index.do?logSucc=true");
     }
 }
