@@ -15,7 +15,7 @@
 <!-- banner -->
 <div class="banner">
     <!-- Slider-starts-Here -->
-    <script src="<c:url value="/static/js/responsiveslides.min.js"/>"></script>
+    <script src="<c:url value="/static/public/js/responsiveslides.min.js"/>"></script>
     <script>
         // You can also use "$(window).load(function() {"
         $(function () {

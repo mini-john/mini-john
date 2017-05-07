@@ -21,6 +21,11 @@
         <link href="<c:url value='/static/admin/css/custom.css'/>" rel="stylesheet" />
         <!-- GOOGLE FONTS-->
         <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+        <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
+        <!-- JQUERY SCRIPTS -->
+        <script src="<c:url value='/static/admin/js/jquery-1.10.2.js'/>"></script>
+        <!-- BOOTSTRAP SCRIPTS -->
+        <script src="<c:url value='/static/admin/js/bootstrap.min.js'/>"></script>
 
     </head>
     <body>
@@ -52,35 +57,12 @@
 
 
 
-                        <li class="active-link">
-                            <a href="<c:url value='/static/admin/img/logo.png'/>" ><i class="fa fa-desktop "></i>Tableau de bord</a>
+                        <li id="linkacceuil" class="">
+                            <a href="<c:url value='/admin/index.do'/>" ><i class="fa fa-desktop "></i>Tableau de bord</a>
                         </li>
 
 
-                        <li>
-                            <a href="ui.html"><i class="fa fa-table "></i>UI Elements  <span class="badge">Included</span></a>
-                        </li>
-                        <li>
-                            <a href="blank.html"><i class="fa fa-edit "></i>Blank Page  <span class="badge">Included</span></a>
-                        </li>
-
-
-                        <li>
-                            <a href="#"><i class="fa fa-qrcode "></i>My Link One</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-bar-chart-o"></i>My Link Two</a>
-                        </li>
-
-                        <li>
-                            <a href="#"><i class="fa fa-edit "></i>My Link Three </a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-table "></i>My Link Four</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-edit "></i>My Link Five </a>
-                        </li>
+                      
 
                     </ul>
                 </div>
@@ -103,11 +85,6 @@
             </div>
         </div>
         <!-- /. WRAPPER  -->
-        <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
-        <!-- JQUERY SCRIPTS -->
-        <script src="<c:url value='/static/admin/js/jquery-1.10.2.js'/>"></script>
-        <!-- BOOTSTRAP SCRIPTS -->
-        <script src="<c:url value='/static/admin/js/bootstrap.min.js'/>"></script>
         <!-- CUSTOM SCRIPTS -->
         <script src="<c:url value='/static/admin/js/custom.js'/>"></script>
     </body>

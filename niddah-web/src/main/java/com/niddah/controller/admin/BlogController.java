@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.niddah.controller;
+package com.niddah.controller.admin;
 
 import com.niddah.core.entity.blog.Post;
 import com.niddah.core.service.BlogService;
@@ -14,9 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -47,6 +45,12 @@ public class BlogController {
         return "public/blog/index";
     }
 
+    @RequestMapping("/public/blog/view.do")
+    public String publicView(ModelMap modelMap, @RequestParam("id") Long id) {
+        modelMap.addAttribute("post", blogService.getById(id, Post.class, PostDto.class));
+        return "public/blog/view";
+    }
+
     @RequestMapping(value = "/admin/blog/add.do", method = RequestMethod.GET)
     public String addPost(ModelMap modelMap) {
         modelMap.addAttribute("post", new PostDto());
@@ -70,10 +74,12 @@ public class BlogController {
         return "admin/blog/view";
     }
 
-    @RequestMapping("/public/blog/view.do")
-    public String publicView(ModelMap modelMap, @RequestParam("id") Long id) {
-        modelMap.addAttribute("post", blogService.getById(id, Post.class, PostDto.class));
-        return "public/blog/view";
+    @RequestMapping("/admin/blog/index.do")
+    public String adminIndex(ModelMap model, Integer offset, Integer maxResults) {
+        model.addAttribute("posts", blogService.allPostWithPagination(offset, maxResults));
+        model.addAttribute("count", blogService.count());
+        model.addAttribute("offset", offset);
+        return "admin/blog/index";
     }
 
 }

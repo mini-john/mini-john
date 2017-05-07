@@ -5,8 +5,10 @@
  */
 package com.niddah.controller.personne;
 
+import com.niddah.core.entity.Account;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,10 +19,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class Main {
-     private static final Logger logger = LoggerFactory.getLogger(Main.class);
-     
-     @RequestMapping("/private/index.do")
-       public String getSignIn(ModelMap model){
-           return "private/index";
-       }
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
+
+    @RequestMapping("/private/index.do")
+    public String getSignIn(ModelMap model) {
+        Account user = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        LOGGER.info("La page privé pour l'utilisateur {}", user.getLogin());
+        return "private/index";
+    }
 }

@@ -20,17 +20,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class PublicController {
 
-    private static final Logger logger = LoggerFactory.getLogger(PublicController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PublicController.class);
 
-    
     @Autowired
     BlogService blogService;
 
     @RequestMapping(value = {"/public/index.do", "/", "/public/"})
     public String index(ModelMap model) {
+        LOGGER.info("La page public.index est demandé");
         model.addAttribute("post", blogService.getFirstPost());
-      
+
         return "public/index";
     }
 
-}   
+}

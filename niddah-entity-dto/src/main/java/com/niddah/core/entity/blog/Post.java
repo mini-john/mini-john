@@ -40,8 +40,8 @@ public class Post implements Serializable {
     @Column(nullable = false)
     private String body;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Account author;
+//    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+//    private Account author;
 
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date date = new Date();
@@ -70,13 +70,13 @@ public class Post implements Serializable {
         this.body = body;
     }
 
-    public Account getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(Account author) {
-        this.author = author;
-    }
+//    public Account getAuthor() {
+//        return author;
+//    }
+//
+//    public void setAuthor(Account author) {
+//        this.author = author;
+//    }
 
     public Date getDate() {
         return date;
@@ -88,7 +88,7 @@ public class Post implements Serializable {
 
     @Override
     public String toString() {
-        return "Post{" + "id=" + id + ", title=" + title + ", body=" + body + ", author=" + author + ", date=" + date + '}';
+        return "Post{" + "id=" + id + ", title=" + title + ", body=" + body /*+ ", author=" + author */+ ", date=" + date + '}';
     }
 
 }
