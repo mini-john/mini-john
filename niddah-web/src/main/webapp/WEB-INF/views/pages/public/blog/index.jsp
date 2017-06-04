@@ -4,24 +4,31 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 
-<div class="container">
-    <div class="well">
-        <strong>List of Persons</strong>
-    </div>
-    <table class="table table-stripped">
-        <tr>
-            <th>S.No</th>
-            <th>Name</th>
-            <th>Age</th>
-        </tr>
+<div class="banner-bottom">
+    <div class="container-fluid">
+
+
         <c:forEach items="${posts}" var="post" varStatus="itr">
-            <tr>
-                <td>${offset + itr.index +1 }</td>
-                <td>${post.name }</td>
-                <td>${post.age }</td>
-            </tr>
+            <div class="blog">
+                <div class="blog-left">
+                    <div class="blog-left-grid">
+                        <div class="blog-left-grid-left">
+                            <h3><a href="<c:url value="/public/blog/view.do?id=${post.id}"/>">${post.title}</a></h3>
+                            <p> <!--by <span>Charlie</span> |--> <fmt:formatDate type = "date" value = "${post.date}" /><!-- | <span>Sint</span>--></p>
+                        </div>
+                        <div class="blog-left-grid-right">
+                            <!--<a href="#" class="hvr-bounce-to-bottom non">20 Comments</a>-->
+                        </div>
+                        <div class="clearfix"> </div>
+                        <p class="para"> ${post.body}</p>
+                        <div class="rd-mre">
+                            <a href="<c:url value="/public/blog/view.do?id=${post.id}"/>" class="hvr-bounce-to-bottom quod">Lire plus</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </c:forEach>
-    </table>
-    <tag:paginate max="15" offset="${offset}" count="${count}"
-                  uri="/public/blog/index.do" next="&raquo;" previous="&laquo;" />
+        <tag:paginate max="1" offset="${offset}" count="${count}"
+                      uri="index.do" next="&raquo;" previous="&laquo;" />
+    </div>
 </div>

@@ -41,7 +41,7 @@ public class BlogRepository extends CrudRepository {
 
     public Post getFirstPost() {
         Criteria crit = createEntityCriteria(Post.class);
-        crit.addOrder(Property.forName("date").asc());
+        crit.addOrder(Property.forName("date").asc()).setFirstResult(0).setMaxResults(1);
         return (Post) crit.uniqueResult();
     }
   

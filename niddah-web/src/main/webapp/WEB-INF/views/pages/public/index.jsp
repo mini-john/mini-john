@@ -3,6 +3,7 @@
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <div class="header-bottom-top">
     <ul>
         <li><a href="#" class="g"> </a></li>
@@ -130,24 +131,16 @@
             <div class="blog-left">
                 <div class="blog-left-grid">
                     <div class="blog-left-grid-left">
-                        <h3><a href="single.html">voluptates repudiandae sint non recusandae</a></h3>
-                        <p>by <span>Charlie</span> | June 29,2015 | <span>Sint</span></p>
+                        <h3><a href="<c:url value="/public/blog/view.do?id=${post.id}"/>">${post.title}</a></h3>
+                        <p> <!--by <span>Charlie</span> |--> <fmt:formatDate type = "date" value = "${post.date}" /><!-- | <span>Sint</span>--></p>
                     </div>
                     <div class="blog-left-grid-right">
-                        <a href="#" class="hvr-bounce-to-bottom non">20 Comments</a>
+                        <!--<a href="#" class="hvr-bounce-to-bottom non">20 Comments</a>-->
                     </div>
                     <div class="clearfix"> </div>
-                    <a href="single.html"><img src="<c:url value="/static/public/images/4.jpg"/>" alt=" " class="img-responsive" /></a>
-                    <p class="para"> Itaque earum rerum hic tenetur a sapiente delectus, 
-                        ut aut reiciendis voluptatibus maiores alias consequatur aut 
-                        perferendis doloribus asperiores repellat.Et harum quidem rerum 
-                        facilis est et expedita distinctio. Nam libero tempore, cum 
-                        soluta nobis est eligendi optio cumque nihil impedit quo minus 
-                        id quod maxime placeat facere possimus, omnis voluptas assumenda 
-                        est, omnis dolor repellendus. Temporibus autem quibusdam et 
-                        aut officiis debitis.</p>
+                    <p class="para"> ${post.body}</p>
                     <div class="rd-mre">
-                        <a href="single.html" class="hvr-bounce-to-bottom quod">Read More</a>
+                      <a href="<c:url value="/public/blog/view.do?id=${post.id}"/>" class="hvr-bounce-to-bottom quod">Lire plus</a>
                     </div>
                 </div>
             </div>

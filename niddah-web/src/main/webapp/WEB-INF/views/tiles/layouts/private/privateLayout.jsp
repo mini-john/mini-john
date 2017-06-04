@@ -14,7 +14,7 @@
               Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
         <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
         <!-- Bootstrap Core CSS -->
-        <link href="<c:url value='/static/private/css/bootstrap.min.css'/>" rel='stylesheet' type='text/css' />
+        <link href="<c:url value="/static/library/bootstrap/css/bootstrap.css"/>" rel="stylesheet" type="text/css" media="all" />
         <!-- Custom CSS -->
         <link href="<c:url value='/static/private/css/style.css'/>" rel='stylesheet' type='text/css' />
         <!-- Graph CSS -->
@@ -28,7 +28,7 @@
         <script src="<c:url value='/static/private/js/serial.js'/>"></script>	
         <script src="<c:url value='/static/private/js/light.js'/>"></script>	
         <!-- //lined-icons -->
-        <script src="<c:url value='/static/private/js/jquery-1.10.2.min.js'/>"></script>
+        <script src="<c:url value="/static/library/Jquery/jquery.min.js"/>"></script>
         <!--pie-chart--->
         <script src="<c:url value='/static/private/js/pie-chart.js'/>" type="text/javascript"></script>
         <script type="text/javascript">
@@ -72,5 +72,6 @@
     <body>
         <h1>Hello World! template priver</h1>
         <tiles:insertAttribute name="body" />
+        <script src="<c:url value="/static/library/bootstrap/js/bootstrap.min.js"/>"></script>
     </body>
 </html>

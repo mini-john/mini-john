@@ -19,8 +19,9 @@ public class PaginationTagLib extends SimpleTagSupport {
     private String uri;
     private int offset;
     private int count;
-    private int max = 10;
-    private int steps = 10;
+    private int max = 5;
+    private int steps = 5;
+    private int division = 5;
     private String previous = "Previous";
     private String next = "Next";
 
@@ -45,9 +46,9 @@ public class PaginationTagLib extends SimpleTagSupport {
 
             for (int itr = 0; itr < count; itr += steps) {
                 if (offset == itr) {
-                    out.write(constructLink((itr / 10 + 1) - 1 * steps, String.valueOf(itr / 10 + 1), "active", true));
+                    out.write(constructLink((itr / division + 1) - 1 * steps, String.valueOf(itr / division + 1), "active", true));
                 } else {
-                    out.write(constructLink(itr / 10 * steps, String.valueOf(itr / 10 + 1), null, false));
+                    out.write(constructLink(itr / division * steps, String.valueOf(itr / division + 1), null, false));
                 }
             }
 

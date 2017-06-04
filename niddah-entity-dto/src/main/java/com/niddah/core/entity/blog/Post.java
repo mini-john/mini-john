@@ -8,6 +8,7 @@ package com.niddah.core.entity.blog;
 import com.niddah.core.entity.Account;
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -36,8 +37,8 @@ public class Post implements Serializable {
     @Column(nullable = false, length = 300)
     private String title;
 
-    @Lob
-    @Column(nullable = false)
+    
+    @Column(nullable = false,length = 9000000)
     private String body;
 
 //    @ManyToOne(optional = false, fetch = FetchType.LAZY)

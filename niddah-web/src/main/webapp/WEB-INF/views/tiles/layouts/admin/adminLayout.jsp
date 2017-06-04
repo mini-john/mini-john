@@ -14,7 +14,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>jKalvered</title>
         <!-- BOOTSTRAP STYLES-->
-        <link href="<c:url value='/static/admin/css/bootstrap.css'/>" rel="stylesheet" />
+        <link href="<c:url value="/static/library/bootstrap/css/bootstrap.css"/>" rel="stylesheet" type="text/css" media="all" />
         <!-- FONTAWESOME STYLES-->
         <link href="<c:url value='/static/admin/css/font-awesome.css'/>" rel="stylesheet" />
         <!-- CUSTOM STYLES-->
@@ -23,10 +23,9 @@
         <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
         <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
         <!-- JQUERY SCRIPTS -->
-        <script src="<c:url value='/static/admin/js/jquery-1.10.2.js'/>"></script>
+        <script src="<c:url value="/static/library/Jquery/jquery.min.js"/>"></script>
         <!-- BOOTSTRAP SCRIPTS -->
-        <script src="<c:url value='/static/admin/js/bootstrap.min.js'/>"></script>
-
+       <script src="<c:url value="/static/library/bootstrap/js/bootstrap.min.js"/>"></script>
     </head>
     <body>
         <h1>Hello World!</h1>
@@ -62,7 +61,7 @@
                         </li>
 
 
-                      
+
 
                     </ul>
                 </div>

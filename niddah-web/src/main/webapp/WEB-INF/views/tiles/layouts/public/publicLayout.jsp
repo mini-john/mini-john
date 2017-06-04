@@ -14,18 +14,18 @@
         <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
             function hideURLbar(){ window.scrollTo(0,1); } </script>
         <!-- //for-mobile-apps -->
-         <link href="<c:url value="/static/public/css/jquery-ui.css"/>" rel="stylesheet" type="text/css" media="all" />
+         <link href="<c:url value="/static/library/Jquery/jquery-ui/jquery-ui.css"/>" rel="stylesheet" type="text/css" media="all" />
         <link href="<c:url value="/static/public/css/style.css"/>" rel="stylesheet" type="text/css" media="all" />
         <link href="<c:url value="/static/public/css/niddah.css"/>" rel="stylesheet" type="text/css" media="all" />
-        <link href="<c:url value="/static/public/css/bootstrap.css"/>" rel="stylesheet" type="text/css" media="all" />
+        <link href="<c:url value="/static/library/bootstrap/css/bootstrap.css"/>" rel="stylesheet" type="text/css" media="all" />
 
         <title>JKalVered - La puret&eacute; en toute simplicit&eacute;</title>
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
         <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Suez+One" rel="stylesheet">
         <!-- js -->
-        <script src="<c:url value="/static/public/js/jquery.min.js"/>"></script>
-          <script src="<c:url value="/static/public/js/jquery-ui.js"/>"></script>
+        <script src="<c:url value="/static/library/Jquery/jquery.min.js"/>"></script>
+          <script src="<c:url value="/static/library/Jquery/jquery-ui/jquery-ui.js"/>"></script>
         <!-- //js -->
         <!-- start-smoth-scrolling -->
 <!--        <script type="text/javascript" src="<c:url value="/static/public/js/move-top.js"/>"></script>
@@ -148,7 +148,7 @@
     </div>
     <!-- //footer -->
     <!-- for bootstrap working -->
-    <script src="<c:url value="/static/public/js/bootstrap.min.js"/>"></script>
+    <script src="<c:url value="/static/library/bootstrap/js/bootstrap.min.js"/>"></script>
     <!-- //for bootstrap working -->
     <script type="text/javascript">
    

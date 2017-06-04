@@ -15,7 +15,12 @@
                     <form:errors path="title" class="alert alert-danger"  element="div"></form:errors>
                     </div>
                     <div class="panel-body">
-                        Texte  <form:textarea path="body"  type="text" placeholder=" " cssClass="form-control"  />
+                        Texte   <form:textarea path="body" id="summernote"  type="text" placeholder=" " cssClass="form-control"  />
+                    <script>
+                        $(document).ready(function () {
+                            $('#summernote').summernote();
+                        });
+                    </script>
                     <form:errors path="body" class="alert alert-danger"  element="div"></form:errors>  </div>
                     <div class="panel-footer">
                         <input type="submit" value="Envoyer">
@@ -24,5 +29,8 @@
         </form:form>
     </div>
 </div>
-<script src="<c:url value='/static/tools/tinymce/js/tinymce/tinymce.min.js'/>"></script>
-<script>tinymce.init({selector: 'textarea',language: 'fr_FR'});</script>
+
+
+<!-- include summernote css/js-->
+<link href="<c:url value="/static/library/summernote/summernote.css"/>" rel="stylesheet" type="text/css" media="all" />
+<script src="<c:url value="/static/library/summernote/summernote.js"/>"></script>
