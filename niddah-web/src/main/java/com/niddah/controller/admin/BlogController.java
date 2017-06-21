@@ -5,14 +5,19 @@
  */
 package com.niddah.controller.admin;
 
+import com.niddah.core.entity.blog.Comments;
 import com.niddah.core.entity.blog.Post;
 import com.niddah.core.service.BlogService;
+import com.niddah.library.dto.AccountDto;
+import com.niddah.library.dto.blog.CommentsDto;
 import com.niddah.library.dto.blog.PostDto;
+import java.util.Date;
 import java.util.Locale;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -48,7 +53,24 @@ public class BlogController {
     @RequestMapping("/public/blog/view.do")
     public String publicView(ModelMap modelMap, @RequestParam("id") Long id) {
         modelMap.addAttribute("post", blogService.getById(id, Post.class, PostDto.class));
+        modelMap.addAttribute("comment", new CommentsDto());
         return "public/blog/view";
+    }
+
+    @RequestMapping(value = "/public/blog/addComment.do", method = RequestMethod.POST)
+    public String addComment(ModelMap modelMap, @Valid @ModelAttribute CommentsDto comment, BindingResult result, RedirectAttributes redirectAttributes, Locale locale) {
+        if (result.hasErrors()) {
+
+            modelMap.addAttribute("post", blogService.getById(comment.getPost().getId(), Post.class, PostDto.class));
+
+            return "public/blog/view";
+        }
+        comment.setDateComments(new Date());
+        blogService.add(comment, Comments.class);
+        modelMap.addAttribute("post", blogService.getById(comment.getPost().getId(), Post.class, PostDto.class));
+        modelMap.addAttribute("comment", new CommentsDto());
+
+        return "redirect:view.do?id="+comment.getPost().getId();
     }
 
     @RequestMapping(value = "/admin/blog/add.do", method = RequestMethod.GET)
@@ -63,6 +85,7 @@ public class BlogController {
 
             return "admin/blog/add";
         }
+        postDto.setAuthor((AccountDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         postDto = blogService.add(postDto, Post.class);
         modelMap.addAttribute("post", postDto);
         return "admin/blog/view";

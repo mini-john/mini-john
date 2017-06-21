@@ -7,6 +7,7 @@ package com.niddah.core.service;
 
 import com.niddah.core.entity.Account;
 import com.niddah.core.repository.AccountRepository;
+import com.niddah.library.dto.AccountDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,8 +24,8 @@ public class AccountService extends CrudService{
     private AccountRepository accountRepository;
 
    
-    public Account findByUserName(String userName) {
-        return accountRepository.findByUserName(userName);
+    public AccountDto findByUserName(String userName) {
+       return  niddahCastor.convert(accountRepository.findByUserName(userName), AccountDto.class);
     }
 
    

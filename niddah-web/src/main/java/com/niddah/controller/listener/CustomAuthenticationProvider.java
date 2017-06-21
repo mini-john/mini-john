@@ -3,6 +3,7 @@ package com.niddah.controller.listener;
 
 import com.niddah.core.entity.Account;
 import com.niddah.core.service.AccountService;
+import com.niddah.library.dto.AccountDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,7 +19,7 @@ public class CustomAuthenticationProvider extends DaoAuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication auth) throws AuthenticationException {
-        final Account user = userRepository.findByUserName(auth.getName());
+        final AccountDto user = userRepository.findByUserName(auth.getName());
         if ((user == null)) {
             throw new BadCredentialsException("Invalid username or password");
         }

@@ -8,15 +8,16 @@ package com.niddah.core.entity.blog;
 import com.niddah.core.entity.Account;
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Basic;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -37,12 +38,14 @@ public class Post implements Serializable {
     @Column(nullable = false, length = 300)
     private String title;
 
-    
-    @Column(nullable = false,length = 9000000)
+    @Column(nullable = false, length = 9000000)
     private String body;
 
-//    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-//    private Account author;
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Account author;
+    @OneToMany(mappedBy = "post")
+    @OrderBy("dateComments ASC")
+    private List<Comments> commentss;
 
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date date = new Date();
@@ -71,13 +74,13 @@ public class Post implements Serializable {
         this.body = body;
     }
 
-//    public Account getAuthor() {
-//        return author;
-//    }
-//
-//    public void setAuthor(Account author) {
-//        this.author = author;
-//    }
+    public Account getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Account author) {
+        this.author = author;
+    }
 
     public Date getDate() {
         return date;
@@ -87,9 +90,17 @@ public class Post implements Serializable {
         this.date = date;
     }
 
+    public List<Comments> getCommentss() {
+        return commentss;
+    }
+
+    public void setCommentss(List<Comments> commentss) {
+        this.commentss = commentss;
+    }
+
     @Override
     public String toString() {
-        return "Post{" + "id=" + id + ", title=" + title + ", body=" + body /*+ ", author=" + author */+ ", date=" + date + '}';
+        return "Post{" + "id=" + id + ", title=" + title + ", body=" + body /*+ ", author=" + author */ + ", date=" + date + '}';
     }
 
 }

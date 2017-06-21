@@ -7,6 +7,7 @@ package com.niddah.security.service;
 
 import com.niddah.core.entity.Account;
 import com.niddah.core.service.AccountService;
+import com.niddah.library.dto.AccountDto;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -43,7 +44,7 @@ public class NiddahUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userName)
             throws UsernameNotFoundException {
-        Account user = userService.findByUserName(userName);
+        AccountDto user = userService.findByUserName(userName);
         LOGGER.info("User : " + user);
         final String ip = getClientIP();
         LOGGER.info("L'addresse ip est : " + ip);
@@ -58,7 +59,7 @@ public class NiddahUserDetailService implements UserDetailsService {
                 !user.getAccountBlock(), true, true, true, getGrantedAuthorities(user));
     }
 
-    private List<GrantedAuthority> getGrantedAuthorities(Account user) {
+    private List<GrantedAuthority> getGrantedAuthorities(AccountDto user) {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRole().toString()));
 

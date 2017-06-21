@@ -7,12 +7,13 @@ package com.niddah.library.dto.blog;
 
 import com.niddah.library.dto.AccountDto;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
  * @author Boccara Jonathan
  */
-public class PostDto  {
+public class PostDto {
 
     private Long id;
 
@@ -20,7 +21,8 @@ public class PostDto  {
 
     private String body;
 
-   // private AccountDto author;
+    private AccountDto author;
+    private List<CommentsDto> commentss;
 
     private Date date = new Date();
 
@@ -48,13 +50,13 @@ public class PostDto  {
         this.body = body;
     }
 
-//    public AccountDto getAuthor() {
-//        return author;
-//    }
-//
-//    public void setAuthor(AccountDto author) {
-//        this.author = author;
-//    }
+    public AccountDto getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(AccountDto author) {
+        this.author = author;
+    }
 
     public Date getDate() {
         return date;
@@ -64,9 +66,17 @@ public class PostDto  {
         this.date = date;
     }
 
+    public List<CommentsDto> getCommentss() {
+        return commentss;
+    }
+
+    public void setCommentss(List<CommentsDto> commentss) {
+        this.commentss = commentss;
+    }
+
     @Override
     public String toString() {
-        return "Post{" + "id=" + id + ", title=" + title + ", body=" + body + ", author=" +/* author + */", date=" + date + '}';
+        return "Post{" + "id=" + id + ", title=" + title + ", body=" + body + ", author=" +/* author + */ ", date=" + date + '}';
     }
-    
+
 }

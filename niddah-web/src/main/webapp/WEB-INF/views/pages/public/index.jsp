@@ -132,7 +132,8 @@
                 <div class="blog-left-grid">
                     <div class="blog-left-grid-left">
                         <h3><a href="<c:url value="/public/blog/view.do?id=${post.id}"/>">${post.title}</a></h3>
-                        <p> <!--by <span>Charlie</span> |--> <fmt:formatDate type = "date" value = "${post.date}" /><!-- | <span>Sint</span>--></p>
+                        <p> autheur <span>${post.author.login}</span> | <fmt:formatDate type = "date" value = "${post.date}" /><!-- | <span>Sint</span>--></p>
+
                     </div>
                     <div class="blog-left-grid-right">
                         <!--<a href="#" class="hvr-bounce-to-bottom non">20 Comments</a>-->
@@ -140,7 +141,7 @@
                     <div class="clearfix"> </div>
                     <p class="para"> ${post.body}</p>
                     <div class="rd-mre">
-                      <a href="<c:url value="/public/blog/view.do?id=${post.id}"/>" class="hvr-bounce-to-bottom quod">Lire plus</a>
+                        <a href="<c:url value="/public/blog/view.do?id=${post.id}"/>" class="hvr-bounce-to-bottom quod">Lire plus</a>
                     </div>
                 </div>
             </div>
@@ -307,20 +308,20 @@
                         </div>
                         <script src="<c:url value="/static/public/js/easyResponsiveTabs.js"/>" type="text/javascript"></script>
                         <script type="text/javascript">
-                $(document).ready(function () {
-                    $('#horizontalTab').easyResponsiveTabs({
-                        type: 'default', //Types: default, vertical, accordion           
-                        width: 'auto', //auto or any width like 600px
-                        fit: true   // 100% fit in a container
-                    });
-                });
+        $(document).ready(function () {
+            $('#horizontalTab').easyResponsiveTabs({
+                type: 'default', //Types: default, vertical, accordion           
+                width: 'auto', //auto or any width like 600px
+                fit: true   // 100% fit in a container
+            });
+        });
                         </script>
                         <link rel="stylesheet" href="<c:url value="/static/public/css/swipebox.css"/>"/>
                         <script src="<c:url value="/static/public/js/jquery.swipebox.min.js"/>"></script> 
                         <script type="text/javascript">
-                jQuery(function ($) {
-                    $(".swipebox").swipebox();
-                });
+        jQuery(function ($) {
+            $(".swipebox").swipebox();
+        });
                         </script>
                     </div>
                 </div>
@@ -328,8 +329,8 @@
                     <h3>Subscribe To Our Newsletter</h3>
                     <form>
                         <input type="text" value="Email Address" onfocus="this.value = '';" onblur="if (this.value == '') {
-                            this.value = 'Email Address';
-                        }" required="">
+                                    this.value = 'Email Address';
+                                }" required="">
                         <input type="submit" value="Send">
                     </form>
                 </div>
