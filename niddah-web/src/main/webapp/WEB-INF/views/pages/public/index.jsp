@@ -136,7 +136,7 @@
 
                     </div>
                     <div class="blog-left-grid-right">
-                        <!--<a href="#" class="hvr-bounce-to-bottom non">20 Comments</a>-->
+                           <a href="<c:url value="/public/blog/view.do?id=${post.id}"/>#commentaire" class="hvr-bounce-to-bottom non">${post.commentss.size()} commentaire(s)</a>
                     </div>
                     <div class="clearfix"> </div>
                     <p class="para"> ${post.body}</p>

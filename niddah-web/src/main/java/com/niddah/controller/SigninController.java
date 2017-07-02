@@ -240,6 +240,7 @@ public class SigninController {
 
         personneFromDB.getAccount().setPassword(passwordEncoder.encode(personneDto.getAccount().getPassword()));
         personneFromDB.getAccount().setEtatAccount(EtatAccount.actif);
+         personneFromDB.getAccount().setAccountBlock(Boolean.FALSE);
         personneService.update(personneFromDB.getAccount(), Account.class);
         LOGGER.info("Envoi du mail de validation de compte à login:{} et mail:{}", personneFromDB.getAccount().getLogin(), personneFromDB.getAccount().getMail());
         mailSenderNiddah.sendMailCompteCree(personneFromDB, personneDto.getAccount().getPassword());

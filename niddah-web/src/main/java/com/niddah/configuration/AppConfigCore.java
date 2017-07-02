@@ -10,6 +10,8 @@ import com.niddah.component.MailSenderNiddah;
 import com.niddah.controller.listener.ActiveUserStore;
 import java.io.FileNotFoundException;
 import java.util.Properties;
+import net.bull.javamelody.MonitoredWithInterfacePointcut;
+import net.bull.javamelody.MonitoringSpringAdvisor;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,6 +113,14 @@ public class AppConfigCore {
     public ActiveUserStore activeUserStore() {
         return new ActiveUserStore();
     }
-
+//    @Bean 
+//    public MonitoringSpringAdvisor javaMelody() throws ClassNotFoundException{
+//        MonitoringSpringAdvisor monit= new MonitoringSpringAdvisor();
+//        MonitoredWithInterfacePointcut mo=new MonitoredWithInterfacePointcut();
+//        mo.setInterfaceName("com.niddah.*");
+//        monit.setPointcut(new MonitoredWithInterfacePointcut());
+//        return monit;
+//    }
   
+
 }

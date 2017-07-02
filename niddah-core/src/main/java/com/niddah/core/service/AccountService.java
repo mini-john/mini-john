@@ -8,6 +8,7 @@ package com.niddah.core.service;
 import com.niddah.core.entity.Account;
 import com.niddah.core.repository.AccountRepository;
 import com.niddah.library.dto.AccountDto;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +29,14 @@ public class AccountService extends CrudService{
        return  niddahCastor.convert(accountRepository.findByUserName(userName), AccountDto.class);
     }
 
-   
+    public List<AccountDto> allUserWithPagination(Integer offset, Integer maxResults) {
+        List<Account> list = accountRepository.allUserWithPagination(offset, maxResults);
+        return this.niddahCastor.convertList(list, AccountDto.class);
+    }
+
+    public Long countUser() {
+        return accountRepository.countUser();
+    }
     
     
 }

@@ -5,7 +5,7 @@
  */
 package com.niddah.controller.personne;
 
-import com.niddah.core.entity.Account;
+import com.niddah.library.dto.AccountDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,7 +24,7 @@ public class Main {
 
     @RequestMapping("/private/index.do")
     public String getSignIn(ModelMap model) {
-        Account user = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        AccountDto user = (AccountDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         LOGGER.info("La page privé pour l'utilisateur {}", user.getLogin());
         return "private/index";
     }

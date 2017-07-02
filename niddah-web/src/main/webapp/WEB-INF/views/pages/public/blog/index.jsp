@@ -8,7 +8,12 @@
 <div class="banner-bottom">
     <div class="container-fluid">
 
+        <div class="pagenatin">
+            
 
+                    <tag:paginate max="1" offset="${offset}" count="${count}"
+                                  uri="index.do" next="&raquo;" previous="&laquo;" />
+        </div>
         <c:forEach items="${posts}" var="post" varStatus="itr">
             <div class="blog">
                 <div class="blog-left">
@@ -19,7 +24,7 @@
 
                         </div>
                         <div class="blog-left-grid-right">
-                            <!--<a href="#" class="hvr-bounce-to-bottom non">20 Comments</a>-->
+                            <a href="#" class="hvr-bounce-to-bottom non">${post.commentss.size()} commentaire(s)</a>
                         </div>
                         <div class="clearfix"> </div>
                         <p class="para"> ${post.body}</p>
@@ -30,7 +35,6 @@
                 </div>
             </div>
         </c:forEach>
-        <tag:paginate max="1" offset="${offset}" count="${count}"
-                      uri="index.do" next="&raquo;" previous="&laquo;" />
+
     </div>
 </div>

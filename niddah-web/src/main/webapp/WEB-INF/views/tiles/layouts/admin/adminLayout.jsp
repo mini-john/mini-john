@@ -15,6 +15,7 @@
         <title>jKalvered</title>
         <!-- BOOTSTRAP STYLES-->
         <link href="<c:url value="/static/library/bootstrap/css/bootstrap.css"/>" rel="stylesheet" type="text/css" media="all" />
+        <link href="<c:url value="/static/library/Jquery/jqueryconfirm/jquery-confirm.min.css"/>" rel="stylesheet" type="text/css" media="all" />
         <!-- FONTAWESOME STYLES-->
         <link href="<c:url value='/static/admin/css/font-awesome.css'/>" rel="stylesheet" />
         <!-- CUSTOM STYLES-->
@@ -25,7 +26,9 @@
         <!-- JQUERY SCRIPTS -->
         <script src="<c:url value="/static/library/Jquery/jquery.min.js"/>"></script>
         <!-- BOOTSTRAP SCRIPTS -->
-       <script src="<c:url value="/static/library/bootstrap/js/bootstrap.min.js"/>"></script>
+        <script src="<c:url value="/static/library/bootstrap/js/bootstrap.min.js"/>"></script>
+        <script src="<c:url value="/static/library/Jquery/jqueryconfirm/jquery-confirm.min.js"/>"></script>
+
     </head>
     <body>
         <h1>Hello World!</h1>

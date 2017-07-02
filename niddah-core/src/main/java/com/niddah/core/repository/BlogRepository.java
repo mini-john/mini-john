@@ -5,12 +5,14 @@
  */
 package com.niddah.core.repository;
 
+import com.niddah.core.entity.blog.Comments;
 import com.niddah.core.entity.blog.Post;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Property;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -41,8 +43,25 @@ public class BlogRepository extends CrudRepository {
 
     public Post getFirstPost() {
         Criteria crit = createEntityCriteria(Post.class);
-        crit.addOrder(Property.forName("date").asc()).setFirstResult(0).setMaxResults(1);
+        crit.addOrder(Property.forName("date").desc()).setFirstResult(0).setMaxResults(1);
         return (Post) crit.uniqueResult();
     }
-  
+
+    public List<Comments> allCommentsWithPagination(Long id, Integer offset, Integer maxResults) {
+        Criteria crit = createEntityCriteria(Comments.class);
+        crit.add(Restrictions.eq("post.id", id));
+        crit.addOrder(Property.forName("dateComments").asc());
+        crit.setFirstResult(offset != null ? offset : 0);
+        crit.setMaxResults(maxResults != null ? maxResults : 10);
+        return crit.list();
+    }
+
+    public Long countComment(Long id) {
+        Criteria crit = createEntityCriteria(Comments.class);
+        crit.add(Restrictions.eq("post.id", id));
+        return (Long) crit
+                .setProjection(Projections.rowCount())
+                .uniqueResult();
+    }
+
 }

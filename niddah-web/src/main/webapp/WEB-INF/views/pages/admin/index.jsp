@@ -29,6 +29,22 @@
         </div>
 
     </div>
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
+        <div class="div-square">
+           <a href="<c:url value="./utilisateur/index.do"/>" >
+                <i class="fa fa-users fa-5x"></i>
+                <h4>Gestion des utilisateurs</h4>
+            </a>
+        </div>
+    </div>
+                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
+        <div class="div-square">
+           <a href="<c:url value="./sessions/index.do"/>" >
+                <i class="fa fa-users fa-5x"></i>
+                <h4>Gestion des Sessions</h4>
+            </a>
+        </div>
+    </div>
 </div>
 <script>
 // You can also use "$(window).load(function() {"

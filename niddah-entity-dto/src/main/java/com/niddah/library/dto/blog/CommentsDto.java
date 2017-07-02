@@ -6,6 +6,8 @@
 package com.niddah.library.dto.blog;
 
 import java.util.Date;
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.Email;
 
 /**
  *
@@ -14,9 +16,11 @@ import java.util.Date;
 public class CommentsDto {
 
     private Long id;
-
+    @Size(min = 1)
     private String autheur;
+    @Size(min = 1)
     private String commentaire;
+    @Email
     private String email;
     private Date dateComments;
     private PostDto post;

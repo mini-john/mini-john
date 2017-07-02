@@ -26,18 +26,18 @@
             <li><small> </small><span><fmt:formatDate type = "date" value = "${post.date}" /></span></li>
             <li><a href="#"><small class="admin"> </small><span>${post.author.login}</span></a></li>
             <li><a href="#"><small class="no"> </small><span>${post.commentss.size()} commentaires</span></a></li>
-            <li><a href="#"><small class="posts"> </small><span>View posts</span></a></li>
-            <li><a href="#"><small class="link"> </small><span>permalink</span></a></li>
+            <!--            <li><a href="#"><small class="posts"> </small><span>View posts</span></a></li>
+                        <li><a href="#"><small class="link"> </small><span>permalink</span></a></li>-->
         </ul>
     </div>
     <c:if test="${post.commentss.size()>0}">
-        <div class="comment-grid-top">
-            <h3>Commentaires</h3>
+        <div  id="commentaire" class="comment-grid-top">
+            <h3 >Commentaires</h3>
             <c:forEach items="${post.commentss}" var="comment" varStatus="itr">
 
                 <div class="comments-top-top">
                     <div class="top-comment-left">
-                        <a href="#"><img class="img-responsive" src="<c:url value="/static/public/images/co.png"/>" alt=""></a>
+                       <img class="img-responsive" src="<c:url value="/static/public/images/co.png"/>" alt="">
                     </div>
                     <div class="top-comment-right">
                         <ul>
@@ -45,7 +45,7 @@
                             <li><span class="right-at"><fmt:formatDate type = "both" 
                                             dateStyle = "short" timeStyle = "short" value = "${comment.dateComments}" /></span></li>
                         </ul>
-                        <p>${comment.commentaire}</p>
+                        <p  >${comment.commentaire}</p>
                     </div>
                     <div class="clearfix"> </div>
                 </div>
@@ -57,17 +57,17 @@
         <div class="table-form">
             <form:form modelAttribute="comment" action="./addComment.do">
                 <form:hidden path="post.id" value="${post.id}"/>
-                <form:input type="text" path="autheur" class="textbox" value="Name" onfocus="this.value = '';" onblur="if (this.value == '') {
-                            this.value = 'Name';
-                            }"/>
-                <form:input type="text" path="email" class="textbox" value="Email" onfocus="this.value = '';" onblur="if (this.value == '') {
-                            this.value = 'Email';
-                            }"/>
+                <form:input type="text" path="autheur" class="textbox" value="Name" />
+                <form:errors path="autheur" class="alert alert-danger" style="width:50%"   element="div"></form:errors>
 
-                <form:textarea path="commentaire" value="Message:" onfocus="this.value = '';" onblur="if (this.value == '') {
-                               this.value = 'Message';
-                               }"/>	
-                <input type="submit" value="Send">
+                <form:input type="text" path="email" class="textbox" value="Email" />
+                <form:errors path="email" class="alert alert-danger" style="width:50%"  element="div"></form:errors>
+
+
+                <form:textarea path="commentaire" value="Message:" />	
+                <form:errors path="commentaire" class="alert alert-danger"  style="width:50%"  element="div"></form:errors>
+
+                    <input type="submit" value="Envoyer">
             </form:form>
         </div>
     </div>	

@@ -21,7 +21,7 @@ public class PaginationTagLib extends SimpleTagSupport {
     private int count;
     private int max = 5;
     private int steps = 5;
-    private int division = 5;
+    private final int division = 5;
     private String previous = "Previous";
     private String next = "Next";
 
@@ -74,6 +74,8 @@ public class PaginationTagLib extends SimpleTagSupport {
         }
         if (disabled) {
             link.append(">").append("<a href=\"#\">" + text + "</a></li>");
+        } else if (uri.contains("id")) {
+              link.append(">").append("<a href=\"" + uri + "&offset=" + page + "\">" + text + "</a></li>");
         } else {
             link.append(">").append("<a href=\"" + uri + "?offset=" + page + "\">" + text + "</a></li>");
         }

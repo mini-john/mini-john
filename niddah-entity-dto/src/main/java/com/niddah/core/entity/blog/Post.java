@@ -21,6 +21,8 @@ import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 /**
  *
@@ -43,7 +45,7 @@ public class Post implements Serializable {
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Account author;
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post",cascade = javax.persistence.CascadeType.REMOVE)
     @OrderBy("dateComments ASC")
     private List<Comments> commentss;
 
@@ -90,6 +92,7 @@ public class Post implements Serializable {
         this.date = date;
     }
 
+   
     public List<Comments> getCommentss() {
         return commentss;
     }
