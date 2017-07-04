@@ -9,6 +9,8 @@ import java.io.Writer;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -16,12 +18,14 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
  */
 public class PaginationTagLib extends SimpleTagSupport {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleTagSupport.class);
+
     private String uri;
     private int offset;
     private int count;
     private int max = 5;
     private int steps = 5;
-    private final int division = 5;
+    private int division = 5;
     private String previous = "Previous";
     private String next = "Next";
 
@@ -72,10 +76,11 @@ public class PaginationTagLib extends SimpleTagSupport {
             link.append(className);
             link.append("\"");
         }
+        LOGGER.info("le Max vaut {} et la division vaut {}", max, division);
         if (disabled) {
             link.append(">").append("<a href=\"#\">" + text + "</a></li>");
         } else if (uri.contains("id")) {
-              link.append(">").append("<a href=\"" + uri + "&offset=" + page + "\">" + text + "</a></li>");
+            link.append(">").append("<a href=\"" + uri + "&offset=" + page + "\">" + text + "</a></li>");
         } else {
             link.append(">").append("<a href=\"" + uri + "?offset=" + page + "\">" + text + "</a></li>");
         }
@@ -138,4 +143,11 @@ public class PaginationTagLib extends SimpleTagSupport {
         this.steps = steps;
     }
 
+    public int getDivision() {
+        return division;
+    }
+
+    public void setDivision(int division) {
+        this.division = division;
+    }
 }

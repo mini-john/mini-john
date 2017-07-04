@@ -38,7 +38,16 @@
         </attribute>
         <attribute>
             <name>max</name>
+            <required>true</required>
             <rtexprvalue>true</rtexprvalue>
+              
+            <type>int</type>
+        </attribute>
+        <attribute>
+            <name>division</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+              
             <type>int</type>
         </attribute>
     </tag>

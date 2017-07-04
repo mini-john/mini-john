@@ -44,8 +44,8 @@ public class BlogController {
     private MessageSource messageSource;
 
     @RequestMapping("/public/blog/index.do")
-    public String index(ModelMap model, Integer offset, Integer maxResults) {
-        model.addAttribute("posts", blogService.allPostWithPagination(offset, (maxResults == null) ? 5 : maxResults));
+    public String index(ModelMap model, Integer maxResults, Integer offset) {
+        model.addAttribute("posts", blogService.allPostWithPagination(offset, maxResults));
         model.addAttribute("count", blogService.count());
         model.addAttribute("offset", offset);
         return "public/blog/index";

@@ -9,10 +9,10 @@
     <div class="container-fluid">
 
         <div class="pagenatin">
-            
 
-                    <tag:paginate max="1" offset="${offset}" count="${count}"
-                                  uri="index.do" next="&raquo;" previous="&laquo;" />
+
+            <tag:paginate max="2"  division ="2" offset="${offset}" count="${count}"
+                          uri="index.do" next="&raquo;" previous="&laquo;" />
         </div>
         <c:forEach items="${posts}" var="post" varStatus="itr">
             <div class="blog">
