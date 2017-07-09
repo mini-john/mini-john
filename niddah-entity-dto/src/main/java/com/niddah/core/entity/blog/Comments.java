@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -21,6 +22,8 @@ import javax.persistence.TemporalType;
  * @author Boccara Jonathan
  */
 @Entity
+@Table(name = "comments")
+
 public class Comments implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -29,7 +32,7 @@ public class Comments implements Serializable {
     @SequenceGenerator(name = "comments_sequence", sequenceName = "comment_sequence")
     private Long id;
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dateComments= new Date();
+    private Date dateComments = new Date();
     private String autheur;
     private String commentaire;
     private String email;

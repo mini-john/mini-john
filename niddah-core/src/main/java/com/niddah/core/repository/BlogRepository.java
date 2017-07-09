@@ -64,4 +64,12 @@ public class BlogRepository extends CrudRepository {
                 .uniqueResult();
     }
 
+    public List<Comments> getLastFourComment() {
+        Criteria crit = createEntityCriteria(Comments.class);
+        crit.addOrder(Property.forName("dateComments").desc());
+
+        crit.setMaxResults(4);
+        return crit.list();
+    }
+
 }

@@ -46,7 +46,12 @@ public class BlogService extends CrudService {
     }
 
     public Long countComment(Long id) {
-       return blogRepository.countComment(id);
+        return blogRepository.countComment(id);
+    }
+
+    public List<CommentsDto> getLastFourComment() {
+        List<Comments> list = blogRepository.getLastFourComment();
+        return this.niddahCastor.convertList(list, CommentsDto.class);
     }
 
 }
