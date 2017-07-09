@@ -136,7 +136,7 @@
 
                     </div>
                     <div class="blog-left-grid-right">
-                           <a href="<c:url value="/public/blog/view.do?id=${post.id}"/>#commentaire" class="hvr-bounce-to-bottom non">${post.commentss.size()} commentaire(s)</a>
+                        <a href="<c:url value="/public/blog/view.do?id=${post.id}"/>#commentaire" class="hvr-bounce-to-bottom non">${post.commentss.size()} commentaire(s)</a>
                     </div>
                     <div class="clearfix"> </div>
                     <p class="para"> ${post.body}</p>
@@ -149,61 +149,24 @@
                 <div class="sap_tabs">	
                     <div id="horizontalTab" style="display: block; width: 100%; margin: 0px;">
                         <ul class="resp-tabs-list">
-                            <li class="resp-tab-item grid1" aria-controls="tab_item-0" role="tab"><span>Popular</span></li>
-                            <li class="resp-tab-item grid2" aria-controls="tab_item-1" role="tab"><span>Recent</span></li>
-                            <li class="resp-tab-item grid3" aria-controls="tab_item-2" role="tab"><span>Comments</span></li>
+                            <li class="resp-tab-item grid1" aria-controls="tab_item-0" role="tab"><span>Commentaires</span></li>
+                            <li class="resp-tab-item grid2" aria-controls="tab_item-1" role="tab"><span>Livre d'or</span></li>
                             <div class="clear"></div>
                         </ul>				  	 
                         <div class="resp-tabs-container">
                             <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-0">
-                                <div class="facts">
-                                    <div class="tab_list">
-                                        <a href="images/7-.jpg" class="b-link-stripe b-animate-go   swipebox"  title="">
-                                            <img src="images/7.jpg" alt=" " class="img-responsive" />
-                                        </a>
+                                <c:forEach items="${comments}" var="comment" varStatus="itr">
+                                    <div class="facts">
+                                        <div class="tab_list">
+                                            <img src="<c:url value="/static/public/images/co.png"/>" alt=" " class="img-responsive" />
+                                        </div>
+                                        <div class="tab_list1">
+                                            <a href="<c:url value="/public/blog/view.do?id=${comment.post.id}"/>">${comment.autheur} - ${comment.post.title}</a>
+                                            <p><fmt:formatDate type = "date" value = "${comment.dateComments}" /> <span>${comment.commentaire}</span></p>
+                                        </div>
+                                        <div class="clearfix"> </div>
                                     </div>
-                                    <div class="tab_list1">
-                                        <a href="#">excepturi sint occaecati</a>
-                                        <p>June 30,2015 <span>Nam libero tempore, cum soluta nobis.</span></p>
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                </div>
-                                <div class="facts">
-                                    <div class="tab_list">
-                                        <a href="images/8-.jpg" class="b-link-stripe b-animate-go   swipebox"  title="">
-                                            <img src="images/8.jpg" alt=" " class="img-responsive" />
-                                        </a>
-                                    </div>
-                                    <div class="tab_list1">
-                                        <a href="#">excepturi sint occaecati</a>
-                                        <p>June 30,2015<span>Nam libero tempore, cum soluta nobis.</span></p>
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                </div>
-                                <div class="facts">
-                                    <div class="tab_list">
-                                        <a href="images/9-.jpg" class="b-link-stripe b-animate-go   swipebox"  title="">
-                                            <img src="images/9.jpg" alt=" " class="img-responsive" />
-                                        </a>
-                                    </div>
-                                    <div class="tab_list1">
-                                        <a href="#">excepturi sint occaecati</a>
-                                        <p>June 30,2015<span>Nam libero tempore, cum soluta nobis.</span></p>
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                </div>
-                                <div class="facts">
-                                    <div class="tab_list">
-                                        <a href="images/10-.jpg" class="b-link-stripe b-animate-go   swipebox"  title="">
-                                            <img src="images/10.jpg" alt=" " class="img-responsive" />
-                                        </a>
-                                    </div>
-                                    <div class="tab_list1">
-                                        <a href="#">excepturi sint occaecati</a>
-                                        <p>June 30,2015<span>Nam libero tempore, cum soluta nobis.</span></p>
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                </div>
+                                </c:forEach>
                             </div>
                             <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-1">
                                 <div class="facts">
@@ -213,7 +176,7 @@
                                         </a>
                                     </div>
                                     <div class="tab_list1">
-                                        <a href="#">excepturi sint occaecati</a>
+                                        <a href="#">Livre d'or</a>
                                         <p>June 30,2015<span>Nam libero tempore, cum soluta nobis.</span></p>
                                     </div>
                                     <div class="clearfix"> </div>
@@ -255,56 +218,7 @@
                                     <div class="clearfix"> </div>
                                 </div>
                             </div>
-                            <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-2">
-                                <div class="facts">
-                                    <div class="tab_list">
-                                        <a href="images/9-.jpg" class="b-link-stripe b-animate-go   swipebox"  title="">
-                                            <img src="images/9.jpg" alt=" " class="img-responsive" />
-                                        </a>
-                                    </div>
-                                    <div class="tab_list1">
-                                        <a href="#">excepturi sint occaecati</a>
-                                        <p>June 30,2015<span>Nam libero tempore, cum soluta nobis.</span></p>
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                </div>
-                                <div class="facts">
-                                    <div class="tab_list">
-                                        <a href="images/10-.jpg" class="b-link-stripe b-animate-go   swipebox"  title="">
-                                            <img src="images/10.jpg" alt=" " class="img-responsive" />
-                                        </a>
-                                    </div>
-                                    <div class="tab_list1">
-                                        <a href="#">excepturi sint occaecati</a>
-                                        <p>June 30,2015<span>Nam libero tempore, cum soluta nobis.</span></p>
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                </div>
-                                <div class="facts">
-                                    <div class="tab_list">
-                                        <a href="images/7-.jpg" class="b-link-stripe b-animate-go   swipebox"  title="">
-                                            <img src="images/7.jpg" alt=" " class="img-responsive" />
-                                        </a>
-                                    </div>
-                                    <div class="tab_list1">
-                                        <a href="#">excepturi sint occaecati</a>
-                                        <p>June 30,2015<span>Nam libero tempore, cum soluta nobis.</span></p>
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                </div>
-                                <div class="facts">
-                                    <div class="tab_list">
-                                        <a href="images/8-.jpg" class="b-link-stripe b-animate-go   swipebox"  title="">
-                                            <img src="images/8.jpg" alt=" " class="img-responsive" />
-                                        </a>
-                                    </div>
-                                    <div class="tab_list1">
-                                        <a href="#">excepturi sint occaecati</a>
-                                        <p>June 30,2015<span>Nam libero tempore, cum soluta nobis.</span></p>
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                </div>
-                            </div>
+
                         </div>
                         <script src="<c:url value="/static/public/js/easyResponsiveTabs.js"/>" type="text/javascript"></script>
                         <script type="text/javascript">
@@ -326,7 +240,7 @@
                     </div>
                 </div>
                 <div class="newsletter">
-                    <h3>Subscribe To Our Newsletter</h3>
+                    <h3>Inscription à la Newsletter</h3>
                     <form>
                         <input type="text" value="Email Address" onfocus="this.value = '';" onblur="if (this.value == '') {
                                     this.value = 'Email Address';

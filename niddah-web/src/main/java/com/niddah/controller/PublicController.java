@@ -29,6 +29,7 @@ public class PublicController {
     public String index(ModelMap model) {
         LOGGER.info("La page public.index est demandé");
         model.addAttribute("post", blogService.getFirstPost());
+        model.addAttribute("comments", blogService.getLastFourComment());
 
         return "public/index";
     }

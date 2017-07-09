@@ -6,6 +6,7 @@
 package com.niddah.security.service;
 
 import com.niddah.core.entity.Account;
+import com.niddah.core.repository.AccountRepository;
 import com.niddah.core.service.AccountService;
 import com.niddah.library.dto.AccountDto;
 import java.util.ArrayList;
@@ -28,13 +29,13 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Service("customUserDetailsService")
-@Transactional()
+@Transactional(noRollbackFor = RuntimeException.class)
 public class NiddahUserDetailService implements UserDetailsService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NiddahUserDetailService.class);
 
     @Autowired
-    private AccountService userService;
+    private AccountRepository userService;
     @Autowired
     private LoginAttemptService loginAttemptService;
 
@@ -44,11 +45,13 @@ public class NiddahUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userName)
             throws UsernameNotFoundException {
-        AccountDto user = userService.findByUserName(userName);
+        Account user = userService.findByUserName(userName);
         LOGGER.info("User : " + user);
         final String ip = getClientIP();
         LOGGER.info("L'addresse ip est : " + ip);
-        if (loginAttemptService.isBlocked(ip)) {
+        if (loginAttemptService.isBlockedUser(ip,user)) {
+            user.setAccountBlock(Boolean.TRUE);
+            userService.update(user);
             throw new RuntimeException("blocked");
         }
         if (user == null) {
@@ -59,15 +62,13 @@ public class NiddahUserDetailService implements UserDetailsService {
                 !user.getAccountBlock(), true, true, true, getGrantedAuthorities(user));
     }
 
-    private List<GrantedAuthority> getGrantedAuthorities(AccountDto user) {
+    private List<GrantedAuthority> getGrantedAuthorities(Account user) {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRole().toString()));
 
         LOGGER.info("authorities :" + authorities);
         return authorities;
     }
-
-
 
     private String getClientIP() {
         RequestAttributes attribs = RequestContextHolder.getRequestAttributes();

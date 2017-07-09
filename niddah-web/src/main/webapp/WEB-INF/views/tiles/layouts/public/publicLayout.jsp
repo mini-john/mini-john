@@ -6,7 +6,7 @@
 <html>
 
     <head>
-        <link rel="icon" type="image/png" href="<c:url value="/static/images/favicon.png"/>"/> 
+        <link rel="icon" type="image/png" href="<c:url value="/static/public/images/favicon.png"/>"/> 
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="keywords" content="Quickly Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, 

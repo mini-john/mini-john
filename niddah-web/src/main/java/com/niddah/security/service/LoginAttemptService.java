@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.niddah.core.entity.Account;
 
 @Service
 public class LoginAttemptService {
@@ -27,7 +28,6 @@ public class LoginAttemptService {
     }
 
     //
-
     public void loginSucceeded(final String key) {
         attemptsCache.invalidate(key);
     }
@@ -46,6 +46,14 @@ public class LoginAttemptService {
     public boolean isBlocked(final String key) {
         try {
             return attemptsCache.get(key) >= MAX_ATTEMPT;
+        } catch (final ExecutionException e) {
+            return false;
+        }
+    }
+
+    boolean isBlockedUser(String key, Account user) {
+        try {
+            return attemptsCache.get(key+ "-" + user.getLogin()) >= MAX_ATTEMPT;
         } catch (final ExecutionException e) {
             return false;
         }

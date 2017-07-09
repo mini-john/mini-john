@@ -31,7 +31,7 @@
                     <th>Etat du compte</th>
                     <th>Compte blocque</th>
                     <th>Role</th>
-                    <th>Action</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -44,13 +44,16 @@
                         <td>${account.etatAccount}</td>
                         <td>${account.accountBlock}</td>
                         <td>${account.role}</td>
-                        <td><a href="<c:url value="/admin/blog/deleteComment.do?id="/>" class="btn btn-primary delete" data-title="Suppression de le commentaire de ">Supprimer</a></td>
+                        <td>
+                            <c:if test="${account.accountBlock}">le commpte est bloque</c:if>
+                        
+                        </td>
                     </tr>
 
                 </c:forEach>
             </tbody>
         </table>
-        <tag:paginate max="1" offset="${offset}" count="${count}"
+        <tag:paginate max="5" division="5" offset="${offset}" count="${count}"
                       uri="index.do" next="&raquo;" previous="&laquo;" />
     </div>
 </div>
