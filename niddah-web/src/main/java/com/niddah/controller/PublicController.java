@@ -6,6 +6,7 @@
 package com.niddah.controller;
 
 import com.niddah.core.service.BlogService;
+import com.niddah.core.service.NewsletterService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ public class PublicController {
 
     @Autowired
     BlogService blogService;
+    @Autowired
+    NewsletterService newsletterService;
 
     @RequestMapping(value = {"/public/index.do", "/", "/public/"})
     public String index(ModelMap model) {
