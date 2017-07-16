@@ -11,7 +11,7 @@
         <div class="pagenatin">
 
 
-            <tag:paginate max="2"  division ="2" offset="${offset}" count="${count}"
+            <tag:paginate max="5"  division ="5" offset="${offset}" count="${count}"
                           uri="index.do" next="&raquo;" previous="&laquo;" />
         </div>
         <c:forEach items="${posts}" var="post" varStatus="itr">

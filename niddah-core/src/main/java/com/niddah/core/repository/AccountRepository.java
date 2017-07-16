@@ -6,6 +6,7 @@
 package com.niddah.core.repository;
 
 import com.niddah.core.entity.Account;
+import com.niddah.library.constante.Constantes;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Projections;
@@ -31,7 +32,7 @@ public class AccountRepository extends CrudRepository {
         Criteria crit = createEntityCriteria(Account.class);
         crit.addOrder(Property.forName("id").asc());
         crit.setFirstResult(offset != null ? offset : 0);
-        crit.setMaxResults(maxResults != null ? maxResults : 10);
+        crit.setMaxResults(maxResults != null ? maxResults : Constantes.DEFAULT_MAX_PAGINATION);
         return crit.list();
     }
 

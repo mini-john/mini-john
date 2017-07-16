@@ -7,6 +7,7 @@ package com.niddah.core.repository;
 
 import com.niddah.core.entity.blog.Comments;
 import com.niddah.core.entity.blog.Post;
+import com.niddah.library.constante.Constantes;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
@@ -30,7 +31,7 @@ public class BlogRepository extends CrudRepository {
         Criteria crit = createEntityCriteria(Post.class);
         crit.addOrder(Property.forName("date").asc());
         crit.setFirstResult(offset != null ? offset : 0);
-        crit.setMaxResults(maxResults != null ? maxResults : 10);
+        crit.setMaxResults(maxResults != null ? maxResults : Constantes.DEFAULT_MAX_PAGINATION);
         return crit.list();
     }
 
@@ -52,7 +53,7 @@ public class BlogRepository extends CrudRepository {
         crit.add(Restrictions.eq("post.id", id));
         crit.addOrder(Property.forName("dateComments").asc());
         crit.setFirstResult(offset != null ? offset : 0);
-        crit.setMaxResults(maxResults != null ? maxResults : 10);
+        crit.setMaxResults(maxResults != null ? maxResults : Constantes.DEFAULT_MAX_PAGINATION);
         return crit.list();
     }
 
