@@ -75,7 +75,7 @@ public class Tahara {
         ZmanimCalendar zc = new ZmanimCalendar(location);
         List<ShevaNekymDto> shevaList = new ArrayList<>();
         zc.getCalendar().setTime(date);
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < Constantes.NB_JOUR_CHEVA_NEKIYM; i++) {
 
             ShevaNekymDto sheva = new ShevaNekymDto(zc.getSunrise(), zc.getSunset());
 

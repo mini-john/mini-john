@@ -22,7 +22,7 @@ import javax.persistence.TemporalType;
  * @author Boccara Jonathan
  */
 @Entity
-@Table(name = "comments")
+@Table(name = "Comments")
 
 public class Comments implements Serializable {
 

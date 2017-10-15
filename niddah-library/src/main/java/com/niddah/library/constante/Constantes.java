@@ -18,7 +18,7 @@ public class Constantes {
     public static int NB_JOUR_ATTENTE_ASHKENAZE = 4;
     public static int NB_JOUR_ATTENTE_DEFAULT = 3;
     public static int NB_HOUR_JETON_VALIDE = 3;
-
+    public static int NB_JOUR_CHEVA_NEKIYM = 7;
     public static int DEFAULT_MAX_PAGINATION = 5;
 
 }

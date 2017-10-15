@@ -109,22 +109,22 @@ public class Vesset {
 
             if (cycle1.getjDate().getJewishDayOfMonth() == cycle2.getjDate().getJewishDayOfMonth()
                     && cycle1.getjDate().getJewishDayOfMonth() == cycle3.getjDate().getJewishDayOfMonth()) {
-                if (cycle1.getjDate().getJewishYear() == cycle2.getjDate().getJewishYear()
-                        && cycle1.getjDate().getJewishYear() == cycle3.getjDate().getJewishYear()) {
-                    if (cycle1.getjDate().isJewishLeapYear()) {
-                        if (((cycle1.getjDate().getJewishMonth() + 1) % 13) == (cycle2.getjDate().getJewishMonth() % 13)
-                                && ((cycle2.getjDate().getJewishMonth() + 1) % 13) == (cycle3.getjDate().getJewishMonth() % 13)) {
-                            return true;
-                        }
-
-                    } else if (((cycle1.getjDate().getJewishMonth() + 1) % 12) == (cycle2.getjDate().getJewishMonth() % 12)
-                            && ((cycle2.getjDate().getJewishMonth() + 1) % 12) == (cycle3.getjDate().getJewishMonth() % 12)) {
+//                if (cycle1.getjDate().getJewishYear() == cycle2.getjDate().getJewishYear()
+//                        && cycle1.getjDate().getJewishYear() == cycle3.getjDate().getJewishYear()) {
+                if (cycle1.getjDate().isJewishLeapYear()) {
+                    if (((cycle1.getjDate().getJewishMonth() + 1) % 13) == (cycle2.getjDate().getJewishMonth() % 13)
+                            && ((cycle2.getjDate().getJewishMonth() + 1) % 13) == (cycle3.getjDate().getJewishMonth() % 13)) {
                         return true;
                     }
 
+                } else if (((cycle1.getjDate().getJewishMonth() + 1) % 12) == (cycle2.getjDate().getJewishMonth() % 12)
+                        && ((cycle2.getjDate().getJewishMonth() + 1) % 12) == (cycle3.getjDate().getJewishMonth() % 12)) {
+                    return true;
                 }
+
             }
         }
+        //}
         return false;
     }
 
@@ -255,9 +255,9 @@ public class Vesset {
         }
 
         //Je sépare ma liste en 3 sous liste
-        List<ArrayList> groupList = new ArrayList<ArrayList>();
+        List<ArrayList> groupList = new ArrayList<>();
         JewishDateEcart cycleDepart = listJourEcart.get(0);
-        ArrayList<JewishDateEcart> list = new ArrayList<JewishDateEcart>();
+        ArrayList<JewishDateEcart> list = new ArrayList<>();
         list.add(cycleDepart);
         for (i = 1; i < listJourEcart.size(); i++) {
             JewishDateEcart ecartEncours = listJourEcart.get(i);
@@ -313,7 +313,8 @@ public class Vesset {
     }
 
     /**
-     * Determine si le cycle est regulier sur le decalage de x jour sur la haflaga avec retour
+     * Determine si le cycle est regulier sur le decalage de x jour sur la
+     * haflaga avec retour
      *
      * @param listCycle
      * @return
@@ -324,9 +325,9 @@ public class Vesset {
             return false;
         }
         Collections.sort(listCycle);
-        List<ArrayList> groupList = new ArrayList<ArrayList>();
+        List<ArrayList> groupList = new ArrayList<>();
         CycleDto cycleDepart = listCycle.get(0);
-        ArrayList<CycleDto> list = new ArrayList<CycleDto>();
+        ArrayList<CycleDto> list = new ArrayList<>();
         list.add(cycleDepart);
         for (int i = 1; i < listCycle.size(); i++) {
             CycleDto cycleEncours = listCycle.get(i);

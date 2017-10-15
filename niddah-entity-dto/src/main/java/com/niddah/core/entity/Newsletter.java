@@ -15,13 +15,15 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 
 /**
  *
  * @author Boccara Jonathan
  */
 @Entity
-@Table(name = "newsletter")
+@Table(name = "Newsletter", uniqueConstraints = {
+    @UniqueConstraint(name = "emailExist", columnNames = {"email"})})
 public class Newsletter implements Serializable {
 
     @Id
@@ -33,7 +35,7 @@ public class Newsletter implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date dateSuppresion;
     private boolean actif;
-    
+
     private String email;
 
     public Long getId() {

@@ -106,6 +106,30 @@ public class VessetTest {
     }
 
     @Test
+    public void testVessetHahodeshTwoYear() throws ParseException {
+        Locale.setDefault(Locale.FRENCH);
+        Date dateStr = DateNiddah.parseDateWithHour("13/07/2018 12:24");
+        String locationName = "Nice";
+        double latitude = 43.700000;
+        double longitude = 7.250000;
+        double elevation = 0;
+        TimeZone timeZone = TimeZone.getTimeZone("Europe/Paris");
+        ArrayList<CycleDto> listCycle = new ArrayList<>();
+        CycleDto cycleDto = Vesset.fillCycleDto(dateStr, latitude, longitude, elevation, locationName, timeZone);
+        listCycle.add(cycleDto);
+        dateStr = DateNiddah.parseDateWithHour("12/08/2018 12:24");
+        CycleDto cycleDto2 = Vesset.fillCycleDto(dateStr, latitude, longitude, elevation, locationName, timeZone);
+        cycleDto2.setHaflaga(Vesset.getHaflagaEntreDeuxCycle(cycleDto, cycleDto2));
+        listCycle.add(cycleDto2);
+        dateStr = DateNiddah.parseDateWithHour("10/09/2018 12:24");
+        CycleDto cycleDto3 = Vesset.fillCycleDto(dateStr, latitude, longitude, elevation, locationName, timeZone);
+        cycleDto2.setHaflaga(Vesset.getHaflagaEntreDeuxCycle(cycleDto2, cycleDto3));
+        listCycle.add(cycleDto3);
+        LOGGER.info("Le cycle est  sur deux ans " + Vesset.isCycleKavouaHahodesh(listCycle));
+
+    }
+
+    @Test
     public void testVessetHaflaga() throws ParseException {
         Locale.setDefault(Locale.FRENCH);
         Date dateStr = DateNiddah.parseDateWithHour("10/02/2016 12:24");
@@ -251,7 +275,7 @@ public class VessetTest {
         CycleDto cycleDto13 = Vesset.fillCycleDto(dateStr, latitude, longitude, elevation, locationName, timeZone);
         cycleDto10.setHaflaga(Vesset.getHaflagaEntreDeuxCycle(cycleDto12, cycleDto13));
         listCycle.add(cycleDto13);
-        boolean result=Vesset.isCycleKavouaDilougHahodeshHozer(listCycle);
+        boolean result = Vesset.isCycleKavouaDilougHahodeshHozer(listCycle);
         LOGGER.info("Le cycle est diloug haodesh hozer regulier " + result);
         assertEquals(result, true);
     }

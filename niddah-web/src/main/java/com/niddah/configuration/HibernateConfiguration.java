@@ -5,6 +5,8 @@ import java.util.Properties;
 import javax.sql.DataSource;
 
 import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -22,6 +24,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @PropertySource(value = {"classpath:application.properties"})
 public class HibernateConfiguration {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(HibernateConfiguration.class);
+
     @Autowired
     private Environment environment;
 
@@ -36,11 +40,13 @@ public class HibernateConfiguration {
 
     @Bean
     public DataSource dataSource() {
+                LOGGER.info("Login db {} password {}",environment.getRequiredProperty("jdbc.username"),environment.getRequiredProperty("jdbc.password"));
+
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(environment.getRequiredProperty("jdbc.driverClassName"));
         dataSource.setUrl(environment.getRequiredProperty("jdbc.url"));
         dataSource.setUsername(environment.getRequiredProperty("jdbc.username"));
-        dataSource.setPassword("");
+        dataSource.setPassword(environment.getRequiredProperty("jdbc.password"));
         return dataSource;
     }
 

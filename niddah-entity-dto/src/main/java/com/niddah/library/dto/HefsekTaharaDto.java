@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author mini-john
  */
-class HefsekTaharaDto extends EvenementDto implements Serializable{
+public class HefsekTaharaDto extends EvenementDto implements Serializable{
     private CycleDto cycle;
     private List<ShevaNekiymDto> shevaNekym;
     private Boolean passed;

@@ -11,6 +11,7 @@ import com.niddah.library.dto.PrichaDto;
 import com.niddah.library.enumeration.Ona;
 import com.niddah.library.enumeration.TypePricha;
 import com.niddah.library.exception.MomentException;
+import com.niddah.library.exception.NiddahException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -133,6 +134,13 @@ public class Pricha {
         return fillPrichaDto(prichaDto, date, zc, dateBenonit, location);
     }
 
+    /**
+     * Retourne la Pricha Hachodesh correspondant
+     *
+     * @param date
+     * @param location
+     * @return
+     */
     public static PrichaDto getPrichaHahodesh(Date date, GeoLocation location) {
         PrichaDto prichaDto = new PrichaDto();
         JewishDate dateHahodesh = DateNiddah.addMonth(DateNiddah.getDateJewish(date), 1);
@@ -142,8 +150,19 @@ public class Pricha {
         return fillPrichaDto(prichaDto, date, zc, dateHahodesh, location);
     }
 
+    /**
+     * Retourne la pricha Haflaga
+     *
+     * @param date1
+     * @param date2
+     * @param location
+     * @return
+     */
     public static PrichaDto getPrichaHaflaga(Date date1, Date date2, GeoLocation location) {
         PrichaDto prichaDto = new PrichaDto();
+        if (date2.before(date1)) {
+            throw new NiddahException("La date 1 : " + date1 + " doit être avant la 2 : " + date2);
+        }
         int days = Days.daysBetween(new LocalDate(date1), new LocalDate(date2)).getDays();
         Date dateHaflaga = DateNiddah.addDay(date2, days - 1);
         prichaDto.setTypePricha(TypePricha.Haflaga);
@@ -154,6 +173,13 @@ public class Pricha {
         return prichaDto;
     }
 
+    /**
+     * Retourne la Pricha Karti Oupleti
+     *
+     * @param date
+     * @param location
+     * @return
+     */
     public static List<PrichaDto> getPrichaKartiOupleti(Date date, GeoLocation location) {
         List<PrichaDto> kartiOupleti = new ArrayList<>();
         PrichaDto prichaDto = new PrichaDto();
@@ -191,6 +217,13 @@ public class Pricha {
         return kartiOupleti;
     }
 
+    /**
+     * Retourne la Pricha Benonit HovotDaat
+     *
+     * @param date
+     * @param location
+     * @return
+     */
     public static List<PrichaDto> getPrichaBenonitHovotDaat(Date date, GeoLocation location) {
         List<PrichaDto> hovotDaat = new ArrayList<>();
         PrichaDto prichaDto = new PrichaDto();
@@ -308,6 +341,7 @@ public class Pricha {
 
     /**
      * Retourn la ona précedente d'une pricha
+     *
      * @param pricha
      * @param zc
      * @return

@@ -21,15 +21,13 @@ import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 /**
  *
  * @author Boccara Jonathan
  */
 @Entity
-@Table(name = "posts")
+@Table(name = "Posts")
 public class Post implements Serializable {
 
     @Id

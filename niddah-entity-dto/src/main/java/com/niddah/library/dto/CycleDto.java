@@ -16,21 +16,22 @@ import net.sourceforge.zmanim.util.GeoLocation;
 
 /**
  * Dto modélisant un cycle. Un cycle est le moment où la femme a vu son flux
+ *
  * @author mini-john
  */
-public class CycleDto implements Comparable<CycleDto>{
+public class CycleDto implements Comparable<CycleDto> {
 
     private JewishDate jDate;
     private Date date;
     private int haflaga;
     private Ona ona;
-    private double latitude ;
+    private double latitude;
     private double longitude;
-    private double elevation ;
+    private double elevation;
     private Long id;
     private List<HefsekTaharaDto> hefsekTaharas;
     private List<PrichaDto> prichots;
-    
+
     public CycleDto() {
     }
 
@@ -70,6 +71,22 @@ public class CycleDto implements Comparable<CycleDto>{
         return latitude;
     }
 
+    public List<HefsekTaharaDto> getHefsekTaharas() {
+        return hefsekTaharas;
+    }
+
+    public void setHefsekTaharas(List<HefsekTaharaDto> hefsekTaharas) {
+        this.hefsekTaharas = hefsekTaharas;
+    }
+
+    public List<PrichaDto> getPrichots() {
+        return prichots;
+    }
+
+    public void setPrichots(List<PrichaDto> prichots) {
+        this.prichots = prichots;
+    }
+
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
@@ -89,9 +106,9 @@ public class CycleDto implements Comparable<CycleDto>{
     public void setElevation(double elevation) {
         this.elevation = elevation;
     }
-    
-    public GeoLocation getLGeolocation(String locationName,TimeZone timeZone){
-                return new GeoLocation(locationName, latitude, longitude, elevation, timeZone);
+
+    public GeoLocation getLGeolocation(String locationName, TimeZone timeZone) {
+        return new GeoLocation(locationName, latitude, longitude, elevation, timeZone);
 
     }
 
@@ -105,7 +122,7 @@ public class CycleDto implements Comparable<CycleDto>{
 
     @Override
     public String toString() {
-        return "CycleDto{ id="+id+ ", jDate=" + jDate + ", date=" + date + ", haflaga=" + haflaga + ", ona=" + ona + ", latitude=" + latitude + ", longitude=" + longitude + ", elevation=" + elevation + '}';
+        return "CycleDto{ id=" + id + ", jDate=" + jDate + ", date=" + date + ", haflaga=" + haflaga + ", ona=" + ona + ", latitude=" + latitude + ", longitude=" + longitude + ", elevation=" + elevation + '}';
     }
 
     @Override
@@ -126,17 +143,17 @@ public class CycleDto implements Comparable<CycleDto>{
             return false;
         }
         final CycleDto other = (CycleDto) obj;
-        
-        return (this.haflaga==other.haflaga) && (this.ona==other.ona);
+
+        return (this.haflaga == other.haflaga) && (this.ona == other.ona);
     }
 
     @Override
     public int compareTo(CycleDto o) {
-        Calendar cal1=GregorianCalendar.getInstance();
+        Calendar cal1 = GregorianCalendar.getInstance();
         cal1.setTime(this.date);
-        Calendar cal2=GregorianCalendar.getInstance();
-        cal2.setTime(o.date); 
-       return cal1.compareTo(cal2);
+        Calendar cal2 = GregorianCalendar.getInstance();
+        cal2.setTime(o.date);
+        return cal1.compareTo(cal2);
     }
-    
+
 }

@@ -241,12 +241,25 @@
                 </div>
                 <div class="newsletter">
                     <h3>Inscription à la Newsletter</h3>
-                    <form>
-                        <input type="text" value="Email Address" onfocus="this.value = '';" onblur="if (this.value == '') {
-                                    this.value = 'Email Address';
-                                }" required="">
-                        <input type="submit" value="Send">
-                    </form>
+                    <input id="emailNewsletter" type="text" value="Email Address" onfocus="this.value = '';" onblur="if (this.value == '') {
+                                this.value = 'Email Address';
+                            }" required="">
+                    <input type="submit" value="Envoyer" id="envoyerNewsletter">
+                    <div class="alert alert-info" role="alert" id="msgNewsletter" style="visibility: hidden">
+                        
+                    </div>
+                    <script type="text/javascript">
+                        $(document).ready(function () {
+                            $('#envoyerNewsletter').click(function () {
+                                $.post('${pageContext.request.contextPath}/public/newsletter.do', {email: $('#emailNewsletter').val()}, function (reponse) {
+                                    console.log("toto")
+                                   $('#msgNewsletter').html(reponse.msg)
+                                   .css('visibility', 'visible');
+                                });
+                            });
+                        });
+                    </script>
+
                 </div>
             </div>
         </div>
