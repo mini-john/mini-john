@@ -48,6 +48,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private CustomWebAuthenticationDetailsSource authenticationDetailsSource;
+   
 
     /* 
     @Autowired
@@ -128,5 +129,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void postConstruc() {
         LOGGER.info("Security Config - done");
     }
-
+ 
 }

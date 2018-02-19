@@ -281,22 +281,17 @@
             <version>1.1.1</version>
             <!--<scope>provided</scope>-->
         </dependency>
-        <!-- velocity -->
-        <dependency>
-            <groupId>org.apache.velocity</groupId>
-            <artifactId>velocity</artifactId>
-            <version>1.7</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.velocity</groupId>
-            <artifactId>velocity-tools</artifactId>
-            <version>2.0</version>
-        </dependency>
+       
         <!-- https://mvnrepository.com/artifact/commons-lang/commons-lang -->
         <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>2.3</version>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+             <version>2.3.23</version>
         </dependency>
         <dependency>
             <groupId>commons-validator</groupId>

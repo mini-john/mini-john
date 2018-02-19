@@ -5,7 +5,10 @@
  */
 package com.niddah.component;
 
+import freemarker.template.Configuration;
+
 import com.niddah.library.dto.PersonneDto;
+import freemarker.template.Template;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +21,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
 /**
@@ -26,19 +30,14 @@ import org.springframework.ui.velocity.VelocityEngineUtils;
  */
 public class MailSenderNiddah {
 
-    @Autowired()
-    @Qualifier(value = "velocity")
-    private VelocityEngine velocity;
+   
+    
+    @Autowired
+    private Configuration freemarkerConfig;
     @Autowired
     private JavaMailSenderImpl maisSender;
 
-    public VelocityEngine getVelocity() {
-        return velocity;
-    }
-
-    public void setVelocity(VelocityEngine velocity) {
-        this.velocity = velocity;
-    }
+   
 
     public JavaMailSenderImpl getMaisSender() {
         return maisSender;
@@ -58,9 +57,8 @@ public class MailSenderNiddah {
             message.setSentDate(new Date());
             Map model = new HashMap();
             model.put("personneDto", personneDto);
-
-            String text = VelocityEngineUtils.mergeTemplateIntoString(
-                    velocity, "/emailActivation.html", "UTF-8", model);
+            Template t = freemarkerConfig.getTemplate("/emailActivation.html");
+            String text = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
             message.setText(text, true);
         };
         maisSender.send(preparator);
@@ -79,8 +77,8 @@ public class MailSenderNiddah {
             model.put("personneDto", personneDto);
             model.put("password", password);
 
-            String text = VelocityEngineUtils.mergeTemplateIntoString(
-                    velocity, "/emailCreation.html", "UTF-8", model);
+            Template t = freemarkerConfig.getTemplate("/emailCreation.html");
+            String text = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
             message.setText(text, true);
         };
         maisSender.send(preparator);
@@ -96,8 +94,9 @@ public class MailSenderNiddah {
             Map model = new HashMap();
             model.put("personneDto", personneDto);
 
-            String text = VelocityEngineUtils.mergeTemplateIntoString(
-                    velocity, "/emailVerificationResetPassword.html", "UTF-8", model);
+           
+            Template t = freemarkerConfig.getTemplate("/emailVerificationResetPassword.html");
+            String text = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
             message.setText(text, true);
         };
         maisSender.send(preparator);
@@ -114,8 +113,10 @@ public class MailSenderNiddah {
             model.put("personneDto", personneDto);
             model.put("password", password);
 
-            String text = VelocityEngineUtils.mergeTemplateIntoString(
-                    velocity, "/emailChangePassword.html", "UTF-8", model);
+          
+            Template t = freemarkerConfig.getTemplate("/emailChangePassword.html");
+            String text = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
+           
             message.setText(text, true);
         };
         maisSender.send(preparator);

@@ -8,10 +8,10 @@ package com.niddah.configuration;
 import com.niddah.captcha.CaptchaSettings;
 import com.niddah.component.MailSenderNiddah;
 import com.niddah.controller.listener.ActiveUserStore;
+import com.niddah.library.dto.AdminDto;
+import com.niddah.library.enumeration.EtatAccount;
 import java.io.FileNotFoundException;
 import java.util.Properties;
-import net.bull.javamelody.MonitoredWithInterfacePointcut;
-import net.bull.javamelody.MonitoringSpringAdvisor;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.ui.velocity.VelocityEngineFactoryBean;
+import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
@@ -68,17 +68,26 @@ public class AppConfigCore {
         prop.put("mail.transport.protocol", "smtp");
         prop.put("mail.smtp.auth", "true");
         prop.put("mail.smtp.starttls.enable", "true");
+        prop.put("mail.smtp.ssl.trust", "*");
+
         prop.put("mail.debug", "true");
         mailSender.setJavaMailProperties(prop);
         return mailSender;
     }
 
-    @Bean(name = "velocity")
-    public VelocityEngineFactoryBean velocity() {
-        VelocityEngineFactoryBean velocity = new VelocityEngineFactoryBean();
-        velocity.setResourceLoaderPath("classpath:template");
-        velocity.setPreferFileSystemAccess(false);
-        return velocity;
+//    @Bean(name = "velocity")
+//    public VelocityEngineFactoryBean velocity() {
+//        VelocityEngineFactoryBean velocity = new VelocityEngineFactoryBean();
+//        velocity.setResourceLoaderPath("classpath:template");
+//        velocity.setPreferFileSystemAccess(false);
+//        return velocity;
+//    }
+    
+    @Bean
+    public FreeMarkerConfigurationFactoryBean getFreeMarkerConfiguration() {
+        FreeMarkerConfigurationFactoryBean bean = new FreeMarkerConfigurationFactoryBean();
+        bean.setTemplateLoaderPath("classpath:template");
+        return bean;
     }
 
     @Bean
@@ -113,6 +122,19 @@ public class AppConfigCore {
     public ActiveUserStore activeUserStore() {
         return new ActiveUserStore();
     }
+
+    @Bean
+    public AdminDto getAdmin() {
+        AdminDto adminDto = new AdminDto();
+        adminDto.setLogin(environment.getProperty("admin.login"));
+        adminDto.setPassword(environment.getProperty("admin.password"));
+        adminDto.setEtatAccount(EtatAccount.actif);
+        adminDto.setAccountBlock(false);
+        adminDto.setMail(environment.getProperty("admin.mail"));
+        return adminDto;
+
+    }
+
 //    @Bean 
 //    public MonitoringSpringAdvisor javaMelody() throws ClassNotFoundException{
 //        MonitoringSpringAdvisor monit= new MonitoringSpringAdvisor();
@@ -121,6 +143,4 @@ public class AppConfigCore {
 //        monit.setPointcut(new MonitoredWithInterfacePointcut());
 //        return monit;
 //    }
-  
-
 }

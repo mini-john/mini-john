@@ -90,82 +90,65 @@ public class Vesset {
 
     /**
      * Determine si le cycle est régulier selon le jour du mois
-     *
-     * @param listCycle
+     * 
+     * @param listCycle liste des 3 derniers cycles
      * @return
      */
     public static boolean isCycleKavouaHahodesh(List<CycleDto> listCycle) {
-        //TODO revoir les cas de tailles invalides
-        if (listCycle.size() < 3) {
-            return false;
+        if (listCycle.size() != 3) {
+            throw new IllegalArgumentException("la taille de la liste de cycle doit être égal à 3");
         }
         Collections.sort(listCycle);
         CycleDto cycle1 = listCycle.get(0);
         CycleDto cycle2 = listCycle.get(1);
         CycleDto cycle3 = listCycle.get(2);
+        int max = Math.max(cycle1.getjDate().getJewishYear(), Math.max(cycle2.getjDate().getJewishYear(), cycle3.getjDate().getJewishYear()));
+        int min = Math.min(cycle1.getjDate().getJewishYear(), Math.min(cycle2.getjDate().getJewishYear(), cycle3.getjDate().getJewishYear()));
 
-        if (cycle1.getOna() == cycle2.getOna()
-                && cycle1.getOna() == cycle3.getOna()) {
-
-            if (cycle1.getjDate().getJewishDayOfMonth() == cycle2.getjDate().getJewishDayOfMonth()
-                    && cycle1.getjDate().getJewishDayOfMonth() == cycle3.getjDate().getJewishDayOfMonth()) {
-//                if (cycle1.getjDate().getJewishYear() == cycle2.getjDate().getJewishYear()
-//                        && cycle1.getjDate().getJewishYear() == cycle3.getjDate().getJewishYear()) {
-                if (cycle1.getjDate().isJewishLeapYear()) {
-                    if (((cycle1.getjDate().getJewishMonth() + 1) % 13) == (cycle2.getjDate().getJewishMonth() % 13)
-                            && ((cycle2.getjDate().getJewishMonth() + 1) % 13) == (cycle3.getjDate().getJewishMonth() % 13)) {
-                        return true;
-                    }
-
-                } else if (((cycle1.getjDate().getJewishMonth() + 1) % 12) == (cycle2.getjDate().getJewishMonth() % 12)
-                        && ((cycle2.getjDate().getJewishMonth() + 1) % 12) == (cycle3.getjDate().getJewishMonth() % 12)) {
-                    return true;
-                }
-
-            }
-        }
-        //}
-        return false;
+        //Test s'il n'y a pas deux année d'écart
+        return (max - min <= 1)
+                //La Ona doit être identique
+                && cycle1.getOna() == cycle2.getOna()
+                && cycle1.getOna() == cycle3.getOna() && (cycle1.getjDate().getJewishDayOfMonth() == cycle2.getjDate().getJewishDayOfMonth()
+                && cycle1.getjDate().getJewishDayOfMonth() == cycle3.getjDate().getJewishDayOfMonth())
+                && //Les mois doivent se suiuvrent avec un decalage de 1 mois en fonction de l'année embolismique
+                (((cycle1.getjDate().getJewishMonth() + 1)
+                % (cycle1.getjDate().isJewishLeapYear() ? 13 : 12)) == (cycle2.getjDate().getJewishMonth() % (cycle2.getjDate().isJewishLeapYear() ? 13 : 12))
+                && ((cycle2.getjDate().getJewishMonth() + 1) % (cycle2.getjDate().isJewishLeapYear() ? 13 : 12)) == (cycle3.getjDate().getJewishMonth() % (cycle3.getjDate().isJewishLeapYear() ? 13 : 12)));
     }
 
     /**
      * Determine si le cycle est regulier sur le jour d'intervalle
      *
-     * @param listCycle
+     * @param listCycle liste des 4 derniers cycles
      * @return
      */
     public static boolean isCycleKavouaHaflaga(List<CycleDto> listCycle) {
-        if (listCycle.size() < 4) {
-            return false;
+        if (listCycle.size() != 4) {
+            throw new IllegalArgumentException("la taille de la liste de cycle doit être égal à 4");
         }
         Collections.sort(listCycle);
         CycleDto cycle1 = listCycle.get(0);
         CycleDto cycle2 = listCycle.get(1);
         CycleDto cycle3 = listCycle.get(2);
         CycleDto cycle4 = listCycle.get(3);
-        if (cycle1.getOna() == cycle2.getOna()
+        return (cycle1.getOna() == cycle2.getOna()
                 && cycle1.getOna() == cycle3.getOna()
-                && cycle1.getOna() == cycle4.getOna()) {
-            if (cycle2.getHaflaga() == cycle3.getHaflaga()
-                    && cycle3.getHaflaga() == cycle4.getHaflaga()) {
-                return true;
-
-            }
-        }
-
-        return false;
+                && cycle1.getOna() == cycle4.getOna())
+                && (cycle2.getHaflaga() == cycle3.getHaflaga()
+                && cycle3.getHaflaga() == cycle4.getHaflaga());
     }
 
     /**
      * Determine si le cycle est régulier sur le jour de la semaine toutes les x
      * semaines
      *
-     * @param listCycle
+     * @param listCycle liste des 4 derniers cycles
      * @return
      */
     public static boolean isCycleKavouaHashavoua(List<CycleDto> listCycle) {
-        if (listCycle.size() < 4) {
-            return false;
+        if (listCycle.size() != 4) {
+            throw new IllegalArgumentException("la taille de la liste de cycle doit être égal à 4");
         }
         Collections.sort(listCycle);
         CycleDto cycle1 = listCycle.get(0);
@@ -201,12 +184,12 @@ public class Vesset {
      * Determine si le cycle est régulier sur le jour du mois se décalant de x
      * jours
      *
-     * @param listCycle
+     * @param listCycle liste des 4 derniers cycles
      * @return
      */
     public static boolean isCycleKavouaDilougHahodesh(List<CycleDto> listCycle) {
-        if (listCycle.size() < 4) {
-            return false;
+        if (listCycle.size() != 4) {
+            throw new IllegalArgumentException("la taille de la liste de cycle doit être égal à 4");
         }
         Collections.sort(listCycle);
         CycleDto cycle1 = listCycle.get(0);
@@ -225,12 +208,12 @@ public class Vesset {
      * Determine si le cycle est regulier sur le decalage du jour du mois de x
      * jour avec retour
      *
-     * @param listCycle
+     * @param listCycle liste des 12 derniers cycles
      * @return
      */
     public static boolean isCycleKavouaDilougHahodeshHozer(List<CycleDto> listCycle) {
-        if (listCycle.size() < 12) {
-            return false;
+        if (listCycle.size() != 12) {
+            throw new IllegalArgumentException("la taille de la liste de cycle doit être égal à 12");
         }
         List<JewishDateEcart> listJourEcart = new ArrayList<>();
         CycleDto precedent = listCycle.get(0);
@@ -290,12 +273,12 @@ public class Vesset {
      * Determine si le cycle est régulier sur le decalage de x jour sur la
      * haflaga
      *
-     * @param listCycle
+     * @param listCycle liste des 5 derniers cycles
      * @return
      */
     public static boolean isCycleKavouaDilougHaflaga(List<CycleDto> listCycle) {
-        if (listCycle.size() < 5) {
-            return false;
+        if (listCycle.size() != 5) {
+            throw new IllegalArgumentException("la taille de la liste de cycle doit être égal à 4");
         }
         Collections.sort(listCycle);
         CycleDto cycle1 = listCycle.get(0);
@@ -316,13 +299,13 @@ public class Vesset {
      * Determine si le cycle est regulier sur le decalage de x jour sur la
      * haflaga avec retour
      *
-     * @param listCycle
+     * @param listCycle liste des 9 derniers cycles
      * @return
      * @throws UnsupportedOperationException
      */
     public static boolean isCycleKavouaDilougHaflagaHozer(List<CycleDto> listCycle) throws UnsupportedOperationException {
-        if (listCycle.size() < 9) {
-            return false;
+        if (listCycle.size() != 9) {
+            throw new IllegalArgumentException("la taille de la liste de cycle doit être égal à 9");
         }
         Collections.sort(listCycle);
         List<ArrayList> groupList = new ArrayList<>();
@@ -356,33 +339,6 @@ public class Vesset {
 
     }
 
-    public static TypeCycle getTypeCycle(List<CycleDto> listCycle) {
-
-        if (isCycleKavouaHahodesh(listCycle)) {
-            return TypeCycle.KavouaHahodesh;
-        }
-        if (isCycleKavouaHaflaga(listCycle)) {
-            return TypeCycle.KavouaHaflaga;
-        }
-        if (isCycleKavouaHashavoua(listCycle)) {
-            return TypeCycle.KavouaHashavoua;
-        }
-        if (isCycleKavouaDilougHahodesh(listCycle)) {
-            return TypeCycle.KavouaDilougHahodesh;
-        }
-
-        if (isCycleKavouaDilougHahodeshHozer(listCycle)) {
-            return TypeCycle.KavouaDilougHahodeshHozer;
-        }
-        if (isCycleKavouaDilougHaflaga(listCycle)) {
-            return TypeCycle.KavouaDilougHaflaga;
-        }
-
-        if (isCycleKavouaDilougHaflagaHozer(listCycle)) {
-            return TypeCycle.KavouaDilougHaflagaHozer;
-        }
-
-        return TypeCycle.LoKavoua;
-    }
+   
 
 }

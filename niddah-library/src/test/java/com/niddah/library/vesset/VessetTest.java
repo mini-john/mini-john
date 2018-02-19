@@ -101,7 +101,9 @@ public class VessetTest {
         CycleDto cycleDto3 = Vesset.fillCycleDto(dateStr, latitude, longitude, elevation, locationName, timeZone);
         cycleDto2.setHaflaga(Vesset.getHaflagaEntreDeuxCycle(cycleDto2, cycleDto3));
         listCycle.add(cycleDto3);
-        LOGGER.info("Le cycle est " + Vesset.isCycleKavouaHahodesh(listCycle));
+        boolean resultTest = Vesset.isCycleKavouaHahodesh(listCycle);
+        assertTrue(resultTest);
+        LOGGER.info("Le cycle est " + resultTest);
 
     }
 
@@ -125,7 +127,9 @@ public class VessetTest {
         CycleDto cycleDto3 = Vesset.fillCycleDto(dateStr, latitude, longitude, elevation, locationName, timeZone);
         cycleDto2.setHaflaga(Vesset.getHaflagaEntreDeuxCycle(cycleDto2, cycleDto3));
         listCycle.add(cycleDto3);
-        LOGGER.info("Le cycle est  sur deux ans " + Vesset.isCycleKavouaHahodesh(listCycle));
+        boolean resultTest = Vesset.isCycleKavouaHahodesh(listCycle);
+        assertTrue(resultTest);
+        LOGGER.info("Le cycle est  sur deux ans " + resultTest);
 
     }
 
@@ -153,7 +157,9 @@ public class VessetTest {
         CycleDto cycleDto4 = Vesset.fillCycleDto(dateStr, latitude, longitude, elevation, locationName, timeZone);
         cycleDto4.setHaflaga(Vesset.getHaflagaEntreDeuxCycle(cycleDto3, cycleDto4));
         listCycle.add(cycleDto4);
-        LOGGER.info("Le cycle est hflaga regulier " + Vesset.isCycleKavouaHaflaga(listCycle));
+        boolean resultTest = Vesset.isCycleKavouaHaflaga(listCycle);
+        assertTrue(resultTest);
+        LOGGER.info("Le cycle est haflaga regulier " + resultTest);
 
     }
 
