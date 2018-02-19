@@ -8,6 +8,7 @@ package com.niddah.configuration;
 import com.niddah.captcha.CaptchaSettings;
 import com.niddah.component.MailSenderNiddah;
 import com.niddah.controller.listener.ActiveUserStore;
+import com.niddah.library.dto.AccountDto;
 import com.niddah.library.dto.AdminDto;
 import com.niddah.library.enumeration.EtatAccount;
 import java.io.FileNotFoundException;
@@ -123,9 +124,9 @@ public class AppConfigCore {
         return new ActiveUserStore();
     }
 
-    @Bean
-    public AdminDto getAdmin() {
-        AdminDto adminDto = new AdminDto();
+    @Bean("adminDto")
+    public AccountDto getAdmin() {
+        AccountDto adminDto = new AccountDto();
         adminDto.setLogin(environment.getProperty("admin.login"));
         adminDto.setPassword(environment.getProperty("admin.password"));
         adminDto.setEtatAccount(EtatAccount.actif);

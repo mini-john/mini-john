@@ -7,15 +7,16 @@ package com.niddah.security.service;
 
 import com.niddah.core.entity.Account;
 import com.niddah.core.repository.AccountRepository;
-import com.niddah.library.dto.AdminDto;
+import com.niddah.library.dto.AccountDto;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -42,7 +43,8 @@ public class NiddahUserDetailService implements UserDetailsService {
     @Autowired
     private HttpServletRequest request;
     @Autowired
-    private AdminDto adminDto;
+    @Qualifier(value = "adminDto")
+    private AccountDto adminDto;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -53,15 +55,16 @@ public class NiddahUserDetailService implements UserDetailsService {
         LOGGER.info("User : " + user);
         final String ip = getClientIP();
         LOGGER.info("L'addresse ip est : " + ip);
+        if (StringUtils.equals(userName, adminDto.getLogin())) {
+            return new org.springframework.security.core.userdetails.User(adminDto.getLogin(), passwordEncoder.encode(adminDto.getPassword()),
+                    !adminDto.getAccountBlock(), true, true, true, getGrantedAuthorities(adminDto));
+        }
         if (loginAttemptService.isBlockedUser(ip, user)) {
             user.setAccountBlock(Boolean.TRUE);
             userService.update(user);
             throw new RuntimeException("blocked");
         }
-        if (StringUtils.equals(userName, adminDto.getLogin())) {
-            return new org.springframework.security.core.userdetails.User(adminDto.getLogin(), passwordEncoder.encode(adminDto.getPassword()),
-                    !adminDto.getAccountBlock(), true, true, true, getGrantedAuthorities(adminDto));
-        }
+
         if (user == null) {
             LOGGER.info("User not found");
             throw new UsernameNotFoundException("Username not found");
@@ -78,7 +81,7 @@ public class NiddahUserDetailService implements UserDetailsService {
         return authorities;
     }
 
-    private List<GrantedAuthority> getGrantedAuthorities(AdminDto user) {
+    private List<GrantedAuthority> getGrantedAuthorities(AccountDto user) {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         authorities.add(new SimpleGrantedAuthority("ROLE_Admin"));
 
