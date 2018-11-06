@@ -1,7 +1,9 @@
 package com.niddah.core.repository;
 
+import com.niddah.core.entity.Account;
 import java.util.List;
 import org.hibernate.Criteria;
+import org.hibernate.ReplicationMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
@@ -32,6 +34,8 @@ public class CrudRepository {
         return (T) sessionFactory.getCurrentSession().merge(entity);
 
     }
+
+    
 
     public <T> void update(T entity) {
         sessionFactory.getCurrentSession().saveOrUpdate(entity);

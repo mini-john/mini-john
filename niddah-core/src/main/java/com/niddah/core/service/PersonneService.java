@@ -57,5 +57,15 @@ public class PersonneService extends CrudService {
 
         return super.niddahCastor.convert(personne, PersonneDto.class);
     }
+     public PersonneDto mergeAdmin(PersonneDto entityDTO) {
+
+        Personne object = niddahCastor.convert(entityDTO, Personne.class);
+        object = personneRepository.mergeAdmin(object);
+
+      
+
+        return  niddahCastor.convert(object, entityDTO.getClass());
+
+    }
 
 }

@@ -37,7 +37,7 @@ public class Account implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "account_sequence")
-    @SequenceGenerator(name = "account_sequence", sequenceName = "account_sequence")
+    @SequenceGenerator(name = "account_sequence", sequenceName = "account_sequence" )
     private Long id;
 
     private String login;

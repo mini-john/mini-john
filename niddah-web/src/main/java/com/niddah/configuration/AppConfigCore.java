@@ -10,6 +10,7 @@ import com.niddah.component.MailSenderNiddah;
 import com.niddah.controller.listener.ActiveUserStore;
 import com.niddah.library.dto.AccountDto;
 import com.niddah.library.dto.AdminDto;
+import com.niddah.library.dto.PersonneDto;
 import com.niddah.library.enumeration.EtatAccount;
 import java.io.FileNotFoundException;
 import java.util.Properties;
@@ -39,15 +40,15 @@ import org.springframework.web.client.RestTemplate;
 @ComponentScan(basePackages = "com.niddah")
 @EnableAsync
 public class AppConfigCore {
-
+    
     @Autowired
     private Environment environment;
-
+    
     @Bean
     Mapper newMapper() {
         return new DozerBeanMapper();
     }
-
+    
     @Bean
     CastorMarshaller castorMarshaller() throws FileNotFoundException {
         CastorMarshaller cM = new CastorMarshaller();
@@ -55,7 +56,7 @@ public class AppConfigCore {
         cM.setMappingLocation(resource);
         return cM;
     }
-
+    
     @Bean
     public JavaMailSenderImpl javaMailSenderImpl() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
@@ -70,7 +71,7 @@ public class AppConfigCore {
         prop.put("mail.smtp.auth", "true");
         prop.put("mail.smtp.starttls.enable", "true");
         prop.put("mail.smtp.ssl.trust", "*");
-
+        
         prop.put("mail.debug", "true");
         mailSender.setJavaMailProperties(prop);
         return mailSender;
@@ -83,28 +84,27 @@ public class AppConfigCore {
 //        velocity.setPreferFileSystemAccess(false);
 //        return velocity;
 //    }
-    
     @Bean
     public FreeMarkerConfigurationFactoryBean getFreeMarkerConfiguration() {
         FreeMarkerConfigurationFactoryBean bean = new FreeMarkerConfigurationFactoryBean();
         bean.setTemplateLoaderPath("classpath:template");
         return bean;
     }
-
+    
     @Bean
     public MailSenderNiddah maisSender() {
         return new MailSenderNiddah();
     }
-
+    
     @Bean
     public CaptchaSettings captchaSettings() {
         CaptchaSettings captchaSettings = new CaptchaSettings();
         captchaSettings.setSite(environment.getProperty("google.recaptcha.key.site"));
         captchaSettings.setSecret(environment.getProperty("google.recaptcha.key.secret"));
-
+        
         return captchaSettings;
     }
-
+    
     @Bean
     public ClientHttpRequestFactory clientHttpRequestFactory() {
         SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
@@ -112,28 +112,36 @@ public class AppConfigCore {
         factory.setReadTimeout(7 * 1000);
         return factory;
     }
-
+    
     @Bean
     public RestOperations restTemplate() {
         RestTemplate restTemplate = new RestTemplate(this.clientHttpRequestFactory());
         return restTemplate;
     }
-
+    
     @Bean
     public ActiveUserStore activeUserStore() {
         return new ActiveUserStore();
     }
-
+    
     @Bean("adminDto")
     public AccountDto getAdmin() {
         AccountDto adminDto = new AccountDto();
+        adminDto.setId(1L);
         adminDto.setLogin(environment.getProperty("admin.login"));
         adminDto.setPassword(environment.getProperty("admin.password"));
         adminDto.setEtatAccount(EtatAccount.actif);
         adminDto.setAccountBlock(false);
         adminDto.setMail(environment.getProperty("admin.mail"));
+        PersonneDto personneDto = new PersonneDto();
+        personneDto.setAccount(adminDto);
+        personneDto.setId(1L);
+        personneDto.setNom(environment.getProperty("admin.nom"));
+        personneDto.setPrenom(environment.getProperty("admin.prenom"));
+        adminDto.setPersonne(personneDto);
+        personneDto.setAccount(adminDto);
         return adminDto;
-
+        
     }
 
 //    @Bean 

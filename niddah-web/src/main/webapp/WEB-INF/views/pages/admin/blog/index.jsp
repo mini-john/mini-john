@@ -48,7 +48,7 @@
 
 
 
-        <tag:paginate max="1" offset="${offset}" count="${count}"
+        <tag:paginate max="1" offset="${offset}" count="${count}" division="5"
                       uri="index.do" next="&raquo;" previous="&laquo;" />
     </div>
 </div>

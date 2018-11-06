@@ -29,7 +29,7 @@ public class Personne implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "personne_sequence")
-    @SequenceGenerator(name = "personne_sequence", sequenceName = "personne_sequence")
+    @SequenceGenerator(name = "personne_sequence", sequenceName = "personne_sequence" )
     private Long id;
     private String nom;
     private String prenom;

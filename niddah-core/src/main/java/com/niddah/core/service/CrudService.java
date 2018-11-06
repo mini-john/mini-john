@@ -48,6 +48,7 @@ public class CrudService {
 
     }
 
+   
     public <T> void update(T entityDO, Class entity) {
         Object adherent = niddahCastor.convert(entityDO, entity);
         crudRepository.update(adherent);
