@@ -19,7 +19,7 @@
         <!--<spring.version>4.2.5.RELEASE</spring.version>-->
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <springframework.version>4.3.7.RELEASE</springframework.version>
+        <springframework.version>5.2.5.RELEASE</springframework.version>
         <hibernate.version>4.3.6.Final</hibernate.version>
         <mysql.version>5.1.31</mysql.version>
         <joda-time.version>2.3</joda-time.version>
