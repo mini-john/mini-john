@@ -31,7 +31,8 @@ public class TestDate {
         JewishDate date = DateNiddah.getDateJewish(dateStr);
         LOGGER.info(date.toString());
         Assert.hasText("7 Adar II, 5776", date.toString());
-                Assert.hasText("7 Adar II, 5776", date.toString());
+        Assert.hasText("7 Adar II, 5776", date.toString());
+        Assert.hasText("7 Adar II, 5776", date.toString());
 
     }
 
@@ -46,7 +47,7 @@ public class TestDate {
         TimeZone timeZone = TimeZone.getTimeZone("Europe/Paris");
         GeoLocation location = new GeoLocation(locationName, latitude, longitude, elevation, timeZone);
 
-        Assert.isTrue(true,DateNiddah.isOnatJour(dateStr, location).toString());
+        Assert.isTrue(true, DateNiddah.isOnatJour(dateStr, location).toString());
 
     }
 
@@ -93,6 +94,7 @@ public class TestDate {
         Assert.isTrue(dateAdd.compareTo(dateStr) > 0);
 
     }
+
     @Test
     public void testAddMonthJewishDate() throws ParseException {
         int nbJour = 1;
@@ -103,6 +105,7 @@ public class TestDate {
         Assert.isTrue(dateAdd.compareTo(DateNiddah.getDateJewish(dateStr)) > 0);
 
     }
+
     @Test
     public void testAddMonthJewishDateFull() throws ParseException {
         int nbJour = 1;
@@ -113,5 +116,5 @@ public class TestDate {
         Assert.isTrue(dateAdd.compareTo(DateNiddah.getDateJewish(dateStr)) > 0);
 
     }
-    
+
 }
