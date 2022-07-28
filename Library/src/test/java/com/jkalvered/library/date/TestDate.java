@@ -31,7 +31,6 @@ public class TestDate {
         JewishDate date = DateNiddah.getDateJewish(dateStr);
         LOGGER.info(date.toString());
         Assert.hasText("7 Adar II, 5776", date.toString());
-         Assert.hasText("7 Adar II, 5776", date.toString());
     }
 
     @Test
