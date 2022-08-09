@@ -12,10 +12,12 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Dto modélisant une pricha en fonction de la date du cycle et du type de pricha
+ * Dto modélisant une pricha en fonction de la date du cycle et du type de
+ * pricha
+ *
  * @author mini-john
  */
-public class PrichaDto  implements Serializable{
+public class PrichaDto implements Serializable {
 
     private Long id;
     private Date dateGregorian;
@@ -24,10 +26,10 @@ public class PrichaDto  implements Serializable{
     private int jewishYear;
 
     private String commentaire;
-    
+
     private TypePricha typePricha;
-    private Date date;
-    private JewishDate jDate;
+
+    
     private Date dateBedika1;
     private Date dateBedika2;
     private boolean etatBedika1;
@@ -46,20 +48,22 @@ public class PrichaDto  implements Serializable{
         this.typePricha = typePricha;
     }
 
-    public Date getDate() {
-        return date;
+    public Date setDateGregorian() {
+        return dateGregorian;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDateGregorian(Date dateGregorian) {
+        this.dateGregorian = dateGregorian;
     }
 
     public JewishDate getjDate() {
-        return jDate;
+        return new JewishDate(jewishYear,jewishMont,jewishDay);
     }
 
     public void setjDate(JewishDate jDate) {
-        this.jDate = jDate;
+        this.jewishDay=jDate.getJewishDayOfMonth();
+        this.jewishMont=jDate.getJewishMonth();
+        this.jewishYear=jDate.getJewishYear();
     }
 
     public Date getDateBedika1() {
@@ -118,14 +122,6 @@ public class PrichaDto  implements Serializable{
         this.id = id;
     }
 
-    public Date getDateGregorian() {
-        return dateGregorian;
-    }
-
-    public void setDateGregorian(Date dateGregorian) {
-        this.dateGregorian = dateGregorian;
-    }
-
     public int getJewishDay() {
         return jewishDay;
     }
@@ -160,9 +156,9 @@ public class PrichaDto  implements Serializable{
 
     @Override
     public String toString() {
-        return "PrichaDto{" + "typePricha=" + typePricha + ", date=" + date + ", jDate=" + jDate + ", dateBedika1=" + dateBedika1 + ", dateBedika2=" + dateBedika2 + ", etatBedika1=" + etatBedika1 + ", etatBedika2=" + etatBedika2 + ", haflagaDay=" + haflagaDay + ", ona=" + ona + '}';
+        return "PrichaDto{" + "id=" + id + ", dateGregorian=" + dateGregorian + ", jewishDay=" + jewishDay + ", jewishMont=" + jewishMont + ", jewishYear=" + jewishYear + ", commentaire=" + commentaire + ", typePricha=" + typePricha + ", dateBedika1=" + dateBedika1 + ", dateBedika2=" + dateBedika2 + ", etatBedika1=" + etatBedika1 + ", etatBedika2=" + etatBedika2 + ", haflagaDay=" + haflagaDay + ", ona=" + ona + '}';
     }
 
-   
+    
 
 }

@@ -16,8 +16,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+
+import org.apache.logging.log4j.Logger;
+
 
 /**
  * Classe permettant la manipulation des dates gregoriens et les dates
@@ -29,7 +31,7 @@ public class DateNiddah {
 
     private static SimpleDateFormat formatDateWithHour = new SimpleDateFormat("dd/MM/yyyy HH:m");
     private static SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
-    private static Logger LOGGER = LoggerFactory.getLogger(DateNiddah.class);
+    private static Logger LOGGER = LogManager.getLogger();
 
     /**
      * Prend une chaine de caractère représentant une date
@@ -76,7 +78,8 @@ public class DateNiddah {
 
         Date dateTemp = null;
         switch (DateNiddah.getMomentJournee(date, location)) {
-            case Jour, Matin -> dateTemp = date;
+            case Jour, Matin ->
+                dateTemp = date;
             case Soir -> {
                 Calendar cal = GregorianCalendar.getInstance();
                 cal.setTime(date);
@@ -154,9 +157,7 @@ public class DateNiddah {
     public static MomentJournee getMomentJournee(JewishDate date, GeoLocation location) throws MomentException {
         ZmanimCalendar zc = new ZmanimCalendar(location);
         zc.getCalendar().setTime(date.getGregorianCalendar().getTime());
-        LOGGER.info("Date " + date.getGregorianCalendar().getTime());
-        LOGGER.info("Sunrise" + zc.getSunrise());
-        LOGGER.info("Sunset" + zc.getSunset());
+        
         if (zc.getSunrise().after(date.getGregorianCalendar().getTime())) {
             return MomentJournee.Matin;
         } else if (zc.getSunrise().before(date.getGregorianCalendar().getTime()) && zc.getSunset().after(date.getGregorianCalendar().getTime())) {

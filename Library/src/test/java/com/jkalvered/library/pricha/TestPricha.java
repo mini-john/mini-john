@@ -14,10 +14,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
+
+
 
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 
 /**
  *
@@ -25,12 +28,13 @@ import org.slf4j.LoggerFactory;
  */
 public class TestPricha {
     
-    private static final Logger LOGGER = LoggerFactory.getLogger(TestPricha.class);
+       private static org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger();
+
     
     @Test
     public void testBenonit() throws ParseException {
         Locale.setDefault(Locale.FRENCH);
-        Date dateStr = DateNiddah.parseDateWithHour("17/03/2016 0:24");
+        Date dateStr = DateNiddah.parseDateWithHour("04/08/2022 19:24");
         String locationName = "Nice";
         double latitude = 43.700000;
         double longitude = 7.250000;
@@ -40,7 +44,7 @@ public class TestPricha {
         PrichaDto prichaBenoni = Pricha.getPrichaBenonit(dateStr, location);
         PrichaDto prichaHahodesh = Pricha.getPrichaHahodesh(dateStr, location);
         
-        Date dateStr2 = DateNiddah.parseDateWithHour("17/04/2016 22:24");
+        Date dateStr2 = DateNiddah.parseDateWithHour("04/09/2022 22:24");
         PrichaDto prichaHaflaga = Pricha.getPrichaHaflaga(dateStr, dateStr2, location);
         LOGGER.info("Premiere date " + dateStr + " en hebreu " + DateNiddah.getDateJewish(dateStr));
         LOGGER.info("Pricha Benonit " + prichaBenoni.toString());

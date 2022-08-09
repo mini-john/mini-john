@@ -5,7 +5,6 @@
  */
 package com.jkalvered.library.vesset;
 
-
 import com.jkalvered.core.dto.NiddahDto;
 import com.jkalvered.library.date.DateNiddah;
 import com.jkalvered.library.enumeration.Ona;
@@ -14,14 +13,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
  */
 public class VessetTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(VessetTest.class);
+    private static Logger LOGGER = LogManager.getLogger();
 
     public VessetTest() {
     }

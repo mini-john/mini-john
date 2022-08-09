@@ -13,10 +13,10 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Classe determinant la régularité de la femme
@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
  */
 public class Vesset {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Vesset.class);
+       private static Logger LOGGER = LogManager.getLogger();
 
     /**
      * Pre-rempli un cycleDto

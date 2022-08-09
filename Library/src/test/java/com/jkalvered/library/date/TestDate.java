@@ -11,9 +11,9 @@ import java.util.TimeZone;
 
 import com.kosherjava.zmanim.hebrewcalendar.JewishDate;
 import com.kosherjava.zmanim.util.GeoLocation;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 /**
@@ -22,7 +22,7 @@ import org.springframework.util.Assert;
  */
 public class TestDate {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TestDate.class);
+    private static Logger LOGGER = LogManager.getLogger();
 
     @Test
     public void testDate() throws ParseException {
