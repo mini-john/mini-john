@@ -20,7 +20,6 @@ import org.apache.logging.log4j.LogManager;
 
 import org.apache.logging.log4j.Logger;
 
-
 /**
  * Classe permettant la manipulation des dates gregoriens et les dates
  * hébraïques en fonction de la géolocalisation
@@ -34,7 +33,8 @@ public class DateNiddah {
     private static Logger LOGGER = LogManager.getLogger();
 
     /**
-     * Prend une chaine de caractère représentant une date
+     * Prend une chaine de caractère représentant une date et retourne la date
+     * formaté
      *
      * @param dateStr
      * @return la date sur la forme dd/MM/yyyy
@@ -157,7 +157,7 @@ public class DateNiddah {
     public static MomentJournee getMomentJournee(JewishDate date, GeoLocation location) throws MomentException {
         ZmanimCalendar zc = new ZmanimCalendar(location);
         zc.getCalendar().setTime(date.getGregorianCalendar().getTime());
-        
+
         if (zc.getSunrise().after(date.getGregorianCalendar().getTime())) {
             return MomentJournee.Matin;
         } else if (zc.getSunrise().before(date.getGregorianCalendar().getTime()) && zc.getSunset().after(date.getGregorianCalendar().getTime())) {
@@ -184,6 +184,13 @@ public class DateNiddah {
 
     }
 
+    /**
+     * Ajoute nbJour à la JewishDate
+     *
+     * @param date
+     * @param nbJour
+     * @return
+     */
     public static JewishDate addDay(JewishDate date, int nbJour) {
         Calendar cal = GregorianCalendar.getInstance();
         cal.setTime(date.getGregorianCalendar().getTime());
@@ -192,6 +199,13 @@ public class DateNiddah {
 
     }
 
+    /**
+     * Ajoute nbMonth à la date grégorian
+     *
+     * @param date
+     * @param nbMonth
+     * @return
+     */
     public static Date addMonth(Date date, int nbMonth) {
         Calendar cal = GregorianCalendar.getInstance();
         cal.setTime(date);
@@ -200,38 +214,31 @@ public class DateNiddah {
 
     }
 
-    public static JewishDate addMonth(JewishDate jCal, int nbMonth) {
-        int modulo = 12;
-        if (jCal.isJewishLeapYear()) {
-            modulo = 13;
-        }
-        int newMonth = (jCal.getJewishMonth() % modulo) + nbMonth;
-
-        jCal.setJewishMonth(newMonth);
-        return jCal;
-    }
-
     /**
-     * Ajoute nbMonth à la JewishDate jCal
+     * Ajoute nbMonth à la JewishDate jDate
      *
-     * @param jCal
+     * @param jDate
      * @param nbMonth
      * @return
      */
-    public static JewishDate getNextMonthFull(JewishDate jCal, int nbMonth) {
-        int modulo = 12;
-        if (jCal.isJewishLeapYear()) {
-            modulo = 13;
-        }
-        int newMonth = (jCal.getJewishMonth() % modulo) + nbMonth;
-        jCal.setJewishMonth(newMonth);
-        jCal.setJewishDayOfMonth(30);
-        while (jCal.getDaysInJewishMonth() != 30) {
-            newMonth = (jCal.getJewishMonth() % modulo) + nbMonth;
-            jCal.setJewishMonth(newMonth);
-            jCal.setJewishDayOfMonth(30);
+    public static JewishDate addMonth(JewishDate jDate, int nbMonth) {
+        jDate.forward(Calendar.MONTH, nbMonth);
+        return jDate;
+    }
+
+    /**
+     * Retourne le prochain mois de 3O jours apres jDate
+     *
+     * @param jDate
+     * @return
+     */
+    public static JewishDate getNextMonthFull(JewishDate jDate) {
+
+        jDate.forward(Calendar.MONTH, 1);
+        while (jDate.getDaysInJewishMonth() != 30) {
+            jDate.forward(Calendar.MONTH, 1);
         }
 
-        return jCal;
+        return jDate;
     }
 }
