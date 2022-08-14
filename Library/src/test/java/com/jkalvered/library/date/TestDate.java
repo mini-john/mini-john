@@ -172,26 +172,5 @@ public class TestDate {
         momentJournee = DateNiddah.getMomentJournee(dateStr, location);
         Assert.state(MomentJournee.Soir == momentJournee, "ce n'est pas le soir"+ dateStr);
     }
-    @Test
-    public void testMomentJourneeWithJewishDate() throws ParseException {
-        Date dateStr = DateNiddah.parseDateWithHour("14/08/2022 04:05");
-        JewishDate jDate=DateNiddah.getDateJewish(dateStr);
-        LOGGER.debug("la daet gregorien dans le jewish date"+ jDate.getGregorianCalendar().getTime());
-        String locationName = "Nice";
-        double latitude = 43.700000;
-        double longitude = 7.250000;
-        double elevation = 0;
-        TimeZone timeZone = TimeZone.getTimeZone("Europe/Paris");
-        GeoLocation location = new GeoLocation(locationName, latitude, longitude, elevation, timeZone);
-        MomentJournee momentJournee = DateNiddah.getMomentJournee(jDate, location);
-        Assert.state(MomentJournee.Matin == momentJournee, "ce n'est pas le matin");
-        dateStr = DateNiddah.parseDateWithHour("14/08/2022 08:05");
-        jDate=DateNiddah.getDateJewish(dateStr);
-        momentJournee = DateNiddah.getMomentJournee(jDate, location);
-        Assert.state(MomentJournee.Jour == momentJournee, "ce n'est pas le jour");
-        dateStr = DateNiddah.parseDateWithHour("14/08/2022 21:05");
-        jDate=DateNiddah.getDateJewish(dateStr);
-        momentJournee = DateNiddah.getMomentJournee(jDate, location);
-        Assert.state(MomentJournee.Soir == momentJournee, "ce n'est pas le soir"+ dateStr);
-    }
+   
 }

@@ -145,29 +145,7 @@ public class DateNiddah {
 
     }
 
-    /**
-     * Return le moment de la journée (Matin,Jour,Soir) en fonction de la
-     * géolocalisation
-     *
-     * @param date
-     * @param location
-     * @return
-     * @throws MomentException
-     */
-    public static MomentJournee getMomentJournee(JewishDate date, GeoLocation location) throws MomentException {
-        ZmanimCalendar zc = new ZmanimCalendar(location);
-        zc.getCalendar().setTime(date.getGregorianCalendar().getTime());
-
-        if (zc.getSunrise().after(date.getGregorianCalendar().getTime())) {
-            return MomentJournee.Matin;
-        } else if (zc.getSunrise().before(date.getGregorianCalendar().getTime()) && zc.getSunset().after(date.getGregorianCalendar().getTime())) {
-            return MomentJournee.Jour;
-        } else if (zc.getSunset().before(date.getGregorianCalendar().getTime())) {
-            return MomentJournee.Soir;
-        } else {
-            throw new MomentException("L'heure est incorrect" + date.toString());
-        }
-    }
+   
 
     /**
      * Ajoute nbJour à la date gregorian
