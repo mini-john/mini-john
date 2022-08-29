@@ -6,6 +6,8 @@
 package com.jkalvered.library.date;
 
 import com.jkalvered.library.enumeration.MomentJournee;
+import com.jkalvered.library.enumeration.Ona;
+import com.kosherjava.zmanim.ZmanimCalendar;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.TimeZone;
@@ -23,111 +25,98 @@ import org.springframework.util.Assert;
  */
 public class TestDate {
 
-    private static Logger LOGGER = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger();
 
     @Test
-    public void testSunsetAndSurise() {
-        throw new UnsupportedOperationException("a faire");
+    public void testSunsetAndSurise() throws ParseException {
+        Date dateStr = JkalDate.parseDate("16/08/2022");
+        String locationName = "Paris";
+        double latitude = 48.853;
+        double longitude = 2.349;
+        double elevation = 0;
+        TimeZone timeZone = TimeZone.getTimeZone("Europe/Paris");
+        GeoLocation location = new GeoLocation(locationName, latitude, longitude, elevation, timeZone);
+        ZmanimCalendar zc = new ZmanimCalendar(location);
+        zc.getCalendar().setTime(dateStr);
+
+        Assert.state(zc.getSunrise().toString().equals("Tue Aug 16 06:44:29 CEST 2022"), "Probleme dans l'heure de lever du soleil pour {1}" + locationName);
+        Assert.state(zc.getSunset().toString().equals("Tue Aug 16 21:04:20 CEST 2022"), "Probleme dans l'heure de coucher du soleil pour {1}" + locationName);
 
     }
 
     @Test
     public void testDate() throws ParseException {
-        Date dateStr = DateNiddah.parseDate("17/03/2016");
+        Date dateStr = JkalDate.parseDate("17/03/2016");
 
-        JewishDate date = DateNiddah.getDateJewish(dateStr);
+        JewishDate date = JkalDate.getDateJewish(dateStr);
         LOGGER.info(date.toString());
         Assert.hasText("7 Adar II, 5776", date.toString());
-        Assert.hasText("7 Adar II, 5776", date.toString());
-        Assert.hasText("7 Adar II, 5776", date.toString());
 
     }
 
     @Test
-    public void testOnaJourDateNormal() throws ParseException {
-
-        Date dateStr = DateNiddah.parseDateWithHour("17/03/2016 14:24");
+    public void testDateWithHour() throws ParseException {
+        Date dateStr = JkalDate.parseDateWithHour("29/08/2022 20:13");
         String locationName = "Nice";
-        double latitude = 43.700000;
-        double longitude = 7.250000;
+        double latitude = 43.70;
+        double longitude = 7.27;
         double elevation = 0;
-        TimeZone timeZone = TimeZone.getTimeZone("Europe/Paris");
-        GeoLocation location = new GeoLocation(locationName, latitude, longitude, elevation, timeZone);
+        String timeZone = "Europe/Paris";
+        JkalDate jkal = new JkalDate(dateStr, locationName, latitude, longitude, elevation, timeZone);
+         Assert.isTrue(jkal.getOna()==Ona.Nuit, "Un probleme sur le calcul de la ona existe");
+        LOGGER.info(jkal.toString());
+        LOGGER.info(jkal.getZc().getSeaLevelSunset());
+        LOGGER.info(jkal.getZc().getSunrise()+"lever soleil");
+        LOGGER.info(jkal.getZc().getSunset());
+        LOGGER.info(jkal.getJewishDate().toString());
 
-        Assert.isTrue(DateNiddah.isOnatJour(dateStr, location), "Le test de ona jour a echoué");
+       
 
     }
 
     @Test
-    public void testOnaNuitDateNormal() throws ParseException {
+    public void testOnaJourJKalDate() throws ParseException {
 
-        Date dateStr = DateNiddah.parseDateWithHour("17/03/2016 22:24");
+        Date dateStr = JkalDate.parseDateWithHour("14/08/2022 14:24");
         String locationName = "Nice";
         double latitude = 43.700000;
         double longitude = 7.250000;
         double elevation = 0;
-        TimeZone timeZone = TimeZone.getTimeZone("Europe/Paris");
-        GeoLocation location = new GeoLocation(locationName, latitude, longitude, elevation, timeZone);
+        String timeZone = "Europe/Paris";
 
-        Assert.isTrue(!DateNiddah.isOnatJour(dateStr, location), dateStr.toString() + " n'est pas une ona nuit");
-
+        JkalDate jkalDate = new JkalDate(dateStr, locationName, latitude, longitude, elevation, timeZone);
+        Assert.isTrue(jkalDate.getOna() == Ona.Jour, jkalDate.toString() + " n'est pas une ona jour");
     }
 
     @Test
-    public void testOnaJourJewishDate() throws ParseException {
+    public void testOnaNuitJKalDate() throws ParseException {
 
-        Date dateStr = DateNiddah.parseDateWithHour("14/08/2022 14:24");
+        Date dateStr = JkalDate.parseDateWithHour("14/08/2022 22:24");
         String locationName = "Nice";
         double latitude = 43.700000;
         double longitude = 7.250000;
         double elevation = 0;
-        TimeZone timeZone = TimeZone.getTimeZone("Europe/Paris");
-        GeoLocation location = new GeoLocation(locationName, latitude, longitude, elevation, timeZone);
+        String timeZone = "Europe/Paris";
 
-        JewishDate dateJewish = DateNiddah.getDateJewish(dateStr, location);
-        Assert.isTrue(DateNiddah.isOnatJour(dateJewish, location), dateJewish.toString() + " n'est pas une ona jour");
-
-    }
-
-    @Test
-    public void testOnaNuitJewishDate() throws ParseException {
-
-        Date dateStr = DateNiddah.parseDateWithHour("14/08/2022 22:24");
-        String locationName = "Nice";
-        double latitude = 43.700000;
-        double longitude = 7.250000;
-        double elevation = 0;
-        TimeZone timeZone = TimeZone.getTimeZone("Europe/Paris");
-        GeoLocation location = new GeoLocation(locationName, latitude, longitude, elevation, timeZone);
-        JewishDate dateJewish = DateNiddah.getDateJewish(dateStr, location);
-        Assert.isTrue(!DateNiddah.isOnatJour(dateJewish, location), dateJewish.toString() + " n'est pas une ona nuit");
-
+        JkalDate jkalDate = new JkalDate(dateStr, locationName, latitude, longitude, elevation, timeZone);
+        Assert.isTrue(jkalDate.getOna() == Ona.Nuit, jkalDate.toString() + " n'est pas une ona nuit");
     }
 
     @Test
     public void testAddDate() throws ParseException {
         int nbJour = 4;
-        Date dateStr = DateNiddah.parseDate("17/03/2016");
-        Date dateAdd = DateNiddah.addDay(dateStr, nbJour);
+        Date dateStr = JkalDate.parseDate("17/03/2016");
+        Date dateAdd = JkalDate.addDay(dateStr, nbJour);
 
         Assert.isTrue(dateAdd.compareTo(dateStr) > 0, "L'ajout du nombre de jour à échouer");
 
     }
 
     @Test
-    public void testAddJewishDate() throws ParseException {
-        int nbJour = 4;
-        Date dateStr = DateNiddah.parseDate("17/03/2016");
-        JewishDate dateAdd = DateNiddah.addDay(DateNiddah.getDateJewish(dateStr), nbJour);
-        Assert.isTrue(dateAdd.compareTo(DateNiddah.getDateJewish(dateStr)) > 0, "l'ajout du nombre de jewishday à échouer");
-
-    }
-
-    @Test
     public void testAddMonth() throws ParseException {
         int nbMonth = 1;
-        Date dateStr = DateNiddah.parseDate("17/03/2016");
-        Date dateAdd = DateNiddah.addMonth(dateStr, nbMonth);
+        Date dateStr = JkalDate.parseDate("17/03/2016");
+        Date dateAdd = JkalDate.addMonth(dateStr, nbMonth);
         LOGGER.info(dateAdd.toString());
         Assert.isTrue(dateAdd.compareTo(dateStr) > 0, "l'ajout du nombre de mois à échouer");
 
@@ -136,41 +125,72 @@ public class TestDate {
     @Test
     public void testAddMonthJewishDate() throws ParseException {
         int nbJour = 1;
-        Date dateStr = DateNiddah.parseDate("08/05/2016");
-        JewishDate dateAdd = DateNiddah.addMonth(DateNiddah.getDateJewish(dateStr), nbJour);
-        LOGGER.info(DateNiddah.getDateJewish(dateStr).toString());
+        Date dateStr = JkalDate.parseDate("08/05/2016");
+        JewishDate dateAdd = JkalDate.addMonth(JkalDate.getDateJewish(dateStr), nbJour);
+        LOGGER.info(JkalDate.getDateJewish(dateStr).toString());
         LOGGER.info(dateAdd.toString());
-        Assert.isTrue(dateAdd.compareTo(DateNiddah.getDateJewish(dateStr)) > 0, "l'ajout du nombre de month jewish à echouer");
+        Assert.isTrue(dateAdd.compareTo(JkalDate.getDateJewish(dateStr)) > 0, "l'ajout du nombre de month jewish à echouer");
 
     }
 
     @Test
     public void testGetNextMonthFull() throws ParseException {
-        Date dateStr = DateNiddah.parseDate("27/08/2022");
-        JewishDate dateAdd = DateNiddah.getNextMonthFull(DateNiddah.getDateJewish(dateStr));
-        LOGGER.info(DateNiddah.getDateJewish(dateStr).toString());
+        Date dateStr = JkalDate.parseDate("27/08/2022");
+        JewishDate dateAdd = JkalDate.getNextMonthFull(JkalDate.getDateJewish(dateStr));
+        LOGGER.info(JkalDate.getDateJewish(dateStr).toString());
         LOGGER.info(dateAdd.toString());
-        Assert.isTrue(dateAdd.compareTo(DateNiddah.getDateJewish(dateStr)) > 0, "le prochain moi à 30 jours à échouer");
+        Assert.isTrue(dateAdd.compareTo(JkalDate.getDateJewish(dateStr)) > 0, "le prochain moi à 30 jours à échouer");
 
     }
 
     @Test
     public void testMomentJourneeWithDateGregorian() throws ParseException {
-        Date dateStr = DateNiddah.parseDateWithHour("14/08/2022 04:05");
+        Date dateStr = JkalDate.parseDateWithHour("14/08/2022 04:05");
         String locationName = "Nice";
         double latitude = 43.700000;
         double longitude = 7.250000;
         double elevation = 0;
-        TimeZone timeZone = TimeZone.getTimeZone("Europe/Paris");
-        GeoLocation location = new GeoLocation(locationName, latitude, longitude, elevation, timeZone);
-        MomentJournee momentJournee = DateNiddah.getMomentJournee(dateStr, location);
+        String timeZone = "Europe/Paris";
+        JkalDate jkalDate = new JkalDate(dateStr, locationName, latitude, longitude, elevation, timeZone);
+        MomentJournee momentJournee = jkalDate.getMomentJournee();
+
         Assert.state(MomentJournee.Matin == momentJournee, "ce n'est pas le matin");
-        dateStr = DateNiddah.parseDateWithHour("14/08/2022 08:05");
-        momentJournee = DateNiddah.getMomentJournee(dateStr, location);
+        dateStr = JkalDate.parseDateWithHour("14/08/2022 08:05");
+        jkalDate = new JkalDate(dateStr, locationName, latitude, longitude, elevation, timeZone);
+        momentJournee = jkalDate.getMomentJournee();
         Assert.state(MomentJournee.Jour == momentJournee, "ce n'est pas le jour");
-        dateStr = DateNiddah.parseDateWithHour("14/08/2022 21:05");
-        momentJournee = DateNiddah.getMomentJournee(dateStr, location);
-        Assert.state(MomentJournee.Soir == momentJournee, "ce n'est pas le soir"+ dateStr);
+        dateStr = JkalDate.parseDateWithHour("14/08/2022 21:05");
+        jkalDate = new JkalDate(dateStr, locationName, latitude, longitude, elevation, timeZone);
+        momentJournee = jkalDate.getMomentJournee();
+        Assert.state(MomentJournee.Soir == momentJournee, "ce n'est pas le soir" + dateStr);
     }
-   
+
+    @Test
+    public void getNombreJourEntreDeuxDate() throws ParseException {
+        Date date1 = JkalDate.parseDateWithHour("14/08/2022 04:05");
+        Date date2 = JkalDate.parseDateWithHour("14/09/2022 05:05");
+        int res = JkalDate.getNombreJourEntreDeuxDate(date1, date2);
+        LOGGER.debug("nombre de jour d'intervalle" + res);
+    }
+
+    @Test
+    public void getNombreJourEntreDeuxJKalDate() throws ParseException {
+        String locationName = "Nice";
+        double latitude = 43.700000;
+        double longitude = 7.250000;
+        double elevation = 0;
+        String timeZone = "Europe/Paris";
+        Date date1 = JkalDate.parseDateWithHour("14/08/2022 04:05");
+        Date date2 = JkalDate.parseDateWithHour("14/09/2022 05:05");
+        JkalDate jkal1, jKal2;
+        jkal1 = new JkalDate(date1, locationName, latitude, longitude, elevation, timeZone);
+        jKal2 = new JkalDate(date2, locationName, latitude, longitude, elevation, timeZone);
+        int res = jkal1.getNombreJourEcart(jKal2);
+        Assert.state(res == 32, "Il y a un probleme dans le calcul du nombre de jour d'ecart");
+    }
+
+    @Test
+    public void getNombreJourEntreDeuxJewishDate() {
+        throw new UnsupportedOperationException("a faire");
+    }
 }

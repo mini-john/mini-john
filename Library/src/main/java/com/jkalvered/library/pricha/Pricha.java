@@ -7,7 +7,8 @@ package com.jkalvered.library.pricha;
 
 import com.jkalvered.core.dto.PrichaDto;
 import com.jkalvered.library.constante.Constantes;
-import com.jkalvered.library.date.DateNiddah;
+import com.jkalvered.library.date.JkalDate;
+import com.jkalvered.library.date.JkalDate;
 import com.jkalvered.library.enumeration.Ona;
 import com.jkalvered.library.enumeration.TypePricha;
 import com.jkalvered.library.exception.MomentException;
@@ -46,7 +47,7 @@ public class Pricha {
 //     * @return prichaDto
 //     */
 //    private static void fillPrichaDto(PrichaDto prichaDto, Date dateVue, ZmanimCalendar zc, JewishDate date, GeoLocation location) {
-//        switch (DateNiddah.getMomentJournee(dateVue, location)) {
+//        switch (JkalDate.getMomentJournee(dateVue, location)) {
 //            case Jour -> {
 //                prichaDto.setjDate(date);
 //                prichaDto.setDateGregorian(zc.getCalendar().getTime());
@@ -64,7 +65,7 @@ public class Pricha {
 //            }
 //            case Soir -> {
 //                zc.getCalendar().roll(Calendar.DAY_OF_MONTH, +1);
-//                prichaDto.setjDate(DateNiddah.getDateJewish(zc.getCalendar().getTime()));
+//                prichaDto.setjDate(JkalDate.getDateJewish(zc.getCalendar().getTime()));
 //                prichaDto.setDateGregorian(zc.getCalendar().getTime());
 //                prichaDto.setDateBedika2(zc.getSunrise());
 //                zc.getCalendar().roll(GregorianCalendar.DATE, -1);
@@ -87,16 +88,16 @@ public class Pricha {
      * @return prichaDto
      */
     private static void fillPrichaDto(PrichaDto prichaDto, Date dateVue, ZmanimCalendar zc, Date date, GeoLocation location) {
-        switch (DateNiddah.getMomentJournee(dateVue, location)) {
+        switch (JkalDate.getMomentJournee(dateVue, location)) {
             case Jour -> {
-                prichaDto.setjDate(DateNiddah.getDateJewish(zc.getCalendar().getTime()));
+                prichaDto.setjDate(JkalDate.getDateJewish(zc.getCalendar().getTime()));
                 prichaDto.setDateGregorian(zc.getCalendar().getTime());
                 prichaDto.setDateBedika1(zc.getSunrise());
                 prichaDto.setDateBedika2(zc.getSunset());
                 prichaDto.setOna(Ona.Jour);
             }
             case Matin -> {
-                prichaDto.setjDate(DateNiddah.getDateJewish(zc.getCalendar().getTime()));
+                prichaDto.setjDate(JkalDate.getDateJewish(zc.getCalendar().getTime()));
                 prichaDto.setDateGregorian(zc.getCalendar().getTime());
                 prichaDto.setDateBedika2(zc.getSunrise());
                 zc.getCalendar().roll(Calendar.DAY_OF_MONTH, -1);
@@ -105,7 +106,7 @@ public class Pricha {
             }
             case Soir -> {
                 zc.getCalendar().roll(Calendar.DAY_OF_MONTH, +1);
-                prichaDto.setjDate(DateNiddah.getDateJewish(zc.getCalendar().getTime()));
+                prichaDto.setjDate(JkalDate.getDateJewish(zc.getCalendar().getTime()));
                 prichaDto.setDateGregorian(zc.getCalendar().getTime());
                 prichaDto.setDateBedika2(zc.getSunrise());
                 zc.getCalendar().roll(GregorianCalendar.DATE, -1);
@@ -126,7 +127,7 @@ public class Pricha {
      */
     public static PrichaDto getPrichaBenonit(Date date, GeoLocation location) {
         PrichaDto prichaDto = new PrichaDto();
-        Date dateBenonit = DateNiddah.addDay(date, Constantes.NB_JOUR_ONAT_BENONIT);
+        Date dateBenonit = JkalDate.addDay(date, Constantes.NB_JOUR_ONAT_BENONIT);
         prichaDto.setTypePricha(TypePricha.Benonit);
         ZmanimCalendar zc = new ZmanimCalendar(location);
         zc.getCalendar().setTime(dateBenonit);
@@ -143,7 +144,7 @@ public class Pricha {
      */
     public static PrichaDto getPrichaHahodesh(Date date, GeoLocation location) {
         PrichaDto prichaDto = new PrichaDto();
-        JewishDate dateHahodesh = DateNiddah.addMonth(DateNiddah.getDateJewish(date), 1);
+        JewishDate dateHahodesh = JkalDate.addMonth(JkalDate.getDateJewish(date), 1);
         ZmanimCalendar zc = new ZmanimCalendar(location);
         zc.getCalendar().setTime(dateHahodesh.getGregorianCalendar().getTime());
         prichaDto.setTypePricha(TypePricha.Hahodesh);
@@ -165,7 +166,7 @@ public class Pricha {
             throw new NiddahException("La date 1 : " + date1 + " doit être avant la 2 : " + date2);
         }
         int days = Days.daysBetween(new LocalDate(date1), new LocalDate(date2)).getDays();
-        Date dateHaflaga = DateNiddah.addDay(date2, days - 1);
+        Date dateHaflaga = JkalDate.addDay(date2, days - 1);
         prichaDto.setTypePricha(TypePricha.Haflaga);
         ZmanimCalendar zc = new ZmanimCalendar(location);
         zc.getCalendar().setTime(dateHaflaga);
@@ -184,7 +185,7 @@ public class Pricha {
     public static List<PrichaDto> getPrichaKartiOupleti(Date date, GeoLocation location) {
         List<PrichaDto> kartiOupleti = new ArrayList<>();
         PrichaDto prichaDto = new PrichaDto();
-        Date dateBenonit = DateNiddah.addDay(date, Constantes.NB_JOUR_ONAT_BENONIT);
+        Date dateBenonit = JkalDate.addDay(date, Constantes.NB_JOUR_ONAT_BENONIT);
         prichaDto.setTypePricha(TypePricha.KartiOupleti);
         ZmanimCalendar zc = new ZmanimCalendar(location);
         zc.getCalendar().setTime(dateBenonit);
@@ -194,7 +195,7 @@ public class Pricha {
         prichaComplementaire.setTypePricha(TypePricha.KartiOupleti);
         switch (prichaDto.getOna()) {
             case Jour -> {
-                prichaComplementaire.setjDate(DateNiddah.getDateJewish(zc.getCalendar().getTime()));
+                prichaComplementaire.setjDate(JkalDate.getDateJewish(zc.getCalendar().getTime()));
                 prichaComplementaire.setDateGregorian(zc.getCalendar().getTime());
                 prichaComplementaire.setDateBedika2(zc.getSunrise());
                 zc.getCalendar().roll(Calendar.DAY_OF_MONTH, -1);
@@ -203,7 +204,7 @@ public class Pricha {
             }
             case Nuit -> {
                 zc.getCalendar().roll(Calendar.DAY_OF_MONTH, 1);
-                prichaComplementaire.setjDate(DateNiddah.getDateJewish(zc.getCalendar().getTime()));
+                prichaComplementaire.setjDate(JkalDate.getDateJewish(zc.getCalendar().getTime()));
                 prichaComplementaire.setDateGregorian(zc.getCalendar().getTime());
                 prichaComplementaire.setDateBedika1(zc.getSunrise());
 
@@ -227,7 +228,7 @@ public class Pricha {
     public static List<PrichaDto> getPrichaBenonitHovotDaat(Date date, GeoLocation location) {
         List<PrichaDto> hovotDaat = new ArrayList<>();
         PrichaDto prichaDto = new PrichaDto();
-        Date dateBenonit = DateNiddah.addDay(date, Constantes.NB_JOUR_ONAT_BENONIT);
+        Date dateBenonit = JkalDate.addDay(date, Constantes.NB_JOUR_ONAT_BENONIT);
         prichaDto.setTypePricha(TypePricha.HovotDaat);
         ZmanimCalendar zc = new ZmanimCalendar(location);
         zc.getCalendar().setTime(dateBenonit);
@@ -235,7 +236,7 @@ public class Pricha {
         hovotDaat.add(prichaDto);
 
         prichaDto = new PrichaDto();
-        dateBenonit = DateNiddah.addDay(date, Constantes.NB_JOUR_ONAT_BENONIT_HOVOT_DAAT);
+        dateBenonit = JkalDate.addDay(date, Constantes.NB_JOUR_ONAT_BENONIT_HOVOT_DAAT);
         prichaDto.setTypePricha(TypePricha.HovotDaat);
         zc.getCalendar().setTime(dateBenonit);
         fillPrichaDto(prichaDto, date, zc, dateBenonit, location);
@@ -255,7 +256,7 @@ public class Pricha {
         ZmanimCalendar zc = new ZmanimCalendar(location);
 
         PrichaDto prichaDto = new PrichaDto();
-        Date dateBenonit = DateNiddah.addDay(date, Constantes.NB_JOUR_ONAT_BENONIT);
+        Date dateBenonit = JkalDate.addDay(date, Constantes.NB_JOUR_ONAT_BENONIT);
         prichaDto.setTypePricha(TypePricha.HoutChani);
         zc.getCalendar().setTime(dateBenonit);
         fillPrichaDto(prichaDto, date, zc, dateBenonit, location);
@@ -264,7 +265,7 @@ public class Pricha {
         prichaComplementaire.setTypePricha(TypePricha.HoutChani);
         switch (prichaDto.getOna()) {
             case Jour -> {
-                prichaComplementaire.setjDate(DateNiddah.getDateJewish(zc.getCalendar().getTime()));
+                prichaComplementaire.setjDate(JkalDate.getDateJewish(zc.getCalendar().getTime()));
                 prichaComplementaire.setDateGregorian(zc.getCalendar().getTime());
                 prichaComplementaire.setDateBedika2(zc.getSunrise());
                 zc.getCalendar().roll(Calendar.DAY_OF_MONTH, -1);
@@ -273,7 +274,7 @@ public class Pricha {
             }
             case Nuit -> {
                 zc.getCalendar().roll(Calendar.DAY_OF_MONTH, 1);
-                prichaComplementaire.setjDate(DateNiddah.getDateJewish(zc.getCalendar().getTime()));
+                prichaComplementaire.setjDate(JkalDate.getDateJewish(zc.getCalendar().getTime()));
                 prichaComplementaire.setDateGregorian(zc.getCalendar().getTime());
                 prichaComplementaire.setDateBedika1(zc.getSunrise());
 
@@ -286,7 +287,7 @@ public class Pricha {
         houtChani.add(prichaComplementaire);
 
         prichaDto = new PrichaDto();
-        dateBenonit = DateNiddah.addDay(date, Constantes.NB_JOUR_ONAT_BENONIT_HOVOT_DAAT);
+        dateBenonit = JkalDate.addDay(date, Constantes.NB_JOUR_ONAT_BENONIT_HOVOT_DAAT);
         prichaDto.setTypePricha(TypePricha.HoutChani);
         zc.getCalendar().setTime(dateBenonit);
         fillPrichaDto(prichaDto, date, zc, dateBenonit, location);
@@ -295,7 +296,7 @@ public class Pricha {
         prichaComplementaire.setTypePricha(TypePricha.HoutChani);
         switch (prichaDto.getOna()) {
             case Jour -> {
-                prichaComplementaire.setjDate(DateNiddah.getDateJewish(zc.getCalendar().getTime()));
+                prichaComplementaire.setjDate(JkalDate.getDateJewish(zc.getCalendar().getTime()));
                 prichaComplementaire.setDateGregorian(zc.getCalendar().getTime());
                 prichaComplementaire.setDateBedika2(zc.getSunrise());
                 zc.getCalendar().roll(Calendar.DAY_OF_MONTH, -1);
@@ -304,7 +305,7 @@ public class Pricha {
             }
             case Nuit -> {
                 zc.getCalendar().roll(Calendar.DAY_OF_MONTH, 1);
-                prichaComplementaire.setjDate(DateNiddah.getDateJewish(zc.getCalendar().getTime()));
+                prichaComplementaire.setjDate(JkalDate.getDateJewish(zc.getCalendar().getTime()));
                 prichaComplementaire.setDateGregorian(zc.getCalendar().getTime());
                 prichaComplementaire.setDateBedika1(zc.getSunrise());
 
@@ -350,7 +351,7 @@ public class Pricha {
         pricha.setTypePricha(TypePricha.OrZaroua);
         switch (pricha.getOna()) {
             case Jour -> {
-                prichaPrecedente.setjDate(DateNiddah.getDateJewish(zc.getCalendar().getTime()));
+                prichaPrecedente.setjDate(JkalDate.getDateJewish(zc.getCalendar().getTime()));
                 prichaPrecedente.setDateGregorian(zc.getCalendar().getTime());
                 prichaPrecedente.setDateBedika2(zc.getSunrise());
                 zc.getCalendar().roll(Calendar.DAY_OF_MONTH, -1);
@@ -359,7 +360,7 @@ public class Pricha {
             }
             case Nuit -> {
                 zc.getCalendar().roll(Calendar.DAY_OF_MONTH, -1);
-                prichaPrecedente.setjDate(DateNiddah.getDateJewish(zc.getCalendar().getTime()));
+                prichaPrecedente.setjDate(JkalDate.getDateJewish(zc.getCalendar().getTime()));
                 prichaPrecedente.setDateGregorian(zc.getCalendar().getTime());
                 prichaPrecedente.setDateBedika1(zc.getSunrise());
 

@@ -1,18 +1,14 @@
 package com.jkalvered.library.vesset;
 
-
-
 import com.jkalvered.core.dto.JewishDateEcart;
 import com.jkalvered.core.dto.NiddahDto;
-import com.jkalvered.library.date.DateNiddah;
-import com.jkalvered.library.enumeration.Ona;
+import com.jkalvered.library.date.JkalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.TimeZone;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.Days;
@@ -25,7 +21,7 @@ import org.joda.time.LocalDate;
  */
 public class Vesset {
 
-       private static Logger LOGGER = LogManager.getLogger();
+    private static Logger LOGGER = LogManager.getLogger();
 
     /**
      * Pre-rempli un cycleDto
@@ -38,15 +34,15 @@ public class Vesset {
      * @param timezone
      * @return
      */
-    public static NiddahDto fillNiddahDto(Date date, double latitude, double longitude, double elevation, String locationName, TimeZone timezone) {
+    public static NiddahDto fillNiddahDto(Date date, double latitude, double longitude, double elevation, String locationName, String timezone) {
         NiddahDto cycleDto = new NiddahDto();
+        JkalDate jKalDate = new JkalDate(date, locationName, latitude, longitude, elevation, timezone);
         cycleDto.setDate(date);
         cycleDto.setLatitude(latitude);
         cycleDto.setLongitude(longitude);
         cycleDto.setElevation(elevation);
-        cycleDto.setOna(DateNiddah.isOnatJour(date, cycleDto.getLGeolocation(locationName, timezone))
-                ? Ona.Jour : Ona.Nuit);
-        cycleDto.setjDate(DateNiddah.getDateJewish(date, cycleDto.getLGeolocation(locationName, timezone)));
+        cycleDto.setOna(jKalDate.getOna());
+        cycleDto.setjDate(jKalDate.getJewishDate());
         return cycleDto;
 
     }
@@ -63,15 +59,16 @@ public class Vesset {
      * @param cyclePrecedent
      * @return
      */
-    public static NiddahDto fillNiddahDto(Date date, double latitude, double longitude, double elevation, String locationName, TimeZone timezone, NiddahDto cyclePrecedent) {
+    public static NiddahDto fillNiddahDto(Date date, double latitude, double longitude, double elevation, String locationName, String timezone, NiddahDto cyclePrecedent) {
+        JkalDate jKalDate = new JkalDate(date, locationName, latitude, longitude, elevation, timezone);
+
         NiddahDto cycleDto = new NiddahDto();
         cycleDto.setDate(date);
         cycleDto.setLatitude(latitude);
         cycleDto.setLongitude(longitude);
         cycleDto.setElevation(elevation);
-        cycleDto.setOna(DateNiddah.isOnatJour(date, cycleDto.getLGeolocation(locationName, timezone))
-                ? Ona.Jour : Ona.Nuit);
-        cycleDto.setjDate(DateNiddah.getDateJewish(date, cycleDto.getLGeolocation(locationName, timezone)));
+        cycleDto.setOna(jKalDate.getOna());
+        cycleDto.setjDate(jKalDate.getJewishDate());
         cycleDto.setHaflaga(getHaflagaEntreDeuxCycle(cyclePrecedent, cycleDto));
         return cycleDto;
 
@@ -91,7 +88,7 @@ public class Vesset {
 
     /**
      * Determine si le cycle est régulier selon le jour du mois
-     * 
+     *
      * @param listCycle liste des 3 derniers cycles
      * @return
      */
@@ -339,7 +336,5 @@ public class Vesset {
                 && groupList.get(0).equals(groupList.get(2));
 
     }
-
-   
 
 }

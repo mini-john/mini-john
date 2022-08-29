@@ -7,7 +7,8 @@ package com.jkalvered.library.pricha;
 
 
 import com.jkalvered.core.dto.PrichaDto;
-import com.jkalvered.library.date.DateNiddah;
+import com.jkalvered.library.date.JkalDate;
+import com.jkalvered.library.date.JkalDate;
 import com.kosherjava.zmanim.util.GeoLocation;
 import java.text.ParseException;
 import java.util.Date;
@@ -15,7 +16,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
 
 
 
@@ -34,7 +34,7 @@ public class TestPricha {
     @Test
     public void testBenonit() throws ParseException {
         Locale.setDefault(Locale.FRENCH);
-        Date dateStr = DateNiddah.parseDateWithHour("04/08/2022 19:24");
+        Date dateStr = JkalDate.parseDateWithHour("04/08/2022 19:24");
         String locationName = "Nice";
         double latitude = 43.700000;
         double longitude = 7.250000;
@@ -44,20 +44,20 @@ public class TestPricha {
         PrichaDto prichaBenoni = Pricha.getPrichaBenonit(dateStr, location);
         PrichaDto prichaHahodesh = Pricha.getPrichaHahodesh(dateStr, location);
         
-        Date dateStr2 = DateNiddah.parseDateWithHour("04/09/2022 22:24");
+        Date dateStr2 = JkalDate.parseDateWithHour("04/09/2022 22:24");
         PrichaDto prichaHaflaga = Pricha.getPrichaHaflaga(dateStr, dateStr2, location);
-        LOGGER.info("Premiere date " + dateStr + " en hebreu " + DateNiddah.getDateJewish(dateStr));
+        LOGGER.info("Premiere date " + dateStr + " en hebreu " + JkalDate.getDateJewish(dateStr));
         LOGGER.info("Pricha Benonit " + prichaBenoni.toString());
         
         LOGGER.info("Pricha Hahodesh" + prichaHahodesh.toString());
-        LOGGER.info("Deuxieme date " + dateStr2 + " en hebreu " + DateNiddah.getDateJewish(dateStr2));
+        LOGGER.info("Deuxieme date " + dateStr2 + " en hebreu " + JkalDate.getDateJewish(dateStr2));
         LOGGER.info("Pricha Haflaga " + prichaHaflaga.toString());
     }
     
     @Test
     public void testHoutChani() throws ParseException {
         Locale.setDefault(Locale.FRENCH);
-        Date dateStr = DateNiddah.parseDateWithHour("17/03/2016 15:24");
+        Date dateStr = JkalDate.parseDateWithHour("17/03/2016 15:24");
         String locationName = "Nice";
         double latitude = 43.700000;
         double longitude = 7.250000;
@@ -73,7 +73,7 @@ public class TestPricha {
     @Test
     public void testOrZaroua() throws ParseException {
         Locale.setDefault(Locale.FRENCH);
-        Date dateStr = DateNiddah.parseDateWithHour("17/03/2016 0:24");
+        Date dateStr = JkalDate.parseDateWithHour("17/03/2016 0:24");
         String locationName = "Nice";
         double latitude = 43.700000;
         double longitude = 7.250000;
@@ -83,13 +83,13 @@ public class TestPricha {
         PrichaDto prichaBenoni = Pricha.getPrichaBenonit(dateStr, location);
         PrichaDto prichaHahodesh = Pricha.getPrichaHahodesh(dateStr, location);
         
-        Date dateStr2 = DateNiddah.parseDateWithHour("17/04/2016 22:24");
+        Date dateStr2 = JkalDate.parseDateWithHour("17/04/2016 22:24");
         PrichaDto prichaHaflaga = Pricha.getPrichaHaflaga(dateStr, dateStr2, location);
-        LOGGER.info("Premiere date " + dateStr + " en hebreu " + DateNiddah.getDateJewish(dateStr));
+        LOGGER.info("Premiere date " + dateStr + " en hebreu " + JkalDate.getDateJewish(dateStr));
         LOGGER.info("Pricha Benonit " + prichaBenoni.toString());
         
         LOGGER.info("Pricha Hahodesh" + prichaHahodesh.toString());
-        LOGGER.info("Deuxieme date " + dateStr2 + " en hebreu " + DateNiddah.getDateJewish(dateStr2));
+        LOGGER.info("Deuxieme date " + dateStr2 + " en hebreu " + JkalDate.getDateJewish(dateStr2));
         LOGGER.info("Pricha Haflaga " + prichaHaflaga.toString());
         
         List<PrichaDto> orZaroua=Pricha.prichaOrZaroua(prichaBenoni, prichaHahodesh, prichaHaflaga, location);
