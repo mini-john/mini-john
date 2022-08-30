@@ -16,6 +16,7 @@ import com.kosherjava.zmanim.hebrewcalendar.JewishDate;
 import com.kosherjava.zmanim.util.GeoLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.joda.time.DateTime;
 import org.junit.Test;
 import org.springframework.util.Assert;
 
@@ -57,19 +58,18 @@ public class TestDate {
     @Test
     public void testDateWithHour() throws ParseException {
         Date dateStr = JkalDate.parseDateWithHour("29/08/2022 20:13");
+        Date dateRes = JkalDate.parseDateWithHour("29/08/2022 20:12");
+        DateTime dateTimeRes=new DateTime(dateRes);
         String locationName = "Nice";
         double latitude = 43.70;
         double longitude = 7.27;
         double elevation = 0;
         String timeZone = "Europe/Paris";
         JkalDate jkal = new JkalDate(dateStr, locationName, latitude, longitude, elevation, timeZone);
+        DateTime dateJkal=new DateTime(jkal.getCoucherSoleil());
         Assert.isTrue(jkal.getOna() == Ona.Nuit, "Un probleme sur le calcul de la ona existe");
-        Assert.isTrue(jkal.getOna() == Ona.Nuit, timeZone);
-        LOGGER.info(jkal.toString());
-        LOGGER.info(jkal.getZc().getSeaLevelSunset());
-        LOGGER.info(jkal.getZc().getSunrise() + "lever soleil");
-        LOGGER.info(jkal.getZc().getSunset());
-        LOGGER.info(jkal.getJewishDate().toString());
+        Assert.isTrue(dateTimeRes.isEqual(dateJkal), "Un probleme est survenu lors du calcul du coucher du soleil");
+        
         
     }
     

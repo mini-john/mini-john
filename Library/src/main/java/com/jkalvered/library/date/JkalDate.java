@@ -134,6 +134,30 @@ public class JkalDate extends JewishDate {
         return new GeoLocation(locationName, latitude, longitude, elevation, timeZone);
     }
 
+    /**
+     * Retourne le coucher du soleil en fonction de la localisation
+     *
+     * @return date du coucher du soleil
+     */
+    public Date getCoucherSoleil() {
+        return this.zc.getSunrise();
+    }
+
+    /**
+     * Retourne le lever du soleil en fonction de la localisation
+     *
+     * @return date du lever du soleil
+     */
+    public Date getLeverSoleil() {
+        return this.zc.getSunset();
+    }
+
+    /**
+     * Retourne la JewishDate en fonction de l'heure de la dateGregorian en
+     * prenant en compte la nuit ou le jour
+     *
+     * @return la jewish date
+     */
     public JewishDate getJewishDate() {
         Date dateTemp = null;
         switch (getMomentJournee()) {
@@ -150,6 +174,11 @@ public class JkalDate extends JewishDate {
         return new JewishDate(dateTemp);
     }
 
+    /**
+     * Retourne le moment de la journee de dateGregorian
+     *
+     * @return MomentJournee
+     */
     public MomentJournee getMomentJournee() {
         if (zc.getSunrise().after(dateGregorian)) {
             return MomentJournee.Matin;
@@ -170,13 +199,18 @@ public class JkalDate extends JewishDate {
         return calendar;
     }
 
+    /**
+     * Retourne la Ona de la DateGregorian
+     * @return la ona
+     */
     public Ona getOna() {
 
         this.zc.getCalendar().setTime(dateGregorian);
         return this.zc.getSunrise().before(dateGregorian) && this.zc.getSunset().after(dateGregorian) ? Ona.Jour : Ona.Nuit;
 
     }
-    public int getNombreJourEcart(Date date){
+
+    public int getNombreJourEcart(Date date) {
         int res = 0;
         if (0 <= dateGregorian.compareTo(date)) {
             throw new NiddahException("La date 1 " + dateGregorian.toString() + " doit etre avant la date 2 " + date.toString());
@@ -185,7 +219,8 @@ public class JkalDate extends JewishDate {
 
         return res + 1;
     }
-    public int getNombreJourEcart(JkalDate date){
+
+    public int getNombreJourEcart(JkalDate date) {
         int res = 0;
         if (0 <= dateGregorian.compareTo(date.getDateGregorian())) {
             throw new NiddahException("La date 1 " + dateGregorian.toString() + " doit etre avant la date 2 " + date.toString());
