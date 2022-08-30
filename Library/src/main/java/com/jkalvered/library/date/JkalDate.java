@@ -28,6 +28,160 @@ import org.joda.time.LocalDate;
  * @author jonat
  */
 public class JkalDate extends JewishDate {
+    private static final SimpleDateFormat formatDateWithHour = new SimpleDateFormat("dd/MM/yyyy HH:m");
+    private static final SimpleDateFormat formatDateWithHourAndMinute = new SimpleDateFormat("dd/MM/yyyy HH:m:s");
+    private static final SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+    private static Logger LOGGER = LogManager.getLogger();
+    /**
+     * Prend une chaine de caractère représentant une date et retourne la date
+     * formaté
+     *
+     * @param dateStr
+     * @return la date sur la forme dd/MM/yyyy
+     * @throws ParseException
+     */
+    public static Date parseDate(String dateStr) throws ParseException {
+        return formatDate.parse(dateStr);
+    }
+    /**
+     * Prend une chaine de caractère représentant une date avec une heure
+     *
+     * @param dateStr
+     * @return la date sur la forme dd/MM/yyyy HH:mm
+     * @throws ParseException
+     */
+    public static Date parseDateWithHour(String dateStr) throws ParseException {
+        return formatDateWithHour.parse(dateStr);
+    }
+    /**
+     * Prend une chaine de caractère représentant une date avec une heure et des
+     * minutes
+     *
+     * @param dateStr
+     * @return la date sur la forme dd/MM/yyyy HH:mm
+     * @throws ParseException
+     */
+    public static Date parseDateWithHourAndMinute(String dateStr) throws ParseException {
+        return formatDateWithHourAndMinute.parse(dateStr);
+    }
+    /**
+     * Ajoute nbJour à la date gregorian
+     *
+     * @param date
+     * @param nbJour
+     * @return
+     */
+    public static Date addDay(Date date, int nbJour) {
+        Calendar cal = GregorianCalendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DAY_OF_MONTH, nbJour);
+        return cal.getTime();
+        
+    }
+    /**
+     * Ajoute nbMonth à la date grégorian
+     *
+     * @param date
+     * @param nbMonth
+     * @return
+     */
+    public static Date addMonth(Date date, int nbMonth) {
+        Calendar cal = GregorianCalendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.MONTH, nbMonth);
+        return cal.getTime();
+        
+    }
+    /**
+     * Retourne le prochain mois de 3O jours apres jDate
+     *
+     * @param jDate
+     * @return
+     */
+    public static JewishDate getNextMonthFull(JewishDate jDate) {
+        
+        jDate.forward(Calendar.MONTH, 1);
+        while (jDate.getDaysInJewishMonth() != 30) {
+            jDate.forward(Calendar.MONTH, 1);
+        }
+        
+        return jDate;
+    }
+    /**
+     * Return le moment de la journée (Matin,Jour,Soir) en fonction de la
+     * géolocalisation
+     *
+     * @param date
+     * @param location
+     * @return
+     * @throws MomentException
+     * @deprecated a remplacer par un objet jKalDate
+     */
+    @Deprecated()
+    public static MomentJournee getMomentJournee(Date date, GeoLocation location) throws MomentException {
+        ZmanimCalendar zc = new ZmanimCalendar(location);
+        zc.getCalendar().setTime(date);
+        
+        if (zc.getSunrise().after(date)) {
+            return MomentJournee.Matin;
+        } else if (zc.getSunrise().before(date) && zc.getSunset().after(date)) {
+            return MomentJournee.Jour;
+        } else if (zc.getSunset().before(date)) {
+            return MomentJournee.Soir;
+        } else {
+            throw new MomentException("L'heure est incorrect" + date.toString());
+            
+        }
+        
+    }
+    /**
+     * Return la date hébraique associé a la date gregorian sans tenir compte de
+     * l'heure et de la localisation
+     *
+     * @param date
+     * @return
+     */
+    public static JewishDate getDateJewish(Date date) {
+        
+        return new JewishDate(date);
+    }
+    /**
+     * Return la date juive associé à la date gregorian en fonction de la
+     * geolocalisation
+     *
+     * @param date
+     * @param location
+     * @return
+     * @deprecated
+     */
+    @Deprecated
+    public static JewishDate getDateJewish(Date date, GeoLocation location) {
+        
+        Date dateTemp = null;
+        switch (JkalDate.getMomentJournee(date, location)) {
+            case Jour, Matin ->
+                dateTemp = date;
+            case Soir -> {
+                Calendar cal = GregorianCalendar.getInstance();
+                cal.setTime(date);
+                cal.add(Calendar.DAY_OF_MONTH, 1);
+                dateTemp = cal.getTime();
+            }
+            
+        }
+        return new JewishDate(dateTemp);
+    }
+    /**
+     * Ajoute nbMonth à la JewishDate jDate
+     *
+     * @param jDate
+     * @param nbMonth
+     * @return
+     */
+    public static JewishDate addMonth(JewishDate jDate, int nbMonth) {
+        jDate.forward(Calendar.MONTH, nbMonth);
+        return jDate;
+    }
 
     private Date dateGregorian;
     private int hours;
@@ -140,7 +294,7 @@ public class JkalDate extends JewishDate {
      * @return date du coucher du soleil
      */
     public Date getCoucherSoleil() {
-        return this.zc.getSunrise();
+        return this.zc.getSunset();
     }
 
     /**
@@ -149,7 +303,8 @@ public class JkalDate extends JewishDate {
      * @return date du lever du soleil
      */
     public Date getLeverSoleil() {
-        return this.zc.getSunset();
+        return this.zc.getSunrise();
+
     }
 
     /**
@@ -201,6 +356,7 @@ public class JkalDate extends JewishDate {
 
     /**
      * Retourne la Ona de la DateGregorian
+     *
      * @return la ona
      */
     public Ona getOna() {
@@ -210,6 +366,12 @@ public class JkalDate extends JewishDate {
 
     }
 
+    /**
+     * Retourne le nombre de jour d'ecart entre les 2 dates
+     *
+     * @param date
+     * @return
+     */
     public int getNombreJourEcart(Date date) {
         int res = 0;
         if (0 <= dateGregorian.compareTo(date)) {
@@ -220,6 +382,12 @@ public class JkalDate extends JewishDate {
         return res + 1;
     }
 
+    /**
+     * Retourne le nombre de jour d'ecart entre les 2 dates
+     *
+     * @param date de type jkaldate
+     * @return
+     */
     public int getNombreJourEcart(JkalDate date) {
         int res = 0;
         if (0 <= dateGregorian.compareTo(date.getDateGregorian())) {
@@ -233,175 +401,6 @@ public class JkalDate extends JewishDate {
     @Override
     public String toString() {
         return "JkalDate{" + "dateGregorian=" + dateGregorian + ", hours=" + hours + ", min=" + min + ", locationName=" + locationName + ", latitude=" + latitude + ", longitude=" + longitude + ", elevation=" + elevation + ", timeZone=" + timeZone + ", Ona=" + getOna() + '}';
-    }
-
-    private static final SimpleDateFormat formatDateWithHour = new SimpleDateFormat("dd/MM/yyyy HH:m");
-    private static final SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
-    private static Logger LOGGER = LogManager.getLogger();
-
-    /**
-     * Prend une chaine de caractère représentant une date et retourne la date
-     * formaté
-     *
-     * @param dateStr
-     * @return la date sur la forme dd/MM/yyyy
-     * @throws ParseException
-     */
-    public static Date parseDate(String dateStr) throws ParseException {
-        return formatDate.parse(dateStr);
-    }
-
-    /**
-     * Prend une chaine de caractère représentant une date avec une heure
-     *
-     * @param dateStr
-     * @return la date sur la forme dd/MM/yyyy HH:mm
-     * @throws ParseException
-     */
-    public static Date parseDateWithHour(String dateStr) throws ParseException {
-        return formatDateWithHour.parse(dateStr);
-    }
-
-    /**
-     * Ajoute nbJour à la date gregorian
-     *
-     * @param date
-     * @param nbJour
-     * @return
-     */
-    public static Date addDay(Date date, int nbJour) {
-        Calendar cal = GregorianCalendar.getInstance();
-        cal.setTime(date);
-        cal.add(Calendar.DAY_OF_MONTH, nbJour);
-        return cal.getTime();
-
-    }
-
-    /**
-     * Ajoute nbMonth à la date grégorian
-     *
-     * @param date
-     * @param nbMonth
-     * @return
-     */
-    public static Date addMonth(Date date, int nbMonth) {
-        Calendar cal = GregorianCalendar.getInstance();
-        cal.setTime(date);
-        cal.add(Calendar.MONTH, nbMonth);
-        return cal.getTime();
-
-    }
-
-    /**
-     * Retourne le prochain mois de 3O jours apres jDate
-     *
-     * @param jDate
-     * @return
-     */
-    public static JewishDate getNextMonthFull(JewishDate jDate) {
-
-        jDate.forward(Calendar.MONTH, 1);
-        while (jDate.getDaysInJewishMonth() != 30) {
-            jDate.forward(Calendar.MONTH, 1);
-        }
-
-        return jDate;
-    }
-
-    /**
-     * Return le moment de la journée (Matin,Jour,Soir) en fonction de la
-     * géolocalisation
-     *
-     * @param date
-     * @param location
-     * @return
-     * @throws MomentException
-     * @deprecated a remplacer par un objet jKalDate
-     */
-    @Deprecated()
-    public static MomentJournee getMomentJournee(Date date, GeoLocation location) throws MomentException {
-        ZmanimCalendar zc = new ZmanimCalendar(location);
-        zc.getCalendar().setTime(date);
-
-        if (zc.getSunrise().after(date)) {
-            return MomentJournee.Matin;
-        } else if (zc.getSunrise().before(date) && zc.getSunset().after(date)) {
-            return MomentJournee.Jour;
-        } else if (zc.getSunset().before(date)) {
-            return MomentJournee.Soir;
-        } else {
-            throw new MomentException("L'heure est incorrect" + date.toString());
-
-        }
-
-    }
-
-    /**
-     * Return la date hébraique associé a la date gregorian
-     *
-     * @param date
-     * @return
-     */
-    public static JewishDate getDateJewish(Date date) {
-
-        return new JewishDate(date);
-    }
-
-    /**
-     * Return la date juive associé à la date gregorian en fonction de la
-     * geolocalisation
-     *
-     * @param date
-     * @param location
-     * @return
-     */
-    public static JewishDate getDateJewish(Date date, GeoLocation location) {
-
-        Date dateTemp = null;
-        switch (JkalDate.getMomentJournee(date, location)) {
-            case Jour, Matin ->
-                dateTemp = date;
-            case Soir -> {
-                Calendar cal = GregorianCalendar.getInstance();
-                cal.setTime(date);
-                cal.add(Calendar.DAY_OF_MONTH, 1);
-                dateTemp = cal.getTime();
-            }
-
-        }
-        return new JewishDate(dateTemp);
-    }
-
-    /**
-     * Ajoute nbMonth à la JewishDate jDate
-     *
-     * @param jDate
-     * @param nbMonth
-     * @return
-     */
-    public static JewishDate addMonth(JewishDate jDate, int nbMonth) {
-        jDate.forward(Calendar.MONTH, nbMonth);
-        return jDate;
-    }
-
-    public static int getNombreJourEntreDeuxDate(Date date1, Date date2) {
-        int res = 0;
-        if (0 <= date1.compareTo(date2)) {
-            throw new NiddahException("La date 1 " + date1.toString() + " doit etre avant la date 2 " + date2.toString());
-        }
-        res = Days.daysBetween(new LocalDate(date1), new LocalDate(date2)).getDays();
-
-        return res + 1;
-    }
-
-    public static int getNombreJourEntreDeuxJewishDate(JewishDate date1, JewishDate date2) {
-        int res = 0;
-        if (0 <= date1.compareTo(date2)) {
-            throw new NiddahException("La date 1 " + date1.toString() + " doit etre avant la date 2 " + date2.toString());
-        }
-        res = Days.daysBetween(new LocalDate(date1), new LocalDate(date2)).getDays();
-
-        return res + 1;
     }
 
 }
