@@ -5,22 +5,15 @@
  */
 package com.jkalvered.library.pricha;
 
-
 import com.jkalvered.core.dto.PrichaDto;
 import com.jkalvered.library.date.JkalDate;
-import com.jkalvered.library.date.JkalDate;
-import com.kosherjava.zmanim.util.GeoLocation;
+import com.jkalvered.library.enumeration.Ona;
 import java.text.ParseException;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
 import org.apache.logging.log4j.LogManager;
-
-
-
+import org.javatuples.Pair;
 import org.junit.Test;
-
+import org.springframework.util.Assert;
 
 /**
  *
@@ -28,72 +21,69 @@ import org.junit.Test;
  */
 public class TestPricha {
     
-       private static org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger();
+    private static org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger();
+    
+    @Test
+    public void testPrichaBenonit() throws ParseException {
+        String locationName = "Nice";
+        double latitude = 43.700000;
+        double longitude = 7.250000;
+        double elevation = 0;
+        String timeZone = "Europe/Paris";
+        Date date1 = JkalDate.parseDateWithHour("14/08/2022 04:05");
+        PrichaDto pricha = Pricha.getPrichaBenonit(date1, locationName, latitude, longitude, elevation, timeZone);
+        Assert.isTrue(pricha.getOna() == Ona.Nuit, "Il ya un problème sur le calcul de la ona");
+        Assert.isTrue(pricha.getDatePricha().getDateGregorian().toString().equals("Mon Sep 12 04:05:00 CEST 2022"), "Probleme dans le calcul de la ona benonit");
+        date1 = JkalDate.parseDateWithHour("14/08/2022 14:05");
+        pricha = Pricha.getPrichaBenonit(date1, locationName, latitude, longitude, elevation, timeZone);
+        Assert.isTrue(pricha.getOna() == Ona.Jour, "Il ya un problème sur le calcul de la ona");
+        Assert.isTrue(pricha.getDatePricha().getDateGregorian().toString().equals("Mon Sep 12 14:05:00 CEST 2022"), "Probleme dans le calcul de la ona benonit");
+        date1 = JkalDate.parseDateWithHour("14/08/2022 22:05");
+        pricha = Pricha.getPrichaBenonit(date1, locationName, latitude, longitude, elevation, timeZone);
+        Assert.isTrue(pricha.getOna() == Ona.Nuit, "Il ya un problème sur le calcul de la ona");
+        Assert.isTrue(pricha.getDatePricha().getDateGregorian().toString().equals("Mon Sep 12 22:05:00 CEST 2022"), "Probleme dans le calcul de la ona benonit");
+        
+    }
+    
+    @Test
+    public void testPrichaHagodesh() throws ParseException {
+        String locationName = "Nice";
+        double latitude = 43.700000;
+        double longitude = 7.250000;
+        double elevation = 0;
+        String timeZone = "Europe/Paris";
+        Date date1 = JkalDate.parseDateWithHour("14/08/2022 22:05");
+        PrichaDto pricha = Pricha.getPrichaHahodesh(date1, locationName, latitude, longitude, elevation, timeZone);
+        Assert.isTrue(pricha.getOna() == Ona.Nuit, "Il ya un problème sur le calcul de la ona");
+        Assert.isTrue(pricha.getDatePricha().getDateGregorian().toString().equals("Tue Sep 13 22:05:00 CEST 2022"), "Probleme dans le calcul de la ona benonit");
+        date1 = JkalDate.parseDateWithHour("14/08/2022 14:05");
+        pricha = Pricha.getPrichaHahodesh(date1, locationName, latitude, longitude, elevation, timeZone);
+        Assert.isTrue(pricha.getOna() == Ona.Jour, "Il ya un problème sur le calcul de la ona");
+        Assert.isTrue(pricha.getDatePricha().getDateGregorian().toString().equals("Tue Sep 13 14:05:00 CEST 2022"), "Probleme dans le calcul de la ona benonit");
+        
+    }
 
-    
     @Test
-    public void testBenonit() throws ParseException {
-        Locale.setDefault(Locale.FRENCH);
-        Date dateStr = JkalDate.parseDateWithHour("04/08/2022 19:24");
+    public void testPrichaYomHaflaga() throws ParseException {
         String locationName = "Nice";
         double latitude = 43.700000;
         double longitude = 7.250000;
         double elevation = 0;
-        TimeZone timeZone = TimeZone.getTimeZone("Europe/Paris");
-        GeoLocation location = new GeoLocation(locationName, latitude, longitude, elevation, timeZone);
-        PrichaDto prichaBenoni = Pricha.getPrichaBenonit(dateStr, location);
-        PrichaDto prichaHahodesh = Pricha.getPrichaHahodesh(dateStr, location);
-        
-        Date dateStr2 = JkalDate.parseDateWithHour("04/09/2022 22:24");
-        PrichaDto prichaHaflaga = Pricha.getPrichaHaflaga(dateStr, dateStr2, location);
-        LOGGER.info("Premiere date " + dateStr + " en hebreu " + JkalDate.getDateJewish(dateStr));
-        LOGGER.info("Pricha Benonit " + prichaBenoni.toString());
-        
-        LOGGER.info("Pricha Hahodesh" + prichaHahodesh.toString());
-        LOGGER.info("Deuxieme date " + dateStr2 + " en hebreu " + JkalDate.getDateJewish(dateStr2));
-        LOGGER.info("Pricha Haflaga " + prichaHaflaga.toString());
+        String timeZone = "Europe/Paris";
+        Date datePrecedente = JkalDate.parseDateWithHour("13/07/2022 22:05");
+        Date dateVue = JkalDate.parseDateWithHour("14/08/2022 22:05");
+        PrichaDto pricha = Pricha.getPrichaHaflaga(datePrecedente, dateVue, locationName, latitude, longitude, elevation, timeZone);
+        LOGGER.info(pricha.toString());
     }
-    
     @Test
-    public void testHoutChani() throws ParseException {
-        Locale.setDefault(Locale.FRENCH);
-        Date dateStr = JkalDate.parseDateWithHour("17/03/2016 15:24");
+    public void testPrichaHovotDaat() throws ParseException {
         String locationName = "Nice";
         double latitude = 43.700000;
         double longitude = 7.250000;
         double elevation = 0;
-        TimeZone timeZone = TimeZone.getTimeZone("Europe/Paris");
-        GeoLocation location = new GeoLocation(locationName, latitude, longitude, elevation, timeZone);
-        List<PrichaDto> prichaBenoni = Pricha.getPrichaBenonitHoutChani(dateStr, location);
-        
-        LOGGER.info("Le resultat est " + prichaBenoni.toString());
-        
+        String timeZone = "Europe/Paris";
+        Date date1 = JkalDate.parseDateWithHour("14/08/2022 04:05");
+        Pair<PrichaDto,PrichaDto> prichot= Pricha.getPrichaBenonitHovotDaat(date1, locationName, latitude, longitude, elevation, timeZone);
+        LOGGER.info(prichot.toString());
     }
-    
-    @Test
-    public void testOrZaroua() throws ParseException {
-        Locale.setDefault(Locale.FRENCH);
-        Date dateStr = JkalDate.parseDateWithHour("17/03/2016 0:24");
-        String locationName = "Nice";
-        double latitude = 43.700000;
-        double longitude = 7.250000;
-        double elevation = 0;
-        TimeZone timeZone = TimeZone.getTimeZone("Europe/Paris");
-        GeoLocation location = new GeoLocation(locationName, latitude, longitude, elevation, timeZone);
-        PrichaDto prichaBenoni = Pricha.getPrichaBenonit(dateStr, location);
-        PrichaDto prichaHahodesh = Pricha.getPrichaHahodesh(dateStr, location);
-        
-        Date dateStr2 = JkalDate.parseDateWithHour("17/04/2016 22:24");
-        PrichaDto prichaHaflaga = Pricha.getPrichaHaflaga(dateStr, dateStr2, location);
-        LOGGER.info("Premiere date " + dateStr + " en hebreu " + JkalDate.getDateJewish(dateStr));
-        LOGGER.info("Pricha Benonit " + prichaBenoni.toString());
-        
-        LOGGER.info("Pricha Hahodesh" + prichaHahodesh.toString());
-        LOGGER.info("Deuxieme date " + dateStr2 + " en hebreu " + JkalDate.getDateJewish(dateStr2));
-        LOGGER.info("Pricha Haflaga " + prichaHaflaga.toString());
-        
-        List<PrichaDto> orZaroua=Pricha.prichaOrZaroua(prichaBenoni, prichaHahodesh, prichaHaflaga, location);
-        LOGGER.info("Pricha orZaroua " + orZaroua.toString());
-    }
-    
 }

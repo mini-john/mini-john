@@ -185,8 +185,5 @@ public class TestDate {
         Assert.state(res == 32, "Il y a un probleme dans le calcul du nombre de jour d'ecart");
     }
 
-    @Test
-    public void getNombreJourEntreDeuxJewishDate() {
-        throw new UnsupportedOperationException("a faire");
-    }
+    
 }

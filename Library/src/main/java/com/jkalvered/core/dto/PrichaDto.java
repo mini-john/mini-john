@@ -5,11 +5,13 @@
  */
 package com.jkalvered.core.dto;
 
+import com.jkalvered.library.date.JkalDate;
 import com.jkalvered.library.enumeration.Ona;
 import com.jkalvered.library.enumeration.TypePricha;
-import com.kosherjava.zmanim.hebrewcalendar.JewishDate;
-import java.io.Serializable;
+import com.kosherjava.zmanim.ZmanimCalendar;
+import java.util.Calendar;
 import java.util.Date;
+import org.apache.logging.log4j.LogManager;
 
 /**
  * Dto modélisant une pricha en fonction de la date du cycle et du type de
@@ -17,27 +19,94 @@ import java.util.Date;
  *
  * @author mini-john
  */
-public class PrichaDto implements Serializable {
+public class PrichaDto implements Comparable<PrichaDto> {
 
-    private Long id;
-    private Date dateGregorian;
-    private int jewishDay;
-    private int jewishMont;
-    private int jewishYear;
+    private static org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger();
 
+    /*
+    Champ necessaire à la création de l'objet
+     */
+    private String locationName;
+    private double latitude;
+    private double longitude;
+    private double elevation;
+    private String timeZone;
+    private JkalDate datePricha;
+
+    /*
+    Champs rajouté après la creation de l'objet
+     */
     private String commentaire;
-
     private TypePricha typePricha;
-
-    
     private Date dateBedika1;
     private Date dateBedika2;
     private boolean etatBedika1;
     private boolean etatBedika2;
     private int haflagaDay;
-    private Ona ona;
 
-    public PrichaDto() {
+    public PrichaDto(Date datePricha, String locationName, double latitude, double longitude, double elevation, String timeZone) {
+
+        this.locationName = locationName;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.elevation = elevation;
+        this.timeZone = timeZone;
+        this.datePricha = new JkalDate(datePricha, locationName, latitude, longitude, elevation, timeZone);
+    }
+
+//    public String getLocationName() {
+//        return locationName;
+//    }
+//
+//    public void setLocationName(String locationName) {
+//        this.locationName = locationName;
+//    }
+//
+//    public double getLatitude() {
+//        return latitude;
+//    }
+//
+//    public void setLatitude(double latitude) {
+//        this.latitude = latitude;
+//    }
+//
+//    public double getLongitude() {
+//        return longitude;
+//    }
+//
+//    public void setLongitude(double longitude) {
+//        this.longitude = longitude;
+//    }
+//
+//    public double getElevation() {
+//        return elevation;
+//    }
+//
+//    public void setElevation(double elevation) {
+//        this.elevation = elevation;
+//    }
+//
+//    public String getTimeZone() {
+//        return timeZone;
+//    }
+//
+//    public void setTimeZone(String timeZone) {
+//        this.timeZone = timeZone;
+//    }
+    public JkalDate getDatePricha() {
+        return datePricha;
+    }
+
+    public void setDatePricha(JkalDate datePricha) {
+        this.datePricha = datePricha;
+    }
+
+    public String getCommentaire() {
+        return commentaire;
+    }
+
+    public void setCommentaire(String commentaire) {
+        this.commentaire = commentaire;
     }
 
     public TypePricha getTypePricha() {
@@ -46,24 +115,6 @@ public class PrichaDto implements Serializable {
 
     public void setTypePricha(TypePricha typePricha) {
         this.typePricha = typePricha;
-    }
-
-    public Date setDateGregorian() {
-        return dateGregorian;
-    }
-
-    public void setDateGregorian(Date dateGregorian) {
-        this.dateGregorian = dateGregorian;
-    }
-
-    public JewishDate getjDate() {
-        return new JewishDate(jewishYear,jewishMont,jewishDay);
-    }
-
-    public void setjDate(JewishDate jDate) {
-        this.jewishDay=jDate.getJewishDayOfMonth();
-        this.jewishMont=jDate.getJewishMonth();
-        this.jewishYear=jDate.getJewishYear();
     }
 
     public Date getDateBedika1() {
@@ -107,58 +158,63 @@ public class PrichaDto implements Serializable {
     }
 
     public Ona getOna() {
-        return ona;
+        return datePricha.getOna();
     }
 
-    public void setOna(Ona ona) {
-        this.ona = ona;
+    public void fillDateBedika(Date dateVue, ZmanimCalendar zcalendar) {
+        zcalendar.getCalendar().setTime(datePricha.getDateGregorian());
+        switch (this.datePricha.getMomentJournee(dateVue)) {
+            case Jour -> {
+                this.dateBedika1 = datePricha.getLeverSoleil(datePricha.getDateGregorian());
+                this.dateBedika2 = datePricha.getCoucherSoleil(datePricha.getDateGregorian());
+
+            }
+            case Matin -> {
+                this.dateBedika2 = datePricha.getLeverSoleil(datePricha.getDateGregorian());
+                zcalendar.getCalendar().roll(Calendar.DAY_OF_MONTH, -1);
+                this.dateBedika1 = zcalendar.getSunset();
+            }
+            case Soir -> {
+                this.dateBedika1 = datePricha.getCoucherSoleil(datePricha.getDateGregorian());
+                zcalendar.getCalendar().roll(Calendar.DAY_OF_MONTH, +1);
+                this.dateBedika2 = zcalendar.getSunrise();
+            }
+        }
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public int getJewishDay() {
-        return jewishDay;
-    }
-
-    public void setJewishDay(int jewishDay) {
-        this.jewishDay = jewishDay;
-    }
-
-    public int getJewishMont() {
-        return jewishMont;
-    }
-
-    public void setJewishMont(int jewishMont) {
-        this.jewishMont = jewishMont;
-    }
-
-    public int getJewishYear() {
-        return jewishYear;
-    }
-
-    public void setJewishYear(int jewishYear) {
-        this.jewishYear = jewishYear;
-    }
-
-    public String getCommentaire() {
-        return commentaire;
-    }
-
-    public void setCommentaire(String commentaire) {
-        this.commentaire = commentaire;
+    @Override
+    public int compareTo(PrichaDto o) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public String toString() {
-        return "PrichaDto{" + "id=" + id + ", dateGregorian=" + dateGregorian + ", jewishDay=" + jewishDay + ", jewishMont=" + jewishMont + ", jewishYear=" + jewishYear + ", commentaire=" + commentaire + ", typePricha=" + typePricha + ", dateBedika1=" + dateBedika1 + ", dateBedika2=" + dateBedika2 + ", etatBedika1=" + etatBedika1 + ", etatBedika2=" + etatBedika2 + ", haflagaDay=" + haflagaDay + ", ona=" + ona + '}';
+        return "PrichaDto{" + "locationName=" + locationName + ", latitude=" + latitude + ", longitude=" + longitude + ", elevation=" + elevation + ", timeZone=" + timeZone + ", datePricha=" + datePricha + ", commentaire=" + commentaire + ", typePricha=" + typePricha + ", dateBedika1=" + dateBedika1 + ", dateBedika2=" + dateBedika2 + ", etatBedika1=" + etatBedika1 + ", etatBedika2=" + etatBedika2 + ", haflagaDay=" + haflagaDay + '}';
     }
 
-    
+    public ZmanimCalendar getzc() {
+        return (ZmanimCalendar) this.datePricha.getZc().clone();
+    }
+
+    public void fillDateBedikaJourEntier(Date dateVue, ZmanimCalendar zcalendar) {
+        zcalendar.getCalendar().setTime(datePricha.getDateGregorian());
+        switch (this.datePricha.getMomentJournee(dateVue)) {
+            case Jour -> {
+                this.dateBedika2 = datePricha.getCoucherSoleil(datePricha.getDateGregorian());
+                zcalendar.getCalendar().roll(Calendar.DAY_OF_MONTH, -1);
+                this.dateBedika1 = zcalendar.getSunset();
+            }
+            case Matin -> {
+                this.dateBedika2 = datePricha.getLeverSoleil(datePricha.getDateGregorian());
+                zcalendar.getCalendar().roll(Calendar.DAY_OF_MONTH, -1);
+                this.dateBedika1 = zcalendar.getSunset();
+            }
+            case Soir -> {
+                this.dateBedika1 = datePricha.getCoucherSoleil(datePricha.getDateGregorian());
+                zcalendar.getCalendar().roll(Calendar.DAY_OF_MONTH, +1);
+                this.dateBedika2 = zcalendar.getSunrise();
+            }
+        }
+    }
 
 }

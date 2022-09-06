@@ -28,10 +28,12 @@ import org.joda.time.LocalDate;
  * @author jonat
  */
 public class JkalDate extends JewishDate {
+
     private static final SimpleDateFormat formatDateWithHour = new SimpleDateFormat("dd/MM/yyyy HH:m");
     private static final SimpleDateFormat formatDateWithHourAndMinute = new SimpleDateFormat("dd/MM/yyyy HH:m:s");
     private static final SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
     private static Logger LOGGER = LogManager.getLogger();
+
     /**
      * Prend une chaine de caractère représentant une date et retourne la date
      * formaté
@@ -43,6 +45,7 @@ public class JkalDate extends JewishDate {
     public static Date parseDate(String dateStr) throws ParseException {
         return formatDate.parse(dateStr);
     }
+
     /**
      * Prend une chaine de caractère représentant une date avec une heure
      *
@@ -53,6 +56,7 @@ public class JkalDate extends JewishDate {
     public static Date parseDateWithHour(String dateStr) throws ParseException {
         return formatDateWithHour.parse(dateStr);
     }
+
     /**
      * Prend une chaine de caractère représentant une date avec une heure et des
      * minutes
@@ -64,6 +68,7 @@ public class JkalDate extends JewishDate {
     public static Date parseDateWithHourAndMinute(String dateStr) throws ParseException {
         return formatDateWithHourAndMinute.parse(dateStr);
     }
+
     /**
      * Ajoute nbJour à la date gregorian
      *
@@ -76,8 +81,9 @@ public class JkalDate extends JewishDate {
         cal.setTime(date);
         cal.add(Calendar.DAY_OF_MONTH, nbJour);
         return cal.getTime();
-        
+
     }
+
     /**
      * Ajoute nbMonth à la date grégorian
      *
@@ -90,8 +96,9 @@ public class JkalDate extends JewishDate {
         cal.setTime(date);
         cal.add(Calendar.MONTH, nbMonth);
         return cal.getTime();
-        
+
     }
+
     /**
      * Retourne le prochain mois de 3O jours apres jDate
      *
@@ -99,29 +106,28 @@ public class JkalDate extends JewishDate {
      * @return
      */
     public static JewishDate getNextMonthFull(JewishDate jDate) {
-        
+
         jDate.forward(Calendar.MONTH, 1);
         while (jDate.getDaysInJewishMonth() != 30) {
             jDate.forward(Calendar.MONTH, 1);
         }
-        
+
         return jDate;
     }
+
     /**
      * Return le moment de la journée (Matin,Jour,Soir) en fonction de la
      * géolocalisation
      *
      * @param date
-     * @param location
      * @return
      * @throws MomentException
-     * @deprecated a remplacer par un objet jKalDate
+     *
      */
-    @Deprecated()
-    public static MomentJournee getMomentJournee(Date date, GeoLocation location) throws MomentException {
-        ZmanimCalendar zc = new ZmanimCalendar(location);
+    public MomentJournee getMomentJournee(Date date) throws MomentException {
+
         zc.getCalendar().setTime(date);
-        
+
         if (zc.getSunrise().after(date)) {
             return MomentJournee.Matin;
         } else if (zc.getSunrise().before(date) && zc.getSunset().after(date)) {
@@ -130,10 +136,11 @@ public class JkalDate extends JewishDate {
             return MomentJournee.Soir;
         } else {
             throw new MomentException("L'heure est incorrect" + date.toString());
-            
+
         }
-        
+
     }
+
     /**
      * Return la date hébraique associé a la date gregorian sans tenir compte de
      * l'heure et de la localisation
@@ -142,35 +149,10 @@ public class JkalDate extends JewishDate {
      * @return
      */
     public static JewishDate getDateJewish(Date date) {
-        
+
         return new JewishDate(date);
     }
-    /**
-     * Return la date juive associé à la date gregorian en fonction de la
-     * geolocalisation
-     *
-     * @param date
-     * @param location
-     * @return
-     * @deprecated
-     */
-    @Deprecated
-    public static JewishDate getDateJewish(Date date, GeoLocation location) {
-        
-        Date dateTemp = null;
-        switch (JkalDate.getMomentJournee(date, location)) {
-            case Jour, Matin ->
-                dateTemp = date;
-            case Soir -> {
-                Calendar cal = GregorianCalendar.getInstance();
-                cal.setTime(date);
-                cal.add(Calendar.DAY_OF_MONTH, 1);
-                dateTemp = cal.getTime();
-            }
-            
-        }
-        return new JewishDate(dateTemp);
-    }
+
     /**
      * Ajoute nbMonth à la JewishDate jDate
      *
@@ -308,6 +290,37 @@ public class JkalDate extends JewishDate {
     }
 
     /**
+     * Retourne le coucher du soleil en fonction de la localisation
+     *
+     * @param date
+     * @return date du coucher du soleil
+     */
+    public Date getCoucherSoleil(final Date date) {
+        Calendar cal = GregorianCalendar.getInstance();
+        cal.setTime(date);
+
+        ZmanimCalendar zcDeepCopy = (ZmanimCalendar) zc.clone();
+        zcDeepCopy.setCalendar(cal);
+        return zcDeepCopy.getSunset();
+    }
+
+    /**
+     * Retourne le lever du soleil en fonction de la localisation
+     *
+     * @param date
+     * @return date du lever du soleil
+     */
+    public Date getLeverSoleil(final Date date) {
+
+        Calendar cal = GregorianCalendar.getInstance();
+        cal.setTime(date);
+        ZmanimCalendar zcDeepCopy = (ZmanimCalendar) zc.clone();
+        zcDeepCopy.setCalendar(cal);
+        return zcDeepCopy.getSunrise();
+
+    }
+
+    /**
      * Retourne la JewishDate en fonction de l'heure de la dateGregorian en
      * prenant en compte la nuit ou le jour
      *
@@ -403,4 +416,14 @@ public class JkalDate extends JewishDate {
         return "JkalDate{" + "dateGregorian=" + dateGregorian + ", hours=" + hours + ", min=" + min + ", locationName=" + locationName + ", latitude=" + latitude + ", longitude=" + longitude + ", elevation=" + elevation + ", timeZone=" + timeZone + ", Ona=" + getOna() + '}';
     }
 
+    public static void copyHourInTwoDate(Date dateSource, Date dateRes) {
+        Calendar cal = GregorianCalendar.getInstance(), cal1 = GregorianCalendar.getInstance();
+        cal1.setTime(dateSource);
+        cal.setTime(dateRes);
+        cal.set(Calendar.HOUR, cal1.get(Calendar.HOUR));
+        cal.set(Calendar.MINUTE, cal1.get(Calendar.MINUTE));
+        cal.set(Calendar.SECOND, cal1.get(Calendar.SECOND));
+        dateRes.setTime(cal.getTime().getTime());
+
+    }
 }
