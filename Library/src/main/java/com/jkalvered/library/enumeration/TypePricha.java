@@ -16,7 +16,8 @@ public enum TypePricha {
     KartiOupleti("KartiOupleti"),
     HovotDaat("HovotDaat"),
     HoutChani("HoutChani"),
-    OrZaroua("OrZaroua");
+    OrZaroua("OrZaroua"),
+    HovotYair("HovotYair");
 
 
     private String name = "";

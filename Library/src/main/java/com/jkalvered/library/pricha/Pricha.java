@@ -71,13 +71,24 @@ public class Pricha {
         return prichaDto;
     }
 
+    /**
+     * Retourne pricha yom haflaga
+     *
+     * @param datePrecedente
+     * @param dateVue
+     * @param locationName
+     * @param latitude
+     * @param longitude
+     * @param elevation
+     * @param timeZone
+     * @return
+     */
     public static PrichaDto getPrichaHaflaga(Date datePrecedente, Date dateVue, String locationName, double latitude, double longitude, double elevation, String timeZone) {
         if (dateVue.before(datePrecedente)) {
             throw new NiddahException("La date 1 : " + datePrecedente + " doit être avant la 2 : " + dateVue);
         }
         int days = Days.daysBetween(new LocalDate(datePrecedente), new LocalDate(dateVue)).getDays();
         Date dateHaflaga = JkalDate.addDay(dateVue, days - 1);
-        //JkalDate.copyHourInTwoDate(dateVue, dateHaflaga);
 
         PrichaDto prichaDto = new PrichaDto(dateHaflaga, locationName, latitude, longitude, elevation, timeZone);
         prichaDto.setHaflagaDay(days);
@@ -86,6 +97,17 @@ public class Pricha {
         return prichaDto;
     }
 
+    /**
+     * Retourne prichat benonit sous l'opinion hovot daat
+     *
+     * @param date
+     * @param locationName
+     * @param latitude
+     * @param longitude
+     * @param elevation
+     * @param timeZone
+     * @return
+     */
     public static Pair<PrichaDto, PrichaDto> getPrichaBenonitHovotDaat(Date date, String locationName, double latitude, double longitude, double elevation, String timeZone) {
         Date dateHovotDaat1 = JkalDate.addDay(date, Constantes.NB_JOUR_ONAT_BENONIT);
         PrichaDto prichaHovotDaat1Dto = new PrichaDto(dateHovotDaat1, locationName, latitude, longitude, elevation, timeZone);
@@ -99,16 +121,66 @@ public class Pricha {
         return res;
     }
 
-    public static Pair<PrichaDto, PrichaDto> getPrichaBenonitHoutChani(Date date, String locationName, double latitude, double longitude, double elevation, String timeZone) {
+    /**
+     * retourne pricha hout chani
+     *
+     * @param date
+     * @param locationName
+     * @param latitude
+     * @param longitude
+     * @param elevation
+     * @param timeZone
+     * @return
+     */
+    public static Pair<PrichaDto, PrichaDto> getPrichaHoutChani(Date date, String locationName, double latitude, double longitude, double elevation, String timeZone) {
         Date dateHovotDaat1 = JkalDate.addDay(date, Constantes.NB_JOUR_ONAT_BENONIT);
         PrichaDto prichaHovotDaat1Dto = new PrichaDto(dateHovotDaat1, locationName, latitude, longitude, elevation, timeZone);
-        prichaHovotDaat1Dto.setTypePricha(TypePricha.HovotDaat);
+        prichaHovotDaat1Dto.setTypePricha(TypePricha.HoutChani);
         prichaHovotDaat1Dto.fillDateBedikaJourEntier(date, (ZmanimCalendar) prichaHovotDaat1Dto.getzc());
         Date dateHovotDaat2 = JkalDate.addDay(date, Constantes.NB_JOUR_ONAT_BENONIT + 1);
         PrichaDto prichaHovotDaat2Dto = new PrichaDto(dateHovotDaat2, locationName, latitude, longitude, elevation, timeZone);
-        prichaHovotDaat2Dto.setTypePricha(TypePricha.HovotDaat);
+        prichaHovotDaat2Dto.setTypePricha(TypePricha.HoutChani);
         prichaHovotDaat2Dto.fillDateBedikaJourEntier(date, (ZmanimCalendar) prichaHovotDaat1Dto.getzc());
         Pair<PrichaDto, PrichaDto> res = new Pair<>(prichaHovotDaat1Dto, prichaHovotDaat2Dto);
         return res;
+    }
+
+    /**
+     * Retourne pricha hovot yair
+     *
+     * @param date
+     * @param locationName
+     * @param latitude
+     * @param longitude
+     * @param elevation
+     * @param timeZone
+     * @return
+     */
+    public static PrichaDto getPrichaHovotYair(Date date, String locationName, double latitude, double longitude, double elevation, String timeZone) {
+        Date dateBenonit = JkalDate.addDay(date, Constantes.NB_JOUR_ONAT_BENONIT + 1);
+        PrichaDto prichaDto = new PrichaDto(dateBenonit, locationName, latitude, longitude, elevation, timeZone);
+        prichaDto.setTypePricha(TypePricha.HovotYair);
+        prichaDto.fillDateBedika(date, (ZmanimCalendar) prichaDto.getzc());
+
+        return prichaDto;
+    }
+
+    /**
+     * Retourne pricha or zaroua
+     *
+     * @param dateVue
+     * @param pricha
+     * @return
+     */
+    public static PrichaDto getPrichaOrZaroua(Date dateVue, PrichaDto pricha) {
+        if (pricha.getTypePricha() == TypePricha.Benonit || pricha.getTypePricha() == TypePricha.Haflaga || pricha.getTypePricha() == TypePricha.Hahodesh) {
+            PrichaDto prichaDto = new PrichaDto(pricha.getDatePricha().getDateGregorian(), pricha.getDatePricha().getLocationName(), pricha.getDatePricha().getLatitude(), pricha.getDatePricha().getLongitude(), pricha.getDatePricha().getElevation(), pricha.getDatePricha().getTimeZone().toZoneId().toString());
+            prichaDto.setTypePricha(TypePricha.OrZaroua);
+            prichaDto.fillDateBedikaOrZaroua(dateVue, pricha, (ZmanimCalendar) prichaDto.getzc());
+
+            return prichaDto;
+        } else {
+            throw new NiddahException("La pricha Or Zaroua ne se fait que sur une pricha de type hahodesh benonit ou haflaga et pas sur un type " + pricha.getTypePricha());
+        }
     }
 }

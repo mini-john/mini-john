@@ -13,8 +13,8 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <sonar.language>java</sonar.language>
         <!--<spring.version>4.2.5.RELEASE</spring.version>-->
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <springframework.version>5.3.22</springframework.version>
         <hibernate.version>4.3.6.Final</hibernate.version>
         <mysql.version>5.1.31</mysql.version>

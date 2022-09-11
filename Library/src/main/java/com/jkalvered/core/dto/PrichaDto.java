@@ -8,6 +8,8 @@ package com.jkalvered.core.dto;
 import com.jkalvered.library.date.JkalDate;
 import com.jkalvered.library.enumeration.Ona;
 import com.jkalvered.library.enumeration.TypePricha;
+import com.jkalvered.library.exception.MomentException;
+import com.jkalvered.library.exception.NiddahException;
 import com.kosherjava.zmanim.ZmanimCalendar;
 import java.util.Calendar;
 import java.util.Date;
@@ -149,7 +151,10 @@ public class PrichaDto implements Comparable<PrichaDto> {
         this.etatBedika2 = etatBedika2;
     }
 
-    public int getHaflagaDay() {
+    public int getHaflagaDay() throws NiddahException {
+        if (typePricha != TypePricha.Haflaga) {
+            throw new NiddahException("Une haflga est demandée alors que le type n'est pas haflaga = " + this.toString());
+        }
         return haflagaDay;
     }
 
@@ -161,6 +166,12 @@ public class PrichaDto implements Comparable<PrichaDto> {
         return datePricha.getOna();
     }
 
+    /**
+     * Rempli les date de bedika
+     *
+     * @param dateVue
+     * @param zcalendar
+     */
     public void fillDateBedika(Date dateVue, ZmanimCalendar zcalendar) {
         zcalendar.getCalendar().setTime(datePricha.getDateGregorian());
         switch (this.datePricha.getMomentJournee(dateVue)) {
@@ -196,6 +207,12 @@ public class PrichaDto implements Comparable<PrichaDto> {
         return (ZmanimCalendar) this.datePricha.getZc().clone();
     }
 
+    /**
+     * rempli les date de bedika pour pricha hout chani ou karti oupleti
+     *
+     * @param dateVue
+     * @param zcalendar
+     */
     public void fillDateBedikaJourEntier(Date dateVue, ZmanimCalendar zcalendar) {
         zcalendar.getCalendar().setTime(datePricha.getDateGregorian());
         switch (this.datePricha.getMomentJournee(dateVue)) {
@@ -205,7 +222,7 @@ public class PrichaDto implements Comparable<PrichaDto> {
                 this.dateBedika1 = zcalendar.getSunset();
             }
             case Matin -> {
-                this.dateBedika2 = datePricha.getLeverSoleil(datePricha.getDateGregorian());
+                this.dateBedika2 = datePricha.getCoucherSoleil(datePricha.getDateGregorian());
                 zcalendar.getCalendar().roll(Calendar.DAY_OF_MONTH, -1);
                 this.dateBedika1 = zcalendar.getSunset();
             }
@@ -213,6 +230,32 @@ public class PrichaDto implements Comparable<PrichaDto> {
                 this.dateBedika1 = datePricha.getCoucherSoleil(datePricha.getDateGregorian());
                 zcalendar.getCalendar().roll(Calendar.DAY_OF_MONTH, +1);
                 this.dateBedika2 = zcalendar.getSunrise();
+            }
+        }
+    }
+
+    /**
+     * remplie date bedika pour pricha orzaroua
+     *
+     * @param dateVue
+     * @param pricha
+     * @param zcalendar
+     */
+    public void fillDateBedikaOrZaroua(Date dateVue, PrichaDto pricha, ZmanimCalendar zcalendar) {
+
+        dateBedika2 = pricha.getDateBedika1();
+        switch (this.datePricha.getMomentJournee(dateVue)) {
+            case Jour -> {
+                zcalendar.getCalendar().roll(Calendar.DAY_OF_MONTH, -1);
+                this.dateBedika1 = zcalendar.getSunset();
+            }
+            case Matin -> {
+                zcalendar.getCalendar().roll(Calendar.DAY_OF_MONTH, -1);
+                this.dateBedika1 = zcalendar.getSeaLevelSunrise();
+            }
+            case Soir -> {
+                this.dateBedika1 = zcalendar.getSeaLevelSunrise();
+                zcalendar.getCalendar().roll(Calendar.DAY_OF_MONTH, +1);
             }
         }
     }
