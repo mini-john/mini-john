@@ -118,24 +118,21 @@ public class TestPricha {
         String timeZone = "Europe/Paris";
         Date date1 = JkalDate.parseDateWithHour("14/08/2022 14:05");
         PrichaDto pricha = Pricha.getPrichaBenonit(date1, locationName, latitude, longitude, elevation, timeZone);
-        PrichaDto prichaOrZaroua = Pricha.getPrichaOrZaroua(date1,pricha);
-        LOGGER.info(pricha);
-
-        LOGGER.info(prichaOrZaroua);
+        PrichaDto prichaOrZaroua = Pricha.getPrichaOrZaroua(date1, pricha);
+        Assert.isTrue(pricha.getDateBedika1().compareTo(prichaOrZaroua.getDateBedika2()) == 0, "Probleme dans le calcul de la pricha or zaroua");
 
         date1 = JkalDate.parseDateWithHour("14/08/2022 22:05");
         pricha = Pricha.getPrichaBenonit(date1, locationName, latitude, longitude, elevation, timeZone);
-        prichaOrZaroua = Pricha.getPrichaOrZaroua(date1,pricha);
-        LOGGER.info(pricha);
-        LOGGER.info(prichaOrZaroua);
+        prichaOrZaroua = Pricha.getPrichaOrZaroua(date1, pricha);
+        Assert.isTrue(pricha.getDateBedika1().compareTo(prichaOrZaroua.getDateBedika2()) == 0, "Probleme dans le calcul de la pricha or zaroua");
+
         date1 = JkalDate.parseDateWithHour("14/08/2022 2:05");
         pricha = Pricha.getPrichaBenonit(date1, locationName, latitude, longitude, elevation, timeZone);
-        prichaOrZaroua = Pricha.getPrichaOrZaroua(date1,pricha);
-        LOGGER.info(pricha);
-        LOGGER.info(prichaOrZaroua);
-        
+        prichaOrZaroua = Pricha.getPrichaOrZaroua(date1, pricha);
+        Assert.isTrue(pricha.getDateBedika1().compareTo(prichaOrZaroua.getDateBedika2()) == 0, "Probleme dans le calcul de la pricha or zaroua");
 
     }
+
     @Test
     public void testPrichaException() throws ParseException {
         String locationName = "Nice";
@@ -145,7 +142,7 @@ public class TestPricha {
         String timeZone = "Europe/Paris";
         Date date1 = JkalDate.parseDateWithHour("14/08/2022 14:05");
         PrichaDto pricha = Pricha.getPrichaBenonit(date1, locationName, latitude, longitude, elevation, timeZone);
-        PrichaDto prichaOrZaroua = Pricha.getPrichaOrZaroua(date1,pricha);
+        PrichaDto prichaOrZaroua = Pricha.getPrichaOrZaroua(date1, pricha);
         Exception exception = assertThrows(NiddahException.class, () -> {
             prichaOrZaroua.getHaflagaDay();
         });
