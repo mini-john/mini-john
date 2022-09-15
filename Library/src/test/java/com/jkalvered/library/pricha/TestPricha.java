@@ -13,6 +13,8 @@ import java.text.ParseException;
 import java.util.Date;
 import org.apache.logging.log4j.LogManager;
 import org.javatuples.Pair;
+import org.joda.time.Days;
+import org.joda.time.LocalDate;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
@@ -77,6 +79,7 @@ public class TestPricha {
         Date dateVue = JkalDate.parseDateWithHour("14/08/2022 22:05");
         PrichaDto pricha = Pricha.getPrichaHaflaga(datePrecedente, dateVue, locationName, latitude, longitude, elevation, timeZone);
         LOGGER.info(pricha.toString());
+        Assert.isTrue(pricha.getHaflagaDay() == 33, "Probleme de calcul de la haflaga");
     }
 
     @Test
@@ -88,7 +91,9 @@ public class TestPricha {
         String timeZone = "Europe/Paris";
         Date date1 = JkalDate.parseDateWithHour("14/08/2022 04:05");
         Pair<PrichaDto, PrichaDto> prichot = Pricha.getPrichaBenonitHovotDaat(date1, locationName, latitude, longitude, elevation, timeZone);
-        LOGGER.info(prichot.toString());
+        PrichaDto prichaBenonit = Pricha.getPrichaBenonit(date1, locationName, latitude, longitude, elevation, timeZone);
+        int days = Days.daysBetween(new LocalDate(prichaBenonit.getDatePricha().getDateGregorian()), new LocalDate(prichot.getValue1().getDatePricha().getDateGregorian())).getDays() ;
+        Assert.isTrue(days==1, "Probleme dans le calcul de la pricha hovot daat");
     }
 
     @Test
@@ -100,13 +105,10 @@ public class TestPricha {
         String timeZone = "Europe/Paris";
         Date date1 = JkalDate.parseDateWithHour("14/08/2022 22:05");
         Pair<PrichaDto, PrichaDto> prichot = Pricha.getPrichaHoutChani(date1, locationName, latitude, longitude, elevation, timeZone);
-        LOGGER.info(prichot.toString());
-        LOGGER.info(prichot.getValue0().getDatePricha().getDateGregorian() + " "
-                + prichot.getValue0().getDateBedika1() + " "
-                + prichot.getValue0().getDateBedika2());
-        LOGGER.info(prichot.getValue1().getDatePricha().getDateGregorian() + " "
-                + prichot.getValue1().getDateBedika1() + " "
-                + prichot.getValue1().getDateBedika2());
+        PrichaDto prichaBenonit = Pricha.getPrichaBenonit(date1, locationName, latitude, longitude, elevation, timeZone);
+        int days = Days.daysBetween(new LocalDate(prichaBenonit.getDatePricha().getDateGregorian()), new LocalDate(prichot.getValue1().getDatePricha().getDateGregorian())).getDays() ;
+        Assert.isTrue(days==1, "Probleme dans le calcul de la pricha hout chani");
+   
     }
 
     @Test

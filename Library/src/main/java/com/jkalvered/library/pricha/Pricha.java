@@ -87,8 +87,8 @@ public class Pricha {
         if (dateVue.before(datePrecedente)) {
             throw new NiddahException("La date 1 : " + datePrecedente + " doit être avant la 2 : " + dateVue);
         }
-        int days = Days.daysBetween(new LocalDate(datePrecedente), new LocalDate(dateVue)).getDays();
-        Date dateHaflaga = JkalDate.addDay(dateVue, days - 1);
+        int days = Days.daysBetween(new LocalDate(datePrecedente), new LocalDate(dateVue)).getDays()+1;
+        Date dateHaflaga = JkalDate.addDay(dateVue, days - 2);
 
         PrichaDto prichaDto = new PrichaDto(dateHaflaga, locationName, latitude, longitude, elevation, timeZone);
         prichaDto.setHaflagaDay(days);

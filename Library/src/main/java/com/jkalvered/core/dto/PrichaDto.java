@@ -8,7 +8,6 @@ package com.jkalvered.core.dto;
 import com.jkalvered.library.date.JkalDate;
 import com.jkalvered.library.enumeration.Ona;
 import com.jkalvered.library.enumeration.TypePricha;
-import com.jkalvered.library.exception.MomentException;
 import com.jkalvered.library.exception.NiddahException;
 import com.kosherjava.zmanim.ZmanimCalendar;
 import java.util.Calendar;
