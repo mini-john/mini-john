@@ -2,7 +2,7 @@ package com.jkalvered.library.vesset;
 
 import com.jkalvered.core.dto.JewishDateEcart;
 import com.jkalvered.core.dto.NiddahDto;
-import com.jkalvered.library.date.JkalDate;
+import com.jkalvered.library.exception.NiddahException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -35,14 +35,8 @@ public class Vesset {
      * @return
      */
     public static NiddahDto fillNiddahDto(Date date, double latitude, double longitude, double elevation, String locationName, String timezone) {
-        NiddahDto cycleDto = new NiddahDto();
-        JkalDate jKalDate = new JkalDate(date, locationName, latitude, longitude, elevation, timezone);
-        cycleDto.setDate(date);
-        cycleDto.setLatitude(latitude);
-        cycleDto.setLongitude(longitude);
-        cycleDto.setElevation(elevation);
-        cycleDto.setOna(jKalDate.getOna());
-        cycleDto.setjDate(jKalDate.getJewishDate());
+        NiddahDto cycleDto = new NiddahDto(date, locationName, latitude, longitude, elevation, timezone);
+
         return cycleDto;
 
     }
@@ -60,15 +54,9 @@ public class Vesset {
      * @return
      */
     public static NiddahDto fillNiddahDto(Date date, double latitude, double longitude, double elevation, String locationName, String timezone, NiddahDto cyclePrecedent) {
-        JkalDate jKalDate = new JkalDate(date, locationName, latitude, longitude, elevation, timezone);
 
-        NiddahDto cycleDto = new NiddahDto();
-        cycleDto.setDate(date);
-        cycleDto.setLatitude(latitude);
-        cycleDto.setLongitude(longitude);
-        cycleDto.setElevation(elevation);
-        cycleDto.setOna(jKalDate.getOna());
-        cycleDto.setjDate(jKalDate.getJewishDate());
+        NiddahDto cycleDto = new NiddahDto(date, locationName, latitude, longitude, elevation, timezone);
+
         cycleDto.setHaflaga(getHaflagaEntreDeuxCycle(cyclePrecedent, cycleDto));
         return cycleDto;
 
@@ -81,8 +69,11 @@ public class Vesset {
      * @param cycle2
      * @return
      */
-    public static int getHaflagaEntreDeuxCycle(NiddahDto cycle1, NiddahDto cycle2) {
-        return Days.daysBetween(new LocalDate(cycle1.getDate()), new LocalDate(cycle2.getDate())).getDays() + 1;
+    public static int getHaflagaEntreDeuxCycle(NiddahDto cycle1, NiddahDto cycle2) throws NiddahException{
+        if (cycle2.getjKalDate().getDateGregorian().before(cycle1.getjKalDate().getDateGregorian())) {
+            throw new NiddahException("La date 1 : " + cycle1.getjKalDate().getDateGregorian() + " doit être avant la 2 : " + cycle2.getjKalDate().getDateGregorian());
+        }
+        return Days.daysBetween(new LocalDate(cycle1.getjKalDate().getDateGregorian()), new LocalDate(cycle2.getjKalDate().getDateGregorian())).getDays()+1;
 
     }
 
@@ -100,19 +91,19 @@ public class Vesset {
         NiddahDto cycle1 = listCycle.get(0);
         NiddahDto cycle2 = listCycle.get(1);
         NiddahDto cycle3 = listCycle.get(2);
-        int max = Math.max(cycle1.getjDate().getJewishYear(), Math.max(cycle2.getjDate().getJewishYear(), cycle3.getjDate().getJewishYear()));
-        int min = Math.min(cycle1.getjDate().getJewishYear(), Math.min(cycle2.getjDate().getJewishYear(), cycle3.getjDate().getJewishYear()));
+        int max = Math.max(cycle1.getjKalDate().getJewishDate().getJewishYear(), Math.max(cycle2.getjKalDate().getJewishDate().getJewishYear(), cycle3.getjKalDate().getJewishDate().getJewishYear()));
+        int min = Math.min(cycle1.getjKalDate().getJewishDate().getJewishYear(), Math.min(cycle2.getjKalDate().getJewishDate().getJewishYear(), cycle3.getjKalDate().getJewishDate().getJewishYear()));
 
         //Test s'il n'y a pas deux année d'écart
         return (max - min <= 1)
                 //La Ona doit être identique
                 && cycle1.getOna() == cycle2.getOna()
-                && cycle1.getOna() == cycle3.getOna() && (cycle1.getjDate().getJewishDayOfMonth() == cycle2.getjDate().getJewishDayOfMonth()
-                && cycle1.getjDate().getJewishDayOfMonth() == cycle3.getjDate().getJewishDayOfMonth())
+                && cycle1.getOna() == cycle3.getOna() && (cycle1.getjKalDate().getJewishDayOfMonth() == cycle2.getjKalDate().getJewishDayOfMonth()
+                && cycle1.getjKalDate().getJewishDayOfMonth() == cycle3.getjKalDate().getJewishDayOfMonth())
                 && //Les mois doivent se suiuvrent avec un decalage de 1 mois en fonction de l'année embolismique
-                (((cycle1.getjDate().getJewishMonth() + 1)
-                % (cycle1.getjDate().isJewishLeapYear() ? 13 : 12)) == (cycle2.getjDate().getJewishMonth() % (cycle2.getjDate().isJewishLeapYear() ? 13 : 12))
-                && ((cycle2.getjDate().getJewishMonth() + 1) % (cycle2.getjDate().isJewishLeapYear() ? 13 : 12)) == (cycle3.getjDate().getJewishMonth() % (cycle3.getjDate().isJewishLeapYear() ? 13 : 12)));
+                (((cycle1.getjKalDate().getJewishMonth() + 1)
+                % (cycle1.getjKalDate().isJewishLeapYear() ? 13 : 12)) == (cycle2.getjKalDate().getJewishMonth() % (cycle2.getjKalDate().isJewishLeapYear() ? 13 : 12))
+                && ((cycle2.getjKalDate().getJewishMonth() + 1) % (cycle2.getjKalDate().isJewishLeapYear() ? 13 : 12)) == (cycle3.getjKalDate().getJewishMonth() % (cycle3.getjKalDate().isJewishLeapYear() ? 13 : 12)));
     }
 
     /**
@@ -160,11 +151,11 @@ public class Vesset {
                     && cycle3.getHaflaga() % 7 == cycle4.getHaflaga() % 7) {
                 Calendar cal = GregorianCalendar.getInstance();
                 int jour1, jour2, jour3;
-                cal.setTime(cycle2.getDate());
+                cal.setTime(cycle2.getjKalDate().getDateGregorian());
                 jour1 = cal.get(Calendar.DAY_OF_WEEK);
-                cal.setTime(cycle3.getDate());
+                cal.setTime(cycle3.getjKalDate().getDateGregorian());
                 jour2 = cal.get(Calendar.DAY_OF_WEEK);
-                cal.setTime(cycle3.getDate());
+                cal.setTime(cycle3.getjKalDate().getDateGregorian());
                 jour3 = cal.get(Calendar.DAY_OF_WEEK);
 
                 if ((jour1 == jour2) && (jour2 == jour3)) {
@@ -222,7 +213,7 @@ public class Vesset {
             listJourEcart.add(new JewishDateEcart(precedent, listCycle.get(i), listCycle.get(i).getOna()));
             i++;
             if (i % 4 == 0 && i < listCycle.size()) {
-                if (origine.getjDate().getJewishDayOfMonth() == listCycle.get(i).getjDate().getJewishDayOfMonth()) {
+                if (origine.getjKalDate().getJewishDayOfMonth() == listCycle.get(i).getjKalDate().getJewishDayOfMonth()) {
                     precedent = listCycle.get(i);
                     i++;
                 } else {
@@ -301,7 +292,7 @@ public class Vesset {
      * @return
      * @throws UnsupportedOperationException
      */
-    public static boolean isCycleKavouaDilougHaflagaHozer(List<NiddahDto> listCycle) throws UnsupportedOperationException {
+    public static boolean isCycleKavouaDilougHaflagaHozer(List<NiddahDto> listCycle) throws IllegalArgumentException {
         if (listCycle.size() != 9) {
             throw new IllegalArgumentException("la taille de la liste de cycle doit être égal à 9");
         }

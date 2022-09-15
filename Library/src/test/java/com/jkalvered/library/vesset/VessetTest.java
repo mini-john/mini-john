@@ -6,14 +6,14 @@
 package com.jkalvered.library.vesset;
 
 import com.jkalvered.core.dto.NiddahDto;
-import com.jkalvered.library.date.JkalDate;
+import com.jkalvered.core.dto.PrichaDto;
 import com.jkalvered.library.date.JkalDate;
 import com.jkalvered.library.enumeration.Ona;
+import com.jkalvered.library.pricha.Pricha;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,6 +23,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.springframework.util.Assert;
 
 /**
  *
@@ -53,13 +54,12 @@ public class VessetTest {
 
     @Test
     public void testFillCycle() throws ParseException {
-        Locale.setDefault(Locale.FRENCH);
-        Date dateStr = JkalDate.parseDateWithHour("17/03/2016 12:24");
+        Date dateStr = JkalDate.parseDateWithHour("13/09/2022 12:24");
         String locationName = "Nice";
         double latitude = 43.700000;
         double longitude = 7.250000;
         double elevation = 0;
-         String timeZone = "Europe/Paris";
+        String timeZone = "Europe/Paris";
 
         NiddahDto cycleDto = Vesset.fillNiddahDto(dateStr, latitude, longitude, elevation, locationName, timeZone);
         LOGGER.debug(cycleDto.toString());
@@ -69,18 +69,22 @@ public class VessetTest {
     @Test
     public void testGetHaflaga() throws ParseException {
         Locale.setDefault(Locale.FRENCH);
-        Date dateStr = JkalDate.parseDateWithHour("17/02/2016 12:24");
+        Date dateStr1 = JkalDate.parseDateWithHour("13/08/2022 12:24");
         String locationName = "Nice";
         double latitude = 43.700000;
         double longitude = 7.250000;
         double elevation = 0;
-         String timeZone = "Europe/Paris";
+        String timeZone = "Europe/Paris";
 
-        NiddahDto cycleDto = Vesset.fillNiddahDto(dateStr, latitude, longitude, elevation, locationName, timeZone);
-        dateStr = JkalDate.parseDateWithHour("17/03/2016 12:24");
+        NiddahDto cycleDto = Vesset.fillNiddahDto(dateStr1, latitude, longitude, elevation, locationName, timeZone);
+        Date dateStr = JkalDate.parseDateWithHour("14/09/2022 13:24");
         NiddahDto cycleDto2 = Vesset.fillNiddahDto(dateStr, latitude, longitude, elevation, locationName, timeZone);
-        LOGGER.info(Vesset.getHaflagaEntreDeuxCycle(cycleDto, cycleDto2) + "");
-
+        int haflaga = Vesset.getHaflagaEntreDeuxCycle(cycleDto, cycleDto2);
+        LOGGER.info("voila voila " + haflaga);
+        Assert.isTrue(haflaga == 33, "Probleme dans le calcul de la haflaga de vesset.java");
+        PrichaDto haflagaPricha = Pricha.getPrichaHaflaga(dateStr1, dateStr, locationName, latitude, longitude, elevation, timeZone);
+        LOGGER.info(haflagaPricha.getHaflagaDay() + "voili voulou");
+        Assert.isTrue(haflaga == haflagaPricha.getHaflagaDay(), "Incoherence entre le calcul de la haflaga selon prich.java et vesset.java");
     }
 
     @Test
@@ -91,7 +95,7 @@ public class VessetTest {
         double latitude = 43.700000;
         double longitude = 7.250000;
         double elevation = 0;
-         String timeZone = "Europe/Paris";
+        String timeZone = "Europe/Paris";
         ArrayList<NiddahDto> listCycle = new ArrayList<>();
         NiddahDto cycleDto = Vesset.fillNiddahDto(dateStr, latitude, longitude, elevation, locationName, timeZone);
         listCycle.add(cycleDto);
@@ -104,8 +108,7 @@ public class VessetTest {
         cycleDto2.setHaflaga(Vesset.getHaflagaEntreDeuxCycle(cycleDto2, cycleDto3));
         listCycle.add(cycleDto3);
         boolean resultTest = Vesset.isCycleKavouaHahodesh(listCycle);
-        assertTrue(resultTest);
-        LOGGER.info("Le cycle est " + resultTest);
+        Assert.isTrue(resultTest, "Probleme dans le calcul de vesset kavoua hahodesh");
 
     }
 
@@ -117,7 +120,7 @@ public class VessetTest {
         double latitude = 43.700000;
         double longitude = 7.250000;
         double elevation = 0;
-         String timeZone = "Europe/Paris";
+        String timeZone = "Europe/Paris";
         ArrayList<NiddahDto> listCycle = new ArrayList<>();
         NiddahDto cycleDto = Vesset.fillNiddahDto(dateStr, latitude, longitude, elevation, locationName, timeZone);
         listCycle.add(cycleDto);
@@ -130,8 +133,7 @@ public class VessetTest {
         cycleDto2.setHaflaga(Vesset.getHaflagaEntreDeuxCycle(cycleDto2, cycleDto3));
         listCycle.add(cycleDto3);
         boolean resultTest = Vesset.isCycleKavouaHahodesh(listCycle);
-        assertTrue(resultTest);
-        LOGGER.info("Le cycle est  sur deux ans " + resultTest);
+        Assert.isTrue(resultTest, "Probleme dans le calcul de vesset kavoua hahodesh two year");
 
     }
 
@@ -143,7 +145,7 @@ public class VessetTest {
         double latitude = 43.700000;
         double longitude = 7.250000;
         double elevation = 0;
-         String timeZone = "Europe/Paris";
+        String timeZone = "Europe/Paris";
         ArrayList<NiddahDto> listCycle = new ArrayList<>();
         NiddahDto cycleDto = Vesset.fillNiddahDto(dateStr, latitude, longitude, elevation, locationName, timeZone);
         listCycle.add(cycleDto);
@@ -160,8 +162,7 @@ public class VessetTest {
         cycleDto4.setHaflaga(Vesset.getHaflagaEntreDeuxCycle(cycleDto3, cycleDto4));
         listCycle.add(cycleDto4);
         boolean resultTest = Vesset.isCycleKavouaHaflaga(listCycle);
-        assertTrue(resultTest);
-        LOGGER.info("Le cycle est haflaga regulier " + resultTest);
+        Assert.isTrue(resultTest, "Probleme dans le calcul de vesset kavoua haflaga");
 
     }
 
@@ -173,7 +174,7 @@ public class VessetTest {
         double latitude = 43.700000;
         double longitude = 7.250000;
         double elevation = 0;
-         String timeZone = "Europe/Paris";
+        String timeZone = "Europe/Paris";
         ArrayList<NiddahDto> listCycle = new ArrayList<>();
         NiddahDto cycleDto = Vesset.fillNiddahDto(dateStr, latitude, longitude, elevation, locationName, timeZone);
         listCycle.add(cycleDto);
@@ -185,11 +186,12 @@ public class VessetTest {
         NiddahDto cycleDto3 = Vesset.fillNiddahDto(dateStr, latitude, longitude, elevation, locationName, timeZone);
         cycleDto3.setHaflaga(Vesset.getHaflagaEntreDeuxCycle(cycleDto2, cycleDto3));
         listCycle.add(cycleDto3);
-        dateStr = JkalDate.parseDateWithHour("23/02/2016 12:24");
+        dateStr = JkalDate.parseDateWithHour("22/02/2016 12:24");
         NiddahDto cycleDto4 = Vesset.fillNiddahDto(dateStr, latitude, longitude, elevation, locationName, timeZone);
         cycleDto4.setHaflaga(Vesset.getHaflagaEntreDeuxCycle(cycleDto3, cycleDto4));
         listCycle.add(cycleDto4);
-        LOGGER.info("Le cycle est hashavoua regulier " + Vesset.isCycleKavouaHashavoua(listCycle));
+        boolean resultTest = Vesset.isCycleKavouaHashavoua(listCycle);
+        Assert.isTrue(resultTest, "Probleme dans le calcul de vesset kavoua hashavoua");
 
     }
 
@@ -201,7 +203,7 @@ public class VessetTest {
         double latitude = 43.700000;
         double longitude = 7.250000;
         double elevation = 0;
-         String timeZone = "Europe/Paris";
+        String timeZone = "Europe/Paris";
         ArrayList<NiddahDto> listCycle = new ArrayList<>();
         NiddahDto cycleDto = Vesset.fillNiddahDto(dateStr, latitude, longitude, elevation, locationName, timeZone);
         listCycle.add(cycleDto);
@@ -218,8 +220,8 @@ public class VessetTest {
         cycleDto4.setHaflaga(Vesset.getHaflagaEntreDeuxCycle(cycleDto3, cycleDto4));
         listCycle.add(cycleDto4);
         LOGGER.info("Le cycle est diloug hahodesh regulier " + Vesset.isCycleKavouaDilougHahodesh(listCycle));
-
-        assertEquals(Vesset.isCycleKavouaDilougHahodesh(listCycle), true);
+        boolean resultTest = Vesset.isCycleKavouaDilougHahodesh(listCycle);
+        Assert.isTrue(resultTest, "Probleme dans le calcul de vesset kavoua diloug hahodesh");
 
     }
 
@@ -231,7 +233,7 @@ public class VessetTest {
         double latitude = 43.700000;
         double longitude = 7.250000;
         double elevation = 0;
-         String timeZone = "Europe/Paris";
+        String timeZone = "Europe/Paris";
         ArrayList<NiddahDto> listCycle = new ArrayList<>();
         NiddahDto cycleDto = Vesset.fillNiddahDto(dateStr, latitude, longitude, elevation, locationName, timeZone);
 
@@ -283,9 +285,9 @@ public class VessetTest {
         NiddahDto cycleDto13 = Vesset.fillNiddahDto(dateStr, latitude, longitude, elevation, locationName, timeZone);
         cycleDto10.setHaflaga(Vesset.getHaflagaEntreDeuxCycle(cycleDto12, cycleDto13));
         listCycle.add(cycleDto13);
-        boolean result = Vesset.isCycleKavouaDilougHahodeshHozer(listCycle);
-        LOGGER.info("Le cycle est diloug haodesh hozer regulier " + result);
-        assertEquals(result, true);
+        boolean resultTest = Vesset.isCycleKavouaDilougHahodeshHozer(listCycle);
+        Assert.isTrue(resultTest, "Probleme dans le calcul de vesset kavoua diloug hahodesh hozer");
+
     }
 
     @Test
@@ -296,7 +298,7 @@ public class VessetTest {
         double latitude = 43.700000;
         double longitude = 7.250000;
         double elevation = 0;
-         String timeZone = "Europe/Paris";
+        String timeZone = "Europe/Paris";
         ArrayList<NiddahDto> listCycle = new ArrayList<>();
         NiddahDto cycleDto = Vesset.fillNiddahDto(dateStr, latitude, longitude, elevation, locationName, timeZone);
         listCycle.add(cycleDto);
@@ -316,7 +318,8 @@ public class VessetTest {
         NiddahDto cycleDto5 = Vesset.fillNiddahDto(dateStr, latitude, longitude, elevation, locationName, timeZone);
         cycleDto5.setHaflaga(Vesset.getHaflagaEntreDeuxCycle(cycleDto4, cycleDto5));
         listCycle.add(cycleDto5);
-        LOGGER.info("Le cycle est diloug haflaga regulier " + Vesset.isCycleKavouaDilougHaflaga(listCycle));
+        boolean resultTest = Vesset.isCycleKavouaDilougHaflaga(listCycle);
+        Assert.isTrue(resultTest, "Probleme dans le calcul de vesset kavoua diloug haflaga");
 
     }
 
@@ -328,7 +331,7 @@ public class VessetTest {
         double latitude = 43.700000;
         double longitude = 7.250000;
         double elevation = 0;
-         String timeZone = "Europe/Paris";
+        String timeZone = "Europe/Paris";
         ArrayList<NiddahDto> listCycle = new ArrayList<>();
         NiddahDto cycleDto = Vesset.fillNiddahDto(dateStr, latitude, longitude, elevation, locationName, timeZone);
 
@@ -368,7 +371,8 @@ public class VessetTest {
         NiddahDto cycleDto10 = Vesset.fillNiddahDto(dateStr, latitude, longitude, elevation, locationName, timeZone);
         cycleDto10.setHaflaga(Vesset.getHaflagaEntreDeuxCycle(cycleDto9, cycleDto10));
         listCycle.add(cycleDto10);
-        LOGGER.info("Le cycle est diloug haflaga hozer regulier " + Vesset.isCycleKavouaDilougHaflagaHozer(listCycle));
+        boolean resultTest = Vesset.isCycleKavouaDilougHaflagaHozer(listCycle);
+        Assert.isTrue(resultTest, "Probleme dans le calcul de vesset kavoua diloug haflaga hozer");
 
     }
 

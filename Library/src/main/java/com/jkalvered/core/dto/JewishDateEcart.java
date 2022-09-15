@@ -23,18 +23,18 @@ public class JewishDateEcart implements Comparable<JewishDateEcart> {
 
     public JewishDateEcart(NiddahDto cycle1, NiddahDto cycle2, Ona ona) {
         int mois1, mois2, jour1, jour2;
-        mois1 = cycle1.getjDate().getJewishMonth();
-        mois2 = cycle2.getjDate().getJewishMonth();
-        jour1 = cycle1.getjDate().getJewishDayOfMonth();
-        jour2 = cycle2.getjDate().getJewishDayOfMonth();
+        mois1 = cycle1.getjKalDate().getJewishMonth();
+        mois2 = cycle2.getjKalDate().getJewishMonth();
+        jour1 = cycle1.getjKalDate().getJewishDayOfMonth();
+        jour2 = cycle2.getjKalDate().getJewishDayOfMonth();
         this.ona = ona;
-        if (cycle1.getjDate().isJewishLeapYear()) {
+        if (cycle1.getjKalDate().isJewishLeapYear()) {
             mois = NiddahMath.mod(mois2 - mois1, 13);
         } else {
             mois = NiddahMath.mod(mois2 - mois1, 12);
 
         }
-        jour = NiddahMath.mod(jour2 - jour1, cycle1.getjDate().getDaysInJewishMonth());
+        jour = NiddahMath.mod(jour2 - jour1, cycle1.getjKalDate().getDaysInJewishMonth());
         nbJourtEcart = cycle2.getHaflaga() - cycle1.getHaflaga();
 
     }
