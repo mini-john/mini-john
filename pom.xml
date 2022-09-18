@@ -2,12 +2,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">    
     <modelVersion>4.0.0</modelVersion>      
     <groupId>com.jkalvered</groupId>      
-    <artifactId>Jkalvered</artifactId>      
+    <artifactId>jkalvered-parent</artifactId>      
     <version>1.0-SNAPSHOT</version>      
     <packaging>pom</packaging>
-    <name>jkalvered-1.0-SNAPSHOT</name>
+    <name>jkalvered-parent</name>
     <modules>          
-        <module>library</module>          
+        <module>jkalvered-library</module>          
         <module>jkalvered-web</module>      
     </modules>      
     <properties>            
