@@ -11,12 +11,15 @@ import com.jkalvered.library.enumeration.Ona;
 import com.jkalvered.library.exception.NiddahException;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.Locale;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.javatuples.Pair;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.util.Assert;
 
@@ -26,7 +29,13 @@ import org.springframework.util.Assert;
  */
 public class TestPricha {
 
-    private static org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger();
+
+    @Before
+    public void setUp() {
+        Locale.setDefault(Locale.FRENCH);
+        LOGGER.info("before");
+    }
 
     @Test
     public void testPrichaBenonit() throws ParseException {
@@ -47,7 +56,7 @@ public class TestPricha {
         pricha = Pricha.getPrichaBenonit(date1, locationName, latitude, longitude, elevation, timeZone);
         Assert.isTrue(pricha.getOna() == Ona.Nuit, "Il ya un problème sur le calcul de la ona");
         Assert.isTrue(pricha.getDatePricha().getDateGregorian().toString().equals("Mon Sep 12 22:05:00 CEST 2022"), "Probleme dans le calcul de la ona benonit");
-
+        LOGGER.info("Test Benonit Success");
     }
 
     @Test
@@ -60,11 +69,11 @@ public class TestPricha {
         Date date1 = JkalDate.parseDateWithHour("14/08/2022 22:05");
         PrichaDto pricha = Pricha.getPrichaHahodesh(date1, locationName, latitude, longitude, elevation, timeZone);
         Assert.isTrue(pricha.getOna() == Ona.Nuit, "Il ya un problème sur le calcul de la ona");
-        Assert.isTrue(pricha.getDatePricha().getDateGregorian().toString().equals("Tue Sep 13 22:05:00 CEST 2022"), "Probleme dans le calcul de la ona benonit");
+        Assert.isTrue(pricha.getDatePricha().getDateGregorian().toString().equals("Tue Sep 13 22:05:00 CEST 2022"), "Probleme dans le calcul de la ona Hagodesh");
         date1 = JkalDate.parseDateWithHour("14/08/2022 14:05");
         pricha = Pricha.getPrichaHahodesh(date1, locationName, latitude, longitude, elevation, timeZone);
         Assert.isTrue(pricha.getOna() == Ona.Jour, "Il ya un problème sur le calcul de la ona");
-        Assert.isTrue(pricha.getDatePricha().getDateGregorian().toString().equals("Tue Sep 13 14:05:00 CEST 2022"), "Probleme dans le calcul de la ona benonit");
+        Assert.isTrue(pricha.getDatePricha().getDateGregorian().toString().equals("Tue Sep 13 14:05:00 CEST 2022"), "Probleme dans le calcul de la ona Hagodesh");
 
     }
 
@@ -92,8 +101,8 @@ public class TestPricha {
         Date date1 = JkalDate.parseDateWithHour("14/08/2022 04:05");
         Pair<PrichaDto, PrichaDto> prichot = Pricha.getPrichaBenonitHovotDaat(date1, locationName, latitude, longitude, elevation, timeZone);
         PrichaDto prichaBenonit = Pricha.getPrichaBenonit(date1, locationName, latitude, longitude, elevation, timeZone);
-        int days = Days.daysBetween(new LocalDate(prichaBenonit.getDatePricha().getDateGregorian()), new LocalDate(prichot.getValue1().getDatePricha().getDateGregorian())).getDays() ;
-        Assert.isTrue(days==1, "Probleme dans le calcul de la pricha hovot daat");
+        int days = Days.daysBetween(new LocalDate(prichaBenonit.getDatePricha().getDateGregorian()), new LocalDate(prichot.getValue1().getDatePricha().getDateGregorian())).getDays();
+        Assert.isTrue(days == 1, "Probleme dans le calcul de la pricha hovot daat");
     }
 
     @Test
@@ -106,9 +115,9 @@ public class TestPricha {
         Date date1 = JkalDate.parseDateWithHour("14/08/2022 22:05");
         Pair<PrichaDto, PrichaDto> prichot = Pricha.getPrichaHoutChani(date1, locationName, latitude, longitude, elevation, timeZone);
         PrichaDto prichaBenonit = Pricha.getPrichaBenonit(date1, locationName, latitude, longitude, elevation, timeZone);
-        int days = Days.daysBetween(new LocalDate(prichaBenonit.getDatePricha().getDateGregorian()), new LocalDate(prichot.getValue1().getDatePricha().getDateGregorian())).getDays() ;
-        Assert.isTrue(days==1, "Probleme dans le calcul de la pricha hout chani");
-   
+        int days = Days.daysBetween(new LocalDate(prichaBenonit.getDatePricha().getDateGregorian()), new LocalDate(prichot.getValue1().getDatePricha().getDateGregorian())).getDays();
+        Assert.isTrue(days == 1, "Probleme dans le calcul de la pricha hout chani");
+
     }
 
     @Test

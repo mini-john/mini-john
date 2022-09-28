@@ -416,14 +416,13 @@ public class JkalDate extends JewishDate {
         return "JkalDate{" + "dateGregorian=" + dateGregorian + ", hours=" + hours + ", min=" + min + ", locationName=" + locationName + ", latitude=" + latitude + ", longitude=" + longitude + ", elevation=" + elevation + ", timeZone=" + timeZone + ", Ona=" + getOna() + '}';
     }
 
-    public static void copyHourInTwoDate(Date dateSource, Date dateRes) {
+    public static Date copyHourInTwoDate(Date dateSource, Date dateRes) {
         Calendar cal = GregorianCalendar.getInstance(), cal1 = GregorianCalendar.getInstance();
         cal1.setTime(dateSource);
         cal.setTime(dateRes);
-        cal.set(Calendar.HOUR, cal1.get(Calendar.HOUR));
+        cal.set(Calendar.HOUR_OF_DAY , cal1.get(Calendar.HOUR_OF_DAY ));
         cal.set(Calendar.MINUTE, cal1.get(Calendar.MINUTE));
         cal.set(Calendar.SECOND, cal1.get(Calendar.SECOND));
-        dateRes.setTime(cal.getTime().getTime());
-
+        return cal.getTime();
     }
 }

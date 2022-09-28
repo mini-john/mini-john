@@ -13,7 +13,7 @@ import com.jkalvered.library.exception.NiddahException;
 import com.kosherjava.zmanim.ZmanimCalendar;
 import com.kosherjava.zmanim.hebrewcalendar.JewishDate;
 import java.util.Date;
-import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.javatuples.Pair;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
@@ -25,7 +25,7 @@ import org.joda.time.LocalDate;
  */
 public class Pricha {
 
-    private static final Logger LOGGER = Logger.getLogger(Pricha.class.getName());
+    private static org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger();
 
     /**
      * Retourne la pricha benoit du cycle
@@ -63,8 +63,7 @@ public class Pricha {
         JewishDate jDate = JkalDate.getDateJewish(date);
         jDate = JkalDate.addMonth(jDate, 1);
         Date dateHahodesh = jDate.getGregorianCalendar().getTime();
-
-        JkalDate.copyHourInTwoDate(date, dateHahodesh);
+        dateHahodesh = JkalDate.copyHourInTwoDate(date, dateHahodesh);
         PrichaDto prichaDto = new PrichaDto(dateHahodesh, locationName, latitude, longitude, elevation, timeZone);
         prichaDto.setTypePricha(TypePricha.Hahodesh);
         prichaDto.fillDateBedika(date, (ZmanimCalendar) prichaDto.getzc());
@@ -87,7 +86,7 @@ public class Pricha {
         if (dateVue.before(datePrecedente)) {
             throw new NiddahException("La date 1 : " + datePrecedente + " doit être avant la 2 : " + dateVue);
         }
-        int days = Days.daysBetween(new LocalDate(datePrecedente), new LocalDate(dateVue)).getDays()+1;
+        int days = Days.daysBetween(new LocalDate(datePrecedente), new LocalDate(dateVue)).getDays() + 1;
         Date dateHaflaga = JkalDate.addDay(dateVue, days - 2);
 
         PrichaDto prichaDto = new PrichaDto(dateHaflaga, locationName, latitude, longitude, elevation, timeZone);
