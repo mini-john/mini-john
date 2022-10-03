@@ -20,7 +20,7 @@
         <springframework.version>5.3.22</springframework.version>            
         <hibernate.version>4.3.6.Final</hibernate.version>            
         <mysql.version>5.1.31</mysql.version>            
-        <joda-time.version>2.10.14</joda-time.version>            
+        <joda-time.version>2.11.0</joda-time.version>            
         <testng.version>6.9.4</testng.version>            
         <mockito.version>1.10.19</mockito.version>            
         <h2.version>1.4.187</h2.version>            
@@ -38,7 +38,12 @@
             <groupId>org.apache.logging.log4j</groupId>                  
             <artifactId>log4j-core</artifactId>                  
             <version>2.18.0</version>              
-        </dependency>            
+        </dependency>  
+        <dependency>                  
+            <groupId>org.apache.logging.log4j</groupId>                  
+            <artifactId>log4j-appserver</artifactId>                  
+            <version>2.18.0</version>              
+        </dependency>           
         <dependency>                  
             <groupId>com.kosherjava</groupId>                  
             <artifactId>zmanim</artifactId>                  
@@ -72,11 +77,11 @@
             <artifactId>spring-orm</artifactId>                  
             <version>${springframework.version}</version>              
         </dependency>            
-        <dependency>                  
-            <groupId>org.springframework</groupId>                  
-            <artifactId>spring-oxm</artifactId>                  
-            <version>${springframework.version}</version>              
-        </dependency>            
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-oxm</artifactId>
+            <version>${springframework.version}</version>
+        </dependency>
         <!-- Joda-Time -->        
         <dependency>                         
             <groupId>joda-time</groupId>                  
@@ -94,23 +99,13 @@
             <groupId>org.jadira.usertype</groupId>                  
             <artifactId>usertype.core</artifactId>                  
             <version>7.0.0.CR1</version>                  
-            <exclusions>                        
-                <exclusion>                              
-                    <groupId>org.slf4j</groupId>                              
-                    <artifactId>slf4j-api</artifactId>                          
-                </exclusion>                    
-            </exclusions>              
+                    
         </dependency>            
         <dependency>                  
             <groupId>org.jadira.usertype</groupId>                  
             <artifactId>usertype.spi</artifactId>                  
             <version>7.0.0.CR1</version>                  
-            <exclusions>                        
-                <exclusion>                              
-                    <groupId>org.slf4j</groupId>                              
-                    <artifactId>slf4j-api</artifactId>                          
-                </exclusion>                    
-            </exclusions>              
+                       
         </dependency>            
         <!--Test dependency -->            
         <dependency>                  
@@ -140,22 +135,40 @@
         </dependency>        
     </dependencies>      
     
-    <repositories>       
-        <!--        <repository>
+    <!--    <repositories>       
+        <repository>
             <id>searche</id>
             <name>maven</name>
             <url>https://search.maven.org/</url>
-        </repository>-->            
+        </repository> 
+        <repository>
+            <id>repo1</id>
+            <name>central</name>
+            <url>https://repo1.maven.org/maven2/</url>
+           
+        </repository>             
         <repository>
             <id>org.springsource.maven.snapshot</id>                  
             <name>SpringSource Maven Central-compatible Snapshot Repository</name>                  
             <url>https://repo.spring.io</url>              
         </repository>       
-        <!--        <repository>
-            <id>repo1</id>
-            <name>central</name>
-            <url>https://repo1.maven.org/maven2/</url>
-        </repository>    -->      
-    </repositories>
-      
+               
+    </repositories>-->
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <spring.profiles.active>dev</spring.profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <spring.profiles.active>prod</spring.profiles.active>
+            </properties>
+        </profile>
+    </profiles>
 </project>

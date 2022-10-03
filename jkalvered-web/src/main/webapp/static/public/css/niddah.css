@@ -1,0 +1,51 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 31 janv. 2017, 15:56:04
+    Author     : Boccara Jonathan
+*/
+
+h3{
+
+    font-size: 2em;
+    margin: 0;
+    color: #c34c21;
+    font-family: LobsterTwo-Regular;
+    text-transform: capitalize
+
+}
+/*
+.tooltip {
+    background-color:#000;
+    border:1px solid #fff;
+    padding:10px 15px;
+   width:200px;
+    display:none;
+    color:#fff;
+    text-align:left;
+    font-size:12px;
+
+    /* outline radius for mozilla/firefox only 
+    -moz-box-shadow:0 0 10px #000;
+    -webkit-box-shadow:0 0 10px #000;
+}*/
+.ui-tooltip-content::after, .ui-tooltip-content::before {
+    content: "";
+    position: absolute;
+    border-style: solid;
+    display: block;
+    left: 90px;
+}
+.ui-tooltip-content::before {
+    bottom: -10px;
+    border-color: #AAA transparent;
+    border-width: 10px 10px 0;
+}
+.ui-tooltip-content::after {
+    bottom: -7px;
+    border-color: white transparent;
+    border-width: 10px 10px 0;
+}
