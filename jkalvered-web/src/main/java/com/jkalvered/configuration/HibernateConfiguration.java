@@ -53,6 +53,8 @@ public class HibernateConfiguration {
         dataSource.setUrl(environment.getRequiredProperty("jdbc.url"));
         dataSource.setUsername(environment.getRequiredProperty("jdbc.username"));
         dataSource.setPassword(environment.getRequiredProperty("jdbc.password"));
+        System.setProperty("hsqldb.method_class_names", "com.jkalvered.core.entite.*");
+        LOGGER.info("url database"+ dataSource.getUrl());
         return dataSource;
     }
 
