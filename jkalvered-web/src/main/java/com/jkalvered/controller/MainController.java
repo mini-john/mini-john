@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jkalvered.configuration.controller;
+package com.jkalvered.controller;
 
 import com.jkalvered.core.entite.Account;
 import com.jkalvered.core.service.CrudService;
+import java.util.Date;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class MainController {
         LOGGER.info("La page index est demandée");
         System.out.println("com.jkalvered.configuration.controller.MainController.index()");
         Account account = new Account();
-        account.setLogin("test");
+        account.setLogin(new Date().toString());
         account = crudService.add(account, account.getClass());
         LOGGER.info(account);
         return new ModelAndView("/index");
