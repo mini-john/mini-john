@@ -1,4 +1,4 @@
-package com.jkalvered.configuration;
+package com.jkalvered.test.core.configuration;
 
 import java.util.Properties;
 
@@ -23,10 +23,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScan({"com.jkalvered.configuration"})
+@ComponentScan({"com.jkalvered.test.core.configuration"})
 @PropertySources({
     @PropertySource(value = "classpath:application.properties"),
-    @PropertySource(value = "classpath:application-${database}.properties", ignoreResourceNotFound = false)
+    @PropertySource(value = "classpath:application-testing.properties", ignoreResourceNotFound = false)
 })
 public class HibernateConfiguration {
 

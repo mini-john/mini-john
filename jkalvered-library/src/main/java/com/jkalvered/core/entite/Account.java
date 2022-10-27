@@ -51,10 +51,8 @@ public class Account implements Serializable {
     private EtatAccount etatAccount;
     @OneToOne
     @JoinColumn(name = "id")
-    private Femme femme;
-    @OneToOne
-    @JoinColumn(name = "id")
-    private Homme homme;
+    private Personne personne;
+    
     @Enumerated(EnumType.STRING)
     private RoleUser role;
 
@@ -152,23 +150,23 @@ public class Account implements Serializable {
             return false;
         }
         Account other = (Account) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
-    public Femme getFemme() {
-        return femme;
+    public Personne getPersonne() {
+        return personne;
     }
 
-    public void setFemme(Femme femme) {
-        this.femme = femme;
+    public void setPersonne(Personne personne) {
+        this.personne = personne;
     }
 
+    
+
+    
     @Override
     public String toString() {
-        return "Account{" + "id=" + id + ", login=" + login + ", password=" + password + ", mail=" + mail + ", nbEssais=" + nbEssais + ", jeton=" + jeton + ", accountBlock=" + accountBlock + ", dateLimiteJeton=" + dateLimiteJeton + ", etatAccount=" + etatAccount + ", femme=" + femme + ", role=" + role + '}';
+        return "Account{" + "id=" + id + ", login=" + login + ", password=" + password + ", mail=" + mail + ", nbEssais=" + nbEssais + ", jeton=" + jeton + ", accountBlock=" + accountBlock + ", dateLimiteJeton=" + dateLimiteJeton + ", etatAccount=" + etatAccount + ", personne=" + personne + ", role=" + role + '}';
     }
 
 }

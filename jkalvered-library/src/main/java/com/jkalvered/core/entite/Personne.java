@@ -21,12 +21,12 @@ import javax.persistence.SequenceGenerator;
  * @author jonat
  */
 @Entity
-public class Femme implements Serializable {
+public class Personne implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "femme_sequence")
-    @SequenceGenerator(name = "femme_sequence", sequenceName = "femme_sequence")
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "personne_sequence")
+    @SequenceGenerator(name = "personne_sequence", sequenceName = "personne_sequence")
     private Long id;
     private String nom;
     private String prenom;
@@ -36,14 +36,26 @@ public class Femme implements Serializable {
     private double elevation;
     @Enumerated(EnumType.STRING)
     private Sexe sexe;
-    @OneToOne(cascade = {CascadeType.ALL}, mappedBy = "femme")
+    @OneToOne(cascade = {CascadeType.ALL}, mappedBy = "personne")
     private Account account;
-    @OneToOne(cascade = {CascadeType.ALL}, mappedBy = "femme")
+    @OneToOne(cascade = {CascadeType.ALL}, mappedBy = "personne")
     private Configuration configuration;
+    @OneToOne(cascade = {CascadeType.ALL})
+    private Personne conjoint;
+    
 
     public Long getId() {
         return id;
     }
+
+    public Personne getConjoint() {
+        return conjoint;
+    }
+
+    public void setConjoint(Personne conjoint) {
+        this.conjoint = conjoint;
+    }
+    
 
     public void setId(Long id) {
         this.id = id;
@@ -131,10 +143,10 @@ public class Femme implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Femme)) {
+        if (!(object instanceof Personne)) {
             return false;
         }
-        Femme other = (Femme) object;
+        Personne other = (Personne) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

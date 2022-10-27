@@ -6,7 +6,7 @@
 package com.jkalvered.core.dto;
 
 import com.jkalvered.library.enumeration.Ona;
-import com.jkalvered.library.math.NiddahMath;
+import com.jkalvered.library.math.JkalVeredMath;
 
 
 
@@ -29,12 +29,12 @@ public class JewishDateEcart implements Comparable<JewishDateEcart> {
         jour2 = cycle2.getjKalDate().getJewishDayOfMonth();
         this.ona = ona;
         if (cycle1.getjKalDate().isJewishLeapYear()) {
-            mois = NiddahMath.mod(mois2 - mois1, 13);
+            mois = JkalVeredMath.mod(mois2 - mois1, 13);
         } else {
-            mois = NiddahMath.mod(mois2 - mois1, 12);
+            mois = JkalVeredMath.mod(mois2 - mois1, 12);
 
         }
-        jour = NiddahMath.mod(jour2 - jour1, cycle1.getjKalDate().getDaysInJewishMonth());
+        jour = JkalVeredMath.mod(jour2 - jour1, cycle1.getjKalDate().getDaysInJewishMonth());
         nbJourtEcart = cycle2.getHaflaga() - cycle1.getHaflaga();
 
     }

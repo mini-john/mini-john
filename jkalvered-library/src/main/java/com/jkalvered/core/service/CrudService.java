@@ -5,7 +5,7 @@
  */
 package com.jkalvered.core.service;
 
-import com.jkalvered.core.castor.NiddahCastor;
+import com.jkalvered.core.modelmapper.JkalveredModelMapper;
 import com.jkalvered.core.repository.CrudRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ public class CrudService {
     @Autowired
     CrudRepository crudRepository;
     @Autowired
-    NiddahCastor niddahCastor;
+    JkalveredModelMapper niddahCastor;
     private static final Logger LOGGER = LogManager.getLogger();
 
     public <T> T add(T entityDTO, Class entity) {

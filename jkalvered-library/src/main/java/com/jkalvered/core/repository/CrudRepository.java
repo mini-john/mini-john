@@ -1,11 +1,15 @@
 package com.jkalvered.core.repository;
 
+import com.jkalvered.core.entite.Account;
+import java.awt.print.Book;
 import java.util.List;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -33,8 +37,6 @@ public class CrudRepository {
 
     }
 
-    
-
     public <T> void update(T entity) {
         sessionFactory.getCurrentSession().saveOrUpdate(entity);
 
@@ -52,18 +54,10 @@ public class CrudRepository {
     }
 
     public <T> List<T> findAll(Class entity) {
-        return sessionFactory.getCurrentSession().createCriteria(entity).addOrder(Order.asc("id")).list();
+        CriteriaBuilder cb = sessionFactory.getCurrentSession().getCriteriaBuilder();
+        CriteriaQuery<T> cq = cb.createQuery(entity);
+        Root<T> root = cq.from(entity);
+        cq.orderBy(cb.asc(root.get("id")));
+        return sessionFactory.getCurrentSession().createQuery(cq).getResultList();
     }
-
-    public <T> List<T> findByCriteria(Class entity, Criterion criterion) {
-        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(entity);
-        criteria.add(criterion);
-        return criteria.list();
-
-    }
-
-    protected Criteria createEntityCriteria(Class entity) {
-        return getSession().createCriteria(entity);
-    }
-
 }

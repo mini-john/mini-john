@@ -3,12 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jkalvered.core.castor;
+package com.jkalvered.core.modelmapper;
 
 import java.util.ArrayList;
 import java.util.List;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Component;
  * @author mini-john
  */
 @Component
-public class NiddahCastor {
+public class JkalveredModelMapper {
 
     ModelMapper  castorMarshaller=new ModelMapper();
 

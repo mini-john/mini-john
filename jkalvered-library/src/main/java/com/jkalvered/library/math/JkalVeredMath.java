@@ -10,7 +10,7 @@ package com.jkalvered.library.math;
  *
  * @author mini-john
  */
-public class NiddahMath {
+public class JkalVeredMath {
 
     /**
      *

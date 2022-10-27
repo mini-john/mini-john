@@ -1,34 +1,35 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.jkalvered.core.entite;
 
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 /**
  *
- * @author mini-john
+ * @author jonat
  */
 @Entity
-public class Configuration implements Serializable {
+public class Purification implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "configuration_sequence")
-    @SequenceGenerator(name = "configuration_sequence", sequenceName = "configuration_sequence")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @OneToOne
-    @JoinColumn(name = "id")
-    private Personne personne;
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private Niddah niddah;
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL,mappedBy = "purification")
+    private List<ChevaNekiym> listChevaNekiym;
 
     public Long getId() {
         return id;
@@ -36,14 +37,6 @@ public class Configuration implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Personne getPersonne() {
-        return this.personne;
-    }
-
-    public void setPersonne(Personne personne) {
-        this.personne = personne;
     }
 
     @Override
@@ -56,10 +49,10 @@ public class Configuration implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Configuration)) {
+        if (!(object instanceof Purification)) {
             return false;
         }
-        Configuration other = (Configuration) object;
+        Purification other = (Purification) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -68,7 +61,7 @@ public class Configuration implements Serializable {
 
     @Override
     public String toString() {
-        return "com.niddah.core.entity.Configuration[ id=" + id + " ]";
+        return "com.jkalvered.core.entite.Purification[ id=" + id + " ]";
     }
-
+    
 }
