@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,8 +24,8 @@ import lombok.Setter;
 public class Bedikot implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "private_sequence")
+    @SequenceGenerator(name = "private_sequence", sequenceName = "private_sequence")
     private Long id;
 
     @Getter

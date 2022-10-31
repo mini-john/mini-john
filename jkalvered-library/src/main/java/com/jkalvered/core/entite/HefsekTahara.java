@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 
 /**
  *
@@ -22,9 +23,10 @@ public class HefsekTahara implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "hefsektahara_sequence")
+    @SequenceGenerator(name = "hefsektahara_sequence", sequenceName = "hefsektahara_sequence")
     private Long id;
-    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Purification purification;
 
     public Long getId() {
@@ -59,5 +61,5 @@ public class HefsekTahara implements Serializable {
     public String toString() {
         return "com.jkalvered.core.entite.HefsekTahara[ id=" + id + " ]";
     }
-    
+
 }

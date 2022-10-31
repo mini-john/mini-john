@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 
 /**
  *
@@ -22,7 +23,8 @@ public class Pricha implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "pricha_sequence")
+    @SequenceGenerator(name = "pricha_sequence", sequenceName = "pricha_sequence")
     private Long id;
     @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Niddah niddah;

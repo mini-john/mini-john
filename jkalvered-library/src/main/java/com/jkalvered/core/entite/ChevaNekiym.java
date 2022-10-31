@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 
 /**
  *
@@ -23,8 +24,8 @@ import javax.persistence.OneToOne;
 public class ChevaNekiym implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "chevanekiym_sequence")
+    @SequenceGenerator(name = "chevanekiym_sequence", sequenceName = "chevanekiym_sequence")
     private Long id;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Purification purification;

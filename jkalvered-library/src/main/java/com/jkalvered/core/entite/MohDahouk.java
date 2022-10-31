@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 
 /**
  *
@@ -22,7 +23,8 @@ public class MohDahouk implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "mohdahouk_sequence")
+    @SequenceGenerator(name = "mohdhouk_sequence", sequenceName = "mohdahouk_sequence")
     private Long id;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Purification purification;

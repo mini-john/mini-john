@@ -8,6 +8,6 @@ package com.jkalvered.core.dto;
  *
  * @author jonat
  */
-public class HommeDto {
+public class PersonneDto {
     
 }

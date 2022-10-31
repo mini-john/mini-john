@@ -17,7 +17,7 @@ import java.util.GregorianCalendar;
 public class NiddahDto implements Comparable<NiddahDto> {
 
     private Long id;
-    private FemmeDto femme;
+    private PersonneDto personne;
     private JkalDate jKalDate;
     private int haflaga;
     private String locationName;
@@ -41,8 +41,8 @@ public class NiddahDto implements Comparable<NiddahDto> {
         return id;
     }
 
-    public FemmeDto getFemme() {
-        return femme;
+    public PersonneDto getPersonne() {
+        return personne;
     }
 
     public JkalDate getjKalDate() {
@@ -100,7 +100,7 @@ public class NiddahDto implements Comparable<NiddahDto> {
 
     @Override
     public String toString() {
-        return "NiddahDto{" + "id=" + id + ", femme=" + femme + ", jKalDate=" + jKalDate + ", haflaga=" + haflaga + ", locationName=" + locationName + ", latitude=" + latitude + ", longitude=" + longitude + ", elevation=" + elevation + ", timeZone=" + timeZone + '}';
+        return "NiddahDto{" + "id=" + id + ", femme=" + personne + ", jKalDate=" + jKalDate + ", haflaga=" + haflaga + ", locationName=" + locationName + ", latitude=" + latitude + ", longitude=" + longitude + ", elevation=" + elevation + ", timeZone=" + timeZone + '}';
     }
 
     @Override

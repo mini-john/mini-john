@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 
 /**
  *
@@ -24,7 +25,8 @@ public class Purification implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "purification_sequence")
+    @SequenceGenerator(name = "purification_sequence", sequenceName = "purification_sequence")
     private Long id;
     @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Niddah niddah;

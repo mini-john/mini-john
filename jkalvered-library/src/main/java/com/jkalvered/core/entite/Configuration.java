@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
@@ -29,6 +31,21 @@ public class Configuration implements Serializable {
     @OneToOne
     @JoinColumn(name = "id")
     private Personne personne;
+    @Getter
+    @Setter
+    private String locationName;
+    @Getter
+    @Setter
+    private double latitude;
+    @Getter
+    @Setter
+    private double longitude;
+    @Getter
+    @Setter
+    private double elevation;
+    @Getter
+    @Setter
+    private String timeZone;
 
     public Long getId() {
         return id;
@@ -60,10 +77,7 @@ public class Configuration implements Serializable {
             return false;
         }
         Configuration other = (Configuration) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override
