@@ -12,6 +12,8 @@ import com.jkalvered.library.exception.NiddahException;
 import com.kosherjava.zmanim.ZmanimCalendar;
 import java.util.Calendar;
 import java.util.Date;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 
 /**
@@ -27,12 +29,21 @@ public class PrichaDto implements Comparable<PrichaDto> {
     /*
     Champ necessaire à la création de l'objet
      */
+    @Getter
+    @Setter
+    private Long id;
+
     private String locationName;
     private double latitude;
     private double longitude;
     private double elevation;
     private String timeZone;
-    private JkalDate datePricha;
+    private JkalDate dateJPricha;
+    @Getter
+    @Setter
+    private Date datePricha; 
+           
+
 
     /*
     Champs rajouté après la creation de l'objet
@@ -52,7 +63,8 @@ public class PrichaDto implements Comparable<PrichaDto> {
         this.longitude = longitude;
         this.elevation = elevation;
         this.timeZone = timeZone;
-        this.datePricha = new JkalDate(datePricha, locationName, latitude, longitude, elevation, timeZone);
+        this.datePricha=datePricha;
+        this.dateJPricha = new JkalDate(datePricha, locationName, latitude, longitude, elevation, timeZone);
     }
 
 //    public String getLocationName() {
@@ -94,12 +106,12 @@ public class PrichaDto implements Comparable<PrichaDto> {
 //    public void setTimeZone(String timeZone) {
 //        this.timeZone = timeZone;
 //    }
-    public JkalDate getDatePricha() {
-        return datePricha;
+    public JkalDate getDateJPricha() {
+        return dateJPricha;
     }
 
-    public void setDatePricha(JkalDate datePricha) {
-        this.datePricha = datePricha;
+    public void setDateJPricha(JkalDate dateJPricha) {
+        this.dateJPricha = dateJPricha;
     }
 
     public String getCommentaire() {
@@ -162,7 +174,7 @@ public class PrichaDto implements Comparable<PrichaDto> {
     }
 
     public Ona getOna() {
-        return datePricha.getOna();
+        return dateJPricha.getOna();
     }
 
     /**
@@ -172,23 +184,24 @@ public class PrichaDto implements Comparable<PrichaDto> {
      * @param zcalendar
      */
     public void fillDateBedika(Date dateVue, ZmanimCalendar zcalendar) {
-        zcalendar.getCalendar().setTime(datePricha.getDateGregorian());
-        switch (this.datePricha.getMomentJournee(dateVue)) {
+        zcalendar.getCalendar().setTime(dateJPricha.getDateGregorian());
+        switch (this.dateJPricha.getMomentJournee(dateVue)) {
             case Jour -> {
-                this.dateBedika1 = datePricha.getLeverSoleil(datePricha.getDateGregorian());
-                this.dateBedika2 = datePricha.getCoucherSoleil(datePricha.getDateGregorian());
+                this.dateBedika1 = dateJPricha.getLeverSoleil(dateJPricha.getDateGregorian());
+                this.dateBedika2 = dateJPricha.getCoucherSoleil(dateJPricha.getDateGregorian());
 
             }
             case Matin -> {
-                this.dateBedika2 = datePricha.getLeverSoleil(datePricha.getDateGregorian());
+                this.dateBedika2 = dateJPricha.getLeverSoleil(dateJPricha.getDateGregorian());
                 zcalendar.getCalendar().roll(Calendar.DAY_OF_MONTH, -1);
                 this.dateBedika1 = zcalendar.getSunset();
             }
             case Soir -> {
-                this.dateBedika1 = datePricha.getCoucherSoleil(datePricha.getDateGregorian());
+                this.dateBedika1 = dateJPricha.getCoucherSoleil(dateJPricha.getDateGregorian());
                 zcalendar.getCalendar().roll(Calendar.DAY_OF_MONTH, +1);
                 this.dateBedika2 = zcalendar.getSunrise();
             }
+
         }
     }
 
@@ -199,11 +212,11 @@ public class PrichaDto implements Comparable<PrichaDto> {
 
     @Override
     public String toString() {
-        return "PrichaDto{" + "locationName=" + locationName + ", latitude=" + latitude + ", longitude=" + longitude + ", elevation=" + elevation + ", timeZone=" + timeZone + ", datePricha=" + datePricha + ", commentaire=" + commentaire + ", typePricha=" + typePricha + ", dateBedika1=" + dateBedika1 + ", dateBedika2=" + dateBedika2 + ", etatBedika1=" + etatBedika1 + ", etatBedika2=" + etatBedika2 + ", haflagaDay=" + haflagaDay + '}';
+        return "PrichaDto{" + "locationName=" + locationName + ", latitude=" + latitude + ", longitude=" + longitude + ", elevation=" + elevation + ", timeZone=" + timeZone + ", datePricha=" + dateJPricha + ", commentaire=" + commentaire + ", typePricha=" + typePricha + ", dateBedika1=" + dateBedika1 + ", dateBedika2=" + dateBedika2 + ", etatBedika1=" + etatBedika1 + ", etatBedika2=" + etatBedika2 + ", haflagaDay=" + haflagaDay + '}';
     }
 
     public ZmanimCalendar getzc() {
-        return (ZmanimCalendar) this.datePricha.getZc().clone();
+        return (ZmanimCalendar) this.dateJPricha.getZc().clone();
     }
 
     /**
@@ -213,23 +226,24 @@ public class PrichaDto implements Comparable<PrichaDto> {
      * @param zcalendar
      */
     public void fillDateBedikaJourEntier(Date dateVue, ZmanimCalendar zcalendar) {
-        zcalendar.getCalendar().setTime(datePricha.getDateGregorian());
-        switch (this.datePricha.getMomentJournee(dateVue)) {
+        zcalendar.getCalendar().setTime(dateJPricha.getDateGregorian());
+        switch (this.dateJPricha.getMomentJournee(dateVue)) {
             case Jour -> {
-                this.dateBedika2 = datePricha.getCoucherSoleil(datePricha.getDateGregorian());
+                this.dateBedika2 = dateJPricha.getCoucherSoleil(dateJPricha.getDateGregorian());
                 zcalendar.getCalendar().roll(Calendar.DAY_OF_MONTH, -1);
                 this.dateBedika1 = zcalendar.getSunset();
             }
             case Matin -> {
-                this.dateBedika2 = datePricha.getCoucherSoleil(datePricha.getDateGregorian());
+                this.dateBedika2 = dateJPricha.getCoucherSoleil(dateJPricha.getDateGregorian());
                 zcalendar.getCalendar().roll(Calendar.DAY_OF_MONTH, -1);
                 this.dateBedika1 = zcalendar.getSunset();
             }
             case Soir -> {
-                this.dateBedika1 = datePricha.getCoucherSoleil(datePricha.getDateGregorian());
+                this.dateBedika1 = dateJPricha.getCoucherSoleil(dateJPricha.getDateGregorian());
                 zcalendar.getCalendar().roll(Calendar.DAY_OF_MONTH, +1);
                 this.dateBedika2 = zcalendar.getSunrise();
             }
+
         }
     }
 
@@ -243,7 +257,8 @@ public class PrichaDto implements Comparable<PrichaDto> {
     public void fillDateBedikaOrZaroua(Date dateVue, PrichaDto pricha, ZmanimCalendar zcalendar) {
 
         dateBedika2 = pricha.getDateBedika1();
-        switch (this.datePricha.getMomentJournee(dateVue)) {
+        switch (this.dateJPricha.getMomentJournee(dateVue)) {
+
             case Jour -> {
                 zcalendar.getCalendar().roll(Calendar.DAY_OF_MONTH, -1);
                 this.dateBedika1 = zcalendar.getSunset();

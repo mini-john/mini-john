@@ -9,16 +9,23 @@ import com.jkalvered.library.enumeration.Ona;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  *
  * @author jonat
  */
+@Getter
+@Setter
+@ToString
 public class NiddahDto implements Comparable<NiddahDto> {
 
     private Long id;
     private PersonneDto personne;
     private JkalDate jKalDate;
+    private Date dateVue;
     private int haflaga;
     private String locationName;
     private double latitude;
@@ -26,6 +33,9 @@ public class NiddahDto implements Comparable<NiddahDto> {
     private double elevation;
     private String timeZone;
     private String commentaire;
+    @Getter
+    @Setter
+    private Date dateDernierRapport;
 
     public NiddahDto(Date dateVue, String locationName, double latitude, double longitude, double elevation, String timeZone) {
         this.locationName = locationName;
@@ -33,6 +43,7 @@ public class NiddahDto implements Comparable<NiddahDto> {
         this.longitude = longitude;
         this.elevation = elevation;
         this.timeZone = timeZone;
+        this.dateVue = dateVue;
         this.jKalDate = new JkalDate(dateVue, locationName, latitude, longitude, elevation, timeZone);
 
     }
@@ -46,6 +57,10 @@ public class NiddahDto implements Comparable<NiddahDto> {
     }
 
     public JkalDate getjKalDate() {
+        if (jKalDate == null) {
+            this.jKalDate = new JkalDate(dateVue, locationName, latitude, longitude, elevation, timeZone);
+
+        }
         return jKalDate;
     }
 
@@ -96,11 +111,6 @@ public class NiddahDto implements Comparable<NiddahDto> {
         Calendar cal2 = GregorianCalendar.getInstance();
         cal2.setTime(o.jKalDate.getDateGregorian());
         return cal1.compareTo(cal2);
-    }
-
-    @Override
-    public String toString() {
-        return "NiddahDto{" + "id=" + id + ", femme=" + personne + ", jKalDate=" + jKalDate + ", haflaga=" + haflaga + ", locationName=" + locationName + ", latitude=" + latitude + ", longitude=" + longitude + ", elevation=" + elevation + ", timeZone=" + timeZone + '}';
     }
 
     @Override

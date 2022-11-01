@@ -5,6 +5,7 @@
 package com.jkalvered.core.entite;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -14,7 +15,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Temporal;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
@@ -28,9 +33,46 @@ public class Purification implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "purification_sequence")
     @SequenceGenerator(name = "purification_sequence", sequenceName = "purification_sequence")
     private Long id;
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+
+    @Getter
+    @Setter
+    private String locationName;
+    @Getter
+    @Setter
+    private double latitude;
+    @Getter
+    @Setter
+    private double longitude;
+    @Getter
+    @Setter
+    private double elevation;
+    @Getter
+    @Setter
+    private String timeZone;
+
+    @Getter
+    @Setter
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Niddah niddah;
-    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL,mappedBy = "purification")
+
+    @Getter
+    @Setter
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private HefsekTahara hefsekTahara;
+
+    @Getter
+    @Setter
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private MohDahouk mohDahouk;
+
+    @Getter
+    @Setter
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date datePurification;
+
+    @Getter
+    @Setter
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "purification")
     private List<ChevaNekiym> listChevaNekiym;
 
     public Long getId() {
@@ -65,5 +107,5 @@ public class Purification implements Serializable {
     public String toString() {
         return "com.jkalvered.core.entite.Purification[ id=" + id + " ]";
     }
-    
+
 }

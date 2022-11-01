@@ -6,15 +6,20 @@ package com.jkalvered.core.entite;
 
 import com.jkalvered.library.enumeration.Sexe;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
@@ -42,7 +47,14 @@ public class Personne implements Serializable {
     private Configuration configuration;
     @OneToOne(cascade = {CascadeType.ALL})
     private Personne conjoint;
-    
+    @Getter
+    @Setter
+    @OneToMany(mappedBy = "personne", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Niddah> niddahs;
+    @OneToMany(mappedBy = "personne", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Getter
+    @Setter
+    private List<Cycle> vesset;
 
     public Long getId() {
         return id;
@@ -55,7 +67,6 @@ public class Personne implements Serializable {
     public void setConjoint(Personne conjoint) {
         this.conjoint = conjoint;
     }
-    
 
     public void setId(Long id) {
         this.id = id;

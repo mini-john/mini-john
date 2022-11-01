@@ -173,7 +173,7 @@ public class Pricha {
      */
     public static PrichaDto getPrichaOrZaroua(Date dateVue, PrichaDto pricha) {
         if (pricha.getTypePricha() == TypePricha.Benonit || pricha.getTypePricha() == TypePricha.Haflaga || pricha.getTypePricha() == TypePricha.Hahodesh) {
-            PrichaDto prichaDto = new PrichaDto(pricha.getDatePricha().getDateGregorian(), pricha.getDatePricha().getLocationName(), pricha.getDatePricha().getLatitude(), pricha.getDatePricha().getLongitude(), pricha.getDatePricha().getElevation(), pricha.getDatePricha().getTimeZone().toZoneId().toString());
+            PrichaDto prichaDto = new PrichaDto(pricha.getDateJPricha().getDateGregorian(), pricha.getDateJPricha().getLocationName(), pricha.getDateJPricha().getLatitude(), pricha.getDateJPricha().getLongitude(), pricha.getDateJPricha().getElevation(), pricha.getDateJPricha().getTimeZone().toZoneId().toString());
             prichaDto.setTypePricha(TypePricha.OrZaroua);
             prichaDto.fillDateBedikaOrZaroua(dateVue, pricha, (ZmanimCalendar) prichaDto.getzc());
 

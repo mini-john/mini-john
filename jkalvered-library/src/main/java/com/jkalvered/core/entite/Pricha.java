@@ -4,15 +4,22 @@
  */
 package com.jkalvered.core.entite;
 
+import com.jkalvered.library.enumeration.TypePricha;
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Temporal;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
@@ -26,8 +33,53 @@ public class Pricha implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "pricha_sequence")
     @SequenceGenerator(name = "pricha_sequence", sequenceName = "pricha_sequence")
     private Long id;
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private Niddah niddah;
+
+    @Getter
+    @Setter
+    private String locationName;
+    @Getter
+    @Setter
+    private double latitude;
+    @Getter
+    @Setter
+    private double longitude;
+    @Getter
+    @Setter
+    private double elevation;
+    @Getter
+    @Setter
+    private String timeZone;
+
+    @Getter
+    @Setter
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date datePricha;
+
+    @Getter
+    @Setter
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date dateBedika1;
+    @Getter
+    @Setter
+    private Boolean etatBedika1;
+
+    @Getter
+    @Setter
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date dateBedika2;
+    @Getter
+    @Setter
+    private Boolean etatBedika2;
+    
+    @Getter
+    @Setter
+    @Enumerated(EnumType.STRING)
+    TypePricha typePricha;
+    
+    @Getter
+    @Setter
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Cycle vesset;
 
     public Long getId() {
         return id;
@@ -61,5 +113,5 @@ public class Pricha implements Serializable {
     public String toString() {
         return "com.jkalvered.core.entite.Pricha[ id=" + id + " ]";
     }
-    
+
 }

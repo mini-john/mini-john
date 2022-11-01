@@ -5,6 +5,7 @@
 package com.jkalvered.core.entite;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,9 +13,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Temporal;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
@@ -24,11 +26,47 @@ import javax.persistence.SequenceGenerator;
 public class ChevaNekiym implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "chevanekiym_sequence")
     @SequenceGenerator(name = "chevanekiym_sequence", sequenceName = "chevanekiym_sequence")
     private Long id;
+
+    @Getter
+    @Setter
+    private String locationName;
+    @Getter
+    @Setter
+    private double latitude;
+    @Getter
+    @Setter
+    private double longitude;
+    @Getter
+    @Setter
+    private double elevation;
+    @Getter
+    @Setter
+    private String timeZone;
+
+    @Getter
+    @Setter
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Purification purification;
+
+    @Getter
+    @Setter
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date dateBedika1;
+    @Getter
+    @Setter
+    private Boolean etatBedika1;
+
+    @Getter
+    @Setter
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date dateBedika2;
+    @Getter
+    @Setter
+    private Boolean etatBedika2;
 
     public Long getId() {
         return id;

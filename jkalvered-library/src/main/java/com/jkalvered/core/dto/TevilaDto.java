@@ -4,9 +4,9 @@
  */
 package com.jkalvered.core.dto;
 
+import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 /**
  *
@@ -14,7 +14,14 @@ import lombok.ToString;
  */
 @Getter
 @Setter
-@ToString
-public class ConfigurationDto {
-    
+public class TevilaDto {
+     private Long id;
+    private String locationName;
+    private double latitude;
+    private double longitude;
+    private double elevation;
+    private String timeZone;
+    private PurificationDto purification;
+    private Date dateTevila;
+    private Boolean etatTevila;
 }

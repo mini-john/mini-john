@@ -6,6 +6,7 @@ package com.jkalvered.core.entite;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,8 +14,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,6 +33,8 @@ public class Niddah implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "niddah_sequence")
     @SequenceGenerator(name = "niddah_sequence", sequenceName = "niddah_sequence")
     private Long id;
+    @Getter
+    @Setter
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Personne personne;
     @Getter
@@ -53,9 +58,21 @@ public class Niddah implements Serializable {
     @Getter
     @Setter
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date date;
-    @Getter @Setter
+    private Date dateVue;
+    @Getter
+    @Setter
     private String commentaire;
+    @Getter
+    @Setter
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateDernierRapport;
+
+    
+    
+    @Getter
+    @Setter
+    @OneToMany(mappedBy = "niddah", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Purification> purifications;
 
     public Long getId() {
         return id;

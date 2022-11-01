@@ -5,6 +5,7 @@
 package com.jkalvered.core.entite;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,6 +14,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Temporal;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
@@ -26,8 +30,38 @@ public class MohDahouk implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "mohdahouk_sequence")
     @SequenceGenerator(name = "mohdhouk_sequence", sequenceName = "mohdahouk_sequence")
     private Long id;
+
+    @Getter
+    @Setter
+    private String locationName;
+    @Getter
+    @Setter
+    private double latitude;
+    @Getter
+    @Setter
+    private double longitude;
+    @Getter
+    @Setter
+    private double elevation;
+    @Getter
+    @Setter
+    private String timeZone;
+
+    @Getter
+    @Setter
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Purification purification;
+
+    @Getter
+    @Setter
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date dateMoh;
+    @Getter
+    @Setter
+    private Boolean etatMoh;
+    @Getter
+    @Setter
+    private Boolean accompli;
 
     public Long getId() {
         return id;
