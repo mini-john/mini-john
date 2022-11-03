@@ -4,21 +4,19 @@
  */
 package com.jkalvered.core.dto;
 
-import com.jkalvered.core.entite.Purification;
 import java.util.Date;
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
- *
+ * DTO reprensentant l'entite mohdahouk
+ * @see com.jkalvered.core.entite.MohDahouk
  * @author jonat
  */
 @Getter
 @Setter
+@ToString
 public class MohDahoukDto {
     private Long id;
     private String locationName;

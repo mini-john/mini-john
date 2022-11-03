@@ -20,12 +20,14 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-/**
- *
+/** 
+ * Entité representant la personne morale utilisant l'application
  * @author jonat
  */
 @Entity
+@ToString
 public class Personne implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -164,9 +166,6 @@ public class Personne implements Serializable {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "com.jkalvered.core.entite.Femme[ id=" + id + " ]";
-    }
+    
 
 }

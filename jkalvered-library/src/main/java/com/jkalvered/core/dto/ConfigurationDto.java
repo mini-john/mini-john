@@ -9,7 +9,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- *
+ * DTO de l'entite configuration
+ * @see com.jkalvered.core.entite.Configuration
  * @author jonat
  */
 @Getter

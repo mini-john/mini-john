@@ -4,21 +4,20 @@
  */
 package com.jkalvered.core.dto;
 
-import com.jkalvered.core.entite.ChevaNekiym;
-import com.jkalvered.core.entite.HefsekTahara;
-import com.jkalvered.core.entite.MohDahouk;
-import com.jkalvered.core.entite.Niddah;
 import java.util.Date;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
- *
+ * DTO representant l'entite purification
+ * @see com.jkalvered.core.entite.Purification
  * @author jonat
  */
 @Getter
 @Setter
+@ToString
 class PurificationDto {
 
     private Long id;

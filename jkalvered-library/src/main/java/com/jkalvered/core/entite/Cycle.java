@@ -26,7 +26,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- *
+ * entité représentant l'ensemble des vesset que la femme rencontre à chaque fois quelle est niddah
+ * l'analyse de ces entité permet de déterminer si elle a un cycle kavoua ou pas
  * @author jonat
  */
 @Entity()

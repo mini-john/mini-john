@@ -19,7 +19,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- *
+ * Entité représentant la bedika qu'une femme fait pendant les cheva nekiym
  * @author jonat
  */
 @Entity

@@ -4,21 +4,20 @@
  */
 package com.jkalvered.core.dto;
 
-import com.jkalvered.core.entite.Purification;
 import java.util.Date;
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
- *
+ * Dto de l'entite chevanekiym
+ * @see com.jkalvered.core.entite.ChevaNekiym
  * @author jonat
  */
 @Getter
 @Setter
+@ToString
 class ChevaNekiymDto {
 
     private Long id;
@@ -27,10 +26,9 @@ class ChevaNekiymDto {
     private double longitude;
     private double elevation;
     private String timeZone;
+    private Date dateDebut;
+    private Date dateFin;
     private PurificationDto purification;
-    private Date dateBedika1;
-    private Boolean etatBedika1;
-    private Date dateBedika2;
-    private Boolean etatBedika2;
+    private List<BedikotDto> bedikots;
 
 }

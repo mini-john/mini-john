@@ -17,7 +17,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- *
+ * entite representant le configuration proposé au roleUser(Femme) lui permettant de gérer sa pureté familiale
  * @author mini-john
  */
 @Entity

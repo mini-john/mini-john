@@ -19,7 +19,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- *
+ * Entité representant le mikve que la femme fait pour sortir de son statut de niddah
  * @author jonat
  */
 @Entity

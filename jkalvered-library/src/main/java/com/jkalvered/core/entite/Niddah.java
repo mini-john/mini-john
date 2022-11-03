@@ -22,7 +22,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- *
+ * Entité represantant le statut de niddah que la femme obtient quand un flux apparait
+ * TODO: a voir si on met quand elle se déclare tame sans l'apparition du flux
  * @author jonat
  */
 @Entity(name = "Niddah")

@@ -22,7 +22,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- *
+ * Entité representant une pricha que la femmme doit respecter à l'approche de son cycle
  * @author jonat
  */
 @Entity

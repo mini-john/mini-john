@@ -1,6 +1,6 @@
 package com.jkalvered.library.vesset;
 
-import com.jkalvered.core.dto.JewishDateEcart;
+import com.jkalvered.library.tools.JewishDateEcart;
 import com.jkalvered.core.dto.NiddahDto;
 import com.jkalvered.library.exception.NiddahException;
 import java.util.ArrayList;

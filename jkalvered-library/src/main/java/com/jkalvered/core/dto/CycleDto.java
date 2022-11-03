@@ -11,7 +11,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- *
+ * DTO de l'entite cycle
+ * @see com.jkalvered.core.entite.Cycle
  * @author jonat
  */
 @Getter

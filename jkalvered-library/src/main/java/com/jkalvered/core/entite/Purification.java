@@ -22,7 +22,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- *
+ * Entité représentant la période de purification que la femme accompli pour sortir de son statut de niddah
  * @author jonat
  */
 @Entity

@@ -9,7 +9,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- *
+ * Dto de l'entite bedikot
+ * @see com.jkalvered.core.entite.Bedikot
  * @author jonat
  */
 @Getter

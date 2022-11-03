@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jkalvered.core.dto;
+package com.jkalvered.library.tools;
 
+import com.jkalvered.core.dto.NiddahDto;
 import com.jkalvered.library.enumeration.Ona;
 import com.jkalvered.library.math.JkalVeredMath;
 

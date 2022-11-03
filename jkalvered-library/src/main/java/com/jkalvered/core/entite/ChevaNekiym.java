@@ -6,6 +6,7 @@ package com.jkalvered.core.entite;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,12 +14,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import lombok.Getter;
 import lombok.Setter;
 
 /**
+ * Entite reprensentant la period de chava nekiym que la femme accompli pendant
+ * sa période de purification
  *
  * @author jonat
  */
@@ -46,6 +50,14 @@ public class ChevaNekiym implements Serializable {
     @Getter
     @Setter
     private String timeZone;
+    @Getter
+    @Setter
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date dateDebut;
+    @Getter
+    @Setter
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date dateFin;
 
     @Getter
     @Setter
@@ -54,19 +66,8 @@ public class ChevaNekiym implements Serializable {
 
     @Getter
     @Setter
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date dateBedika1;
-    @Getter
-    @Setter
-    private Boolean etatBedika1;
-
-    @Getter
-    @Setter
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date dateBedika2;
-    @Getter
-    @Setter
-    private Boolean etatBedika2;
+    @OneToMany(mappedBy = "chevaNekiym", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Bedikot> bedikots;
 
     public Long getId() {
         return id;

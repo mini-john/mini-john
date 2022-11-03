@@ -14,7 +14,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- *
+ * DTO representant l'entité niddah
+ * @see com.jkalvered.core.entite.Niddah
  * @author jonat
  */
 @Getter

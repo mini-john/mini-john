@@ -12,7 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
 /**
- *
+ * Entité représentant les notifications envoyé à l'utilisateur
  * @author jonat
  */
 @Entity

@@ -4,25 +4,19 @@
  */
 package com.jkalvered.core.dto;
 
-import com.jkalvered.core.entite.Purification;
 import java.util.Date;
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Temporal;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
- *
+ * DTO de l'entite hefsektahara
+ * @see com.jkalvered.core.entite.HefsekTahara
  * @author jonat
  */
 @Getter
 @Setter
+@ToString
 public class HefsekTaharaDto {
     private Long id;
     private String locationName;

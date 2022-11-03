@@ -19,7 +19,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- *
+ * Entité représentant le moh dahouk que la femme accompli ou pas apres le hefsek tahara
  * @author jonat
  */
 @Entity

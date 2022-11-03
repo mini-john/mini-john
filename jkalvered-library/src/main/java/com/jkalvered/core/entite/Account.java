@@ -21,16 +21,19 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.UniqueConstraint;
+import lombok.ToString;
 
 /**
- *
- * @author mini-john
+ * Entite représentant le compte utilisateur
+ * Le compte a un userRole permettant de determine quel type de personne se connecte (Femme,mari,rav ou admin)
+ * @author jonat
  */
 @Entity
 @Table(name = "Account",
         uniqueConstraints = {
             @UniqueConstraint(name = "emailExist", columnNames = {"mail"}),
             @UniqueConstraint(name = "loginExist", columnNames = {"login"})})
+@ToString
 public class Account implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -52,9 +55,8 @@ public class Account implements Serializable {
     @OneToOne
     @JoinColumn(name = "id")
     private Personne personne;
-    
     @Enumerated(EnumType.STRING)
-    private RoleUser role;
+    private RoleUser roleUser;
 
     public Long getId() {
         return id;
@@ -64,12 +66,12 @@ public class Account implements Serializable {
         this.id = id;
     }
 
-    public RoleUser getRole() {
-        return role;
+    public RoleUser getRoleUser() {
+        return roleUser;
     }
 
-    public void setRole(RoleUser role) {
-        this.role = role;
+    public void setRoleUser(RoleUser roleUser) {
+        this.roleUser = roleUser;
     }
 
     public String getLogin() {
@@ -159,14 +161,6 @@ public class Account implements Serializable {
 
     public void setPersonne(Personne personne) {
         this.personne = personne;
-    }
-
-    
-
-    
-    @Override
-    public String toString() {
-        return "Account{" + "id=" + id + ", login=" + login + ", password=" + password + ", mail=" + mail + ", nbEssais=" + nbEssais + ", jeton=" + jeton + ", accountBlock=" + accountBlock + ", dateLimiteJeton=" + dateLimiteJeton + ", etatAccount=" + etatAccount + ", personne=" + personne + ", role=" + role + '}';
     }
 
 }

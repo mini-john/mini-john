@@ -7,13 +7,16 @@ package com.jkalvered.core.dto;
 import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
- *
+ * DTO représentant l'entite tevila
+ * @see com.jkalvered.core.entite.Tevila
  * @author jonat
  */
 @Getter
 @Setter
+@ToString
 public class TevilaDto {
      private Long id;
     private String locationName;

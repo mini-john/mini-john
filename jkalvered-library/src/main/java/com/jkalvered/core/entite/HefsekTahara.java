@@ -19,7 +19,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- *
+ * Entité représentant le hefsek tahara que la femme accompli pour obtenir sa purification
  * @author jonat
  */
 @Entity
