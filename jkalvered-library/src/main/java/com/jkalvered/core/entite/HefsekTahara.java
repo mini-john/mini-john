@@ -27,8 +27,8 @@ public class HefsekTahara implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "hefsektahara_sequence")
-    @SequenceGenerator(name = "hefsektahara_sequence", sequenceName = "hefsektahara_sequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "hefsektahara_sequence")
+    @SequenceGenerator(name = "hefsektahara_sequence", sequenceName = "hefsektahara_sequence", initialValue = 1,allocationSize = 1)
     private Long id;
     
      @Getter

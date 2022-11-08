@@ -6,6 +6,7 @@ package com.jkalvered.core.entite;
 
 import com.jkalvered.library.enumeration.Sexe;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -22,8 +23,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-/** 
+/**
  * Entité representant la personne morale utilisant l'application
+ *
  * @author jonat
  */
 @Entity
@@ -32,8 +34,8 @@ public class Personne implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "personne_sequence")
-    @SequenceGenerator(name = "personne_sequence", sequenceName = "personne_sequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "personne_sequence")
+    @SequenceGenerator(name = "personne_sequence", sequenceName = "personne_sequence", initialValue = 1,allocationSize = 1)
     private Long id;
     private String nom;
     private String prenom;
@@ -44,6 +46,7 @@ public class Personne implements Serializable {
     @Enumerated(EnumType.STRING)
     private Sexe sexe;
     @OneToOne(cascade = {CascadeType.ALL}, mappedBy = "personne")
+    @ToString.Exclude
     private Account account;
     @OneToOne(cascade = {CascadeType.ALL}, mappedBy = "personne")
     private Configuration configuration;
@@ -51,12 +54,32 @@ public class Personne implements Serializable {
     private Personne conjoint;
     @Getter
     @Setter
-    @OneToMany(mappedBy = "personne", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Niddah> niddahs;
+    @OneToMany(mappedBy = "personne", fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Niddah.class)
+    private List<Niddah> niddahs = new ArrayList<>();
     @OneToMany(mappedBy = "personne", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @Getter
     @Setter
-    private List<Cycle> vesset;
+    private List<Cycle> vesset = new ArrayList<Cycle>();
+
+    public void addNiddah(Niddah niddah) {
+        this.niddahs.add(niddah);
+        niddah.setPersonne(this);
+    }
+
+    public void removeNiddah(Niddah niddah) {
+        this.niddahs.remove(niddah);
+        niddah.setPersonne(null);
+    }
+
+    public void addCycle(Cycle cycle) {
+        this.vesset.add(cycle);
+        cycle.setPersonne(this);
+    }
+
+    public void removeCycle(Cycle cycle) {
+        this.vesset.remove(cycle);
+        cycle.setPersonne(null);
+    }
 
     public Long getId() {
         return id;
@@ -165,7 +188,5 @@ public class Personne implements Serializable {
         }
         return true;
     }
-
-    
 
 }

@@ -22,8 +22,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Entité represantant le statut de niddah que la femme obtient quand un flux apparait
- * TODO: a voir si on met quand elle se déclare tame sans l'apparition du flux
+ * Entité represantant le statut de niddah que la femme obtient quand un flux
+ * apparait TODO: a voir si on met quand elle se déclare tame sans l'apparition
+ * du flux
+ *
  * @author jonat
  */
 @Entity(name = "Niddah")
@@ -32,7 +34,7 @@ public class Niddah implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "niddah_sequence")
-    @SequenceGenerator(name = "niddah_sequence", sequenceName = "niddah_sequence")
+    @SequenceGenerator(name = "niddah_sequence", sequenceName = "niddah_sequence", initialValue = 1,allocationSize = 1)
     private Long id;
     @Getter
     @Setter
@@ -68,12 +70,20 @@ public class Niddah implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateDernierRapport;
 
-    
-    
     @Getter
     @Setter
     @OneToMany(mappedBy = "niddah", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Purification> purifications;
+
+    public void addPurification(Purification purification) {
+        this.purifications.add(purification);
+        purification.setNiddah(this);
+    }
+
+    public void removePurification(Purification purification) {
+        this.purifications.remove(purification);
+        purification.setNiddah(null);
+    }
 
     public Long getId() {
         return id;

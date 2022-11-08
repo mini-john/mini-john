@@ -18,9 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
-import javax.persistence.UniqueConstraint;
 import lombok.ToString;
 
 /**
@@ -29,17 +27,17 @@ import lombok.ToString;
  * @author jonat
  */
 @Entity
-@Table(name = "Account",
-        uniqueConstraints = {
-            @UniqueConstraint(name = "emailExist", columnNames = {"mail"}),
-            @UniqueConstraint(name = "loginExist", columnNames = {"login"})})
+//@Table(name = "Account",
+//        uniqueConstraints = {
+//            @UniqueConstraint(name = "emailExist", columnNames = {"mail"}),
+//            @UniqueConstraint(name = "loginExist", columnNames = {"login"})})
 @ToString
 public class Account implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "account_sequence")
-    @SequenceGenerator(name = "account_sequence", sequenceName = "account_sequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_sequence")
+    @SequenceGenerator(name = "account_sequence", sequenceName = "account_sequence", initialValue = 1,allocationSize = 1)
     private Long id;
 
     private String login;

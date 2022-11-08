@@ -35,8 +35,8 @@ import lombok.Setter;
 public class Cycle implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "vesset_sequence")
-    @SequenceGenerator(name = "vesset_sequence", sequenceName = "vesset_sequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "vesset_sequence")
+    @SequenceGenerator(name = "vesset_sequence", sequenceName = "vesset_sequence", initialValue = 1,allocationSize = 1)
     @Id
     private Long id;
 
@@ -78,7 +78,16 @@ public class Cycle implements Serializable {
     @Setter
     @OneToMany(mappedBy = "vesset", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Pricha> prichots;
+    
+    public void addPricha(Pricha pricha){
+        this.prichots.add(pricha);
+        pricha.setVesset(this);
+    }
 
+    public void removePricha(Pricha pricha) {
+        this.prichots.remove(pricha);
+        pricha.setVesset(this);
+    }
     public Long getId() {
         return id;
     }

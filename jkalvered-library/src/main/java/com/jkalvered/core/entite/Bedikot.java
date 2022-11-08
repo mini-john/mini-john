@@ -27,8 +27,8 @@ public class Bedikot implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "private_sequence")
-    @SequenceGenerator(name = "private_sequence", sequenceName = "private_sequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "private_sequence")
+    @SequenceGenerator(name = "private_sequence", sequenceName = "private_sequence", initialValue = 1,allocationSize = 1)
     private Long id;
     @Getter
     @Setter

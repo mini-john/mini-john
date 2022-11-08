@@ -5,6 +5,7 @@
  */
 package com.jkalvered.core.entite;
 
+import com.jkalvered.library.enumeration.Origine;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,8 +26,8 @@ public class Configuration implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "configuration_sequence")
-    @SequenceGenerator(name = "configuration_sequence", sequenceName = "configuration_sequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "configuration_sequence")
+    @SequenceGenerator(name = "configuration_sequence", sequenceName = "configuration_sequence", initialValue = 1,allocationSize = 1)
     private Long id;
     @OneToOne
     @JoinColumn(name = "id")
@@ -46,6 +47,9 @@ public class Configuration implements Serializable {
     @Getter
     @Setter
     private String timeZone;
+    @Getter
+    @Setter
+    private Origine origine;
 
     public Long getId() {
         return id;

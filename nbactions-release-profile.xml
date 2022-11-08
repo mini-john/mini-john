@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-sonar</actionName>
+            <displayName>sonar</displayName>
+            <goals>
+                <goal>clean</goal>
+                <goal>verify</goal>
+                <goal>sonar:sonar</goal>
+            </goals>
+            <properties>
+                <sonar.projectKey>jkalvered</sonar.projectKey>
+                <sonar.host.url>http://localhost:9000</sonar.host.url>
+                <sonar.login>sqp_0e7cdfee5f3d5105e1ae8871f4840499d8ae0596</sonar.login>
+            </properties>
+        </action>
+    </actions>

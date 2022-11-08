@@ -20,8 +20,8 @@ public class Notification implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "notification_sequence")
-    @SequenceGenerator(name = "notification_sequence", sequenceName = "notification_sequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "notification_sequence")
+    @SequenceGenerator(name = "notification_sequence", sequenceName = "notification_sequence", initialValue = 1,allocationSize = 1)
     private Long id;
 
     public Long getId() {

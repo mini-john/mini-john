@@ -27,8 +27,8 @@ public class MohDahouk implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "mohdahouk_sequence")
-    @SequenceGenerator(name = "mohdhouk_sequence", sequenceName = "mohdahouk_sequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mohdahouk_sequence")
+    @SequenceGenerator(name = "mohdhouk_sequence", sequenceName = "mohdahouk_sequence", initialValue = 1,allocationSize = 1)
     private Long id;
 
     @Getter

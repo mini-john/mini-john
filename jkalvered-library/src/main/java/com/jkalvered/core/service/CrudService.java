@@ -27,35 +27,35 @@ public class CrudService {
     @Autowired
     CrudRepository crudRepository;
     @Autowired
-    JkalveredModelMapper niddahCastor;
+    JkalveredModelMapper jkalveredModelMapper;
     private static final Logger LOGGER = LogManager.getLogger();
 
     public <T> T add(T entityDTO, Class entity) {
 
-        T object = (T) niddahCastor.convert(entityDTO, entity);
+        T object = (T) jkalveredModelMapper.convert(entityDTO, entity);
         crudRepository.persist(object);
-        return niddahCastor.convert(object, entityDTO.getClass());
+        return jkalveredModelMapper.convert(object, entityDTO.getClass());
 
     }
 
     public <T> T merge(T entityDTO, Class entity) {
 
-        Object object = niddahCastor.convert(entityDTO, entity);
+        Object object = jkalveredModelMapper.convert(entityDTO, entity);
         object = crudRepository.merge(object);
 
-        object = niddahCastor.convert(object, entityDTO.getClass());
+        object = jkalveredModelMapper.convert(object, entityDTO.getClass());
 
         return (T) object;
 
     }
 
     public <T> void update(T entityDO, Class entity) {
-        Object adherent = niddahCastor.convert(entityDO, entity);
+        Object adherent = jkalveredModelMapper.convert(entityDO, entity);
         crudRepository.update(adherent);
     }
 
     public <T> void delete(T entityDO, Class entity) {
-        Object adherent = niddahCastor.convert(entityDO, entity);
+        Object adherent = jkalveredModelMapper.convert(entityDO, entity);
         crudRepository.delete(adherent);
     }
 
@@ -63,7 +63,7 @@ public class CrudService {
 
         Object object = crudRepository.findById(entity, id);
         if (object != null) {
-            object = niddahCastor.convert(object, entityDTO);
+            object = jkalveredModelMapper.convert(object, entityDTO);
         }
         return (T) object;
     }
@@ -79,7 +79,7 @@ public class CrudService {
         List list = crudRepository.findAll(entity);
         List result = new ArrayList<>();
         for (Object objet : list) {
-            Object dozerResult = niddahCastor.convert(objet, entityDTO);
+            Object dozerResult = jkalveredModelMapper.convert(objet, entityDTO);
             result.add(dozerResult);
         }
         return result;

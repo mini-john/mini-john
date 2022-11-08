@@ -30,8 +30,8 @@ public class Purification implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "purification_sequence")
-    @SequenceGenerator(name = "purification_sequence", sequenceName = "purification_sequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "purification_sequence")
+    @SequenceGenerator(name = "purification_sequence", sequenceName = "purification_sequence", initialValue = 1,allocationSize = 1)
     private Long id;
 
     @Getter

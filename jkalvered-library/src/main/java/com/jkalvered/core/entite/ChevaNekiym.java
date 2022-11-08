@@ -28,13 +28,13 @@ import lombok.Setter;
  */
 @Entity
 public class ChevaNekiym implements Serializable {
-
+    
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "chevanekiym_sequence")
-    @SequenceGenerator(name = "chevanekiym_sequence", sequenceName = "chevanekiym_sequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "chevanekiym_sequence")
+    @SequenceGenerator(name = "chevanekiym_sequence", sequenceName = "chevanekiym_sequence", initialValue = 1,allocationSize = 1)
     private Long id;
-
+    
     @Getter
     @Setter
     private String locationName;
@@ -58,32 +58,42 @@ public class ChevaNekiym implements Serializable {
     @Setter
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateFin;
-
+    
     @Getter
     @Setter
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Purification purification;
-
+    
     @Getter
     @Setter
     @OneToMany(mappedBy = "chevaNekiym", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Bedikot> bedikots;
+    
+    public void addBedikot(Bedikot bedikot) {
+        this.bedikots.add(bedikot);
+        bedikot.setChevaNekiym(this);
+    }
 
+    public void removeBedikot(Bedikot bedikot) {
+        this.bedikots.remove(bedikot);
+        bedikot.setChevaNekiym(null);
+    }
+    
     public Long getId() {
         return id;
     }
-
+    
     public void setId(Long id) {
         this.id = id;
     }
-
+    
     @Override
     public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
-
+    
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -96,10 +106,10 @@ public class ChevaNekiym implements Serializable {
         }
         return true;
     }
-
+    
     @Override
     public String toString() {
         return "com.jkalvered.core.entite.ChevaNekiym[ id=" + id + " ]";
     }
-
+    
 }

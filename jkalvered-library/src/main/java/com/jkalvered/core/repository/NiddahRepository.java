@@ -4,6 +4,7 @@
  */
 package com.jkalvered.core.repository;
 
+import com.jkalvered.core.entite.Niddah;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -12,7 +13,11 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class NiddahRepository extends CrudRepository {
-    
-    
-    
+
+    public Niddah getDernierNiddah(int idFemme) {
+        String query = "From Niddah where personne.id=:i order bu id desc";
+        return (Niddah) this.sessionFactory.getCurrentSession().createQuery(query).setParameter("i", idFemme).setMaxResults(1).getSingleResult();
+
+    }
+
 }

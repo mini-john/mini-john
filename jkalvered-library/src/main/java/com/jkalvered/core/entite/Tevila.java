@@ -27,8 +27,8 @@ public class Tevila implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "tevila_sequence")
-    @SequenceGenerator(name = "tevila_sequence", sequenceName = "tevila_sequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tevila_sequence")
+    @SequenceGenerator(name = "tevila_sequence", sequenceName = "tevila_sequence", initialValue = 1,allocationSize = 1)
     private Long id;
     @Getter
     @Setter

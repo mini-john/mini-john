@@ -30,8 +30,8 @@ public class Pricha implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "pricha_sequence")
-    @SequenceGenerator(name = "pricha_sequence", sequenceName = "pricha_sequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pricha_sequence")
+    @SequenceGenerator(name = "pricha_sequence", sequenceName = "pricha_sequence", initialValue = 1,allocationSize = 1)
     private Long id;
 
     @Getter

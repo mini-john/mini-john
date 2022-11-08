@@ -29,3 +29,4 @@ nb-configuration.xml
 /target/
 /jkalvered-library/target/
 jkalvered-web/nbactions-dev.xml
+/jkalvered-library/nbproject/
