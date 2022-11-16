@@ -4,6 +4,7 @@
  */
 package com.jkalvered.library.date;
 
+import com.jkalvered.core.dto.Localisation;
 import com.jkalvered.library.enumeration.MomentJournee;
 import static com.jkalvered.library.enumeration.MomentJournee.Matin;
 import com.jkalvered.library.enumeration.Ona;
@@ -181,7 +182,6 @@ public class JkalDate extends JewishDate {
         Calendar cal = GregorianCalendar.getInstance();
         cal.setTime(dateGregorian);
         this.dateGregorian = dateGregorian;
-
         this.hours = cal.get(Calendar.HOUR_OF_DAY);
         this.min = cal.get(Calendar.MINUTE);
 
@@ -190,7 +190,25 @@ public class JkalDate extends JewishDate {
         this.longitude = longitude;
         this.elevation = elevation;
         this.timeZone = TimeZone.getTimeZone(timeZone);
-        this.zc = new ZmanimCalendar(new GeoLocation(locationName, latitude, longitude, elevation, this.timeZone));
+        this.zc = new ZmanimCalendar(new GeoLocation(this.locationName, this.latitude, this.longitude, this.elevation, this.timeZone));
+        this.zc.setCalendar(cal);
+    }
+
+    public JkalDate(Date dateGregorian, Localisation localisations) {
+        super(dateGregorian);
+        Calendar cal = GregorianCalendar.getInstance();
+        cal.setTime(dateGregorian);
+        this.dateGregorian = dateGregorian;
+
+        this.hours = cal.get(Calendar.HOUR_OF_DAY);
+        this.min = cal.get(Calendar.MINUTE);
+
+        this.locationName = localisations.getLocationName();
+        this.latitude = localisations.getLatitude();
+        this.longitude = localisations.getLongitude();
+        this.elevation = localisations.getElevation();
+        this.timeZone = TimeZone.getTimeZone(localisations.getTimeZone());
+        this.zc = new ZmanimCalendar(new GeoLocation(this.locationName, this.latitude, this.longitude, this.elevation, this.timeZone));
         this.zc.setCalendar(cal);
     }
 
@@ -420,7 +438,7 @@ public class JkalDate extends JewishDate {
         Calendar cal = GregorianCalendar.getInstance(), cal1 = GregorianCalendar.getInstance();
         cal1.setTime(dateSource);
         cal.setTime(dateRes);
-        cal.set(Calendar.HOUR_OF_DAY , cal1.get(Calendar.HOUR_OF_DAY ));
+        cal.set(Calendar.HOUR_OF_DAY, cal1.get(Calendar.HOUR_OF_DAY));
         cal.set(Calendar.MINUTE, cal1.get(Calendar.MINUTE));
         cal.set(Calendar.SECOND, cal1.get(Calendar.SECOND));
         return cal.getTime();

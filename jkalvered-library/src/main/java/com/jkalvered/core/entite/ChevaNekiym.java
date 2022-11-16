@@ -5,6 +5,7 @@
 package com.jkalvered.core.entite;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -52,11 +53,11 @@ public class ChevaNekiym implements Serializable {
     private String timeZone;
     @Getter
     @Setter
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dateDebut;
     @Getter
     @Setter
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dateFin;
     
     @Getter
@@ -67,7 +68,7 @@ public class ChevaNekiym implements Serializable {
     @Getter
     @Setter
     @OneToMany(mappedBy = "chevaNekiym", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Bedikot> bedikots;
+    private List<Bedikot> bedikots=new ArrayList<>();
     
     public void addBedikot(Bedikot bedikot) {
         this.bedikots.add(bedikot);

@@ -35,14 +35,16 @@ public class Personne implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "personne_sequence")
-    @SequenceGenerator(name = "personne_sequence", sequenceName = "personne_sequence", initialValue = 1,allocationSize = 1)
+    @SequenceGenerator(name = "personne_sequence", sequenceName = "personne_sequence", initialValue = 1, allocationSize = 1)
     private Long id;
     private String nom;
     private String prenom;
     private Boolean autoLocalisation;
+    private String locationName;
     private double latitude;
     private double longitude;
     private double elevation;
+    private String timeZone;
     @Enumerated(EnumType.STRING)
     private Sexe sexe;
     @OneToOne(cascade = {CascadeType.ALL}, mappedBy = "personne")
@@ -167,6 +169,22 @@ public class Personne implements Serializable {
 
     public void setConfiguration(Configuration configuration) {
         this.configuration = configuration;
+    }
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
+    }
+
+    public String getTimeZone() {
+        return timeZone;
+    }
+
+    public void setTimeZone(String timeZone) {
+        this.timeZone = timeZone;
     }
 
     @Override

@@ -54,14 +54,14 @@ public class MohDahouk implements Serializable {
 
     @Getter
     @Setter
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dateMoh;
     @Getter
     @Setter
-    private Boolean etatMoh;
+    private boolean etatMoh;
     @Getter
     @Setter
-    private Boolean accompli;
+    private boolean accompli;
 
     public Long getId() {
         return id;

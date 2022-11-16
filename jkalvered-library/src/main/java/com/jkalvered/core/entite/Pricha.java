@@ -52,24 +52,24 @@ public class Pricha implements Serializable {
 
     @Getter
     @Setter
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date datePricha;
 
     @Getter
     @Setter
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dateBedika1;
     @Getter
     @Setter
-    private Boolean etatBedika1;
+    private boolean etatBedika1;
 
     @Getter
     @Setter
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dateBedika2;
     @Getter
     @Setter
-    private Boolean etatBedika2;
+    private boolean etatBedika2;
     
     @Getter
     @Setter

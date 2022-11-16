@@ -5,6 +5,7 @@
 package com.jkalvered.core.entite;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -60,11 +61,12 @@ public class Niddah implements Serializable {
     private int haflaga;
     @Getter
     @Setter
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dateVue;
     @Getter
     @Setter
     private String commentaire;
+    
     @Getter
     @Setter
     @Temporal(TemporalType.TIMESTAMP)
@@ -73,7 +75,8 @@ public class Niddah implements Serializable {
     @Getter
     @Setter
     @OneToMany(mappedBy = "niddah", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Purification> purifications;
+    private List<Purification> purifications =new ArrayList<>();
+            
 
     public void addPurification(Purification purification) {
         this.purifications.add(purification);

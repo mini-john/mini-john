@@ -62,7 +62,7 @@ public class Cycle implements Serializable {
 
     @Getter
     @Setter
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dateVue;
 
     @Getter

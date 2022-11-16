@@ -19,7 +19,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Entité représentant le hefsek tahara que la femme accompli pour obtenir sa purification
+ * Entité représentant le hefsek tahara que la femme accompli pour obtenir sa
+ * purification
+ *
  * @author jonat
  */
 @Entity
@@ -28,10 +30,10 @@ public class HefsekTahara implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "hefsektahara_sequence")
-    @SequenceGenerator(name = "hefsektahara_sequence", sequenceName = "hefsektahara_sequence", initialValue = 1,allocationSize = 1)
+    @SequenceGenerator(name = "hefsektahara_sequence", sequenceName = "hefsektahara_sequence", initialValue = 1, allocationSize = 1)
     private Long id;
-    
-     @Getter
+
+    @Getter
     @Setter
     private String locationName;
     @Getter
@@ -46,19 +48,18 @@ public class HefsekTahara implements Serializable {
     @Getter
     @Setter
     private String timeZone;
-    
-    
+
     @Getter
     @Setter
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Purification purification;
     @Getter
     @Setter
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dateHefsek;
     @Getter
     @Setter
-    private Boolean etatHefsek;
+    private boolean etatHefsek;
 
     public Long getId() {
         return id;

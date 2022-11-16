@@ -5,6 +5,7 @@
 package com.jkalvered.core.entite;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -22,7 +23,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Entité représentant la période de purification que la femme accompli pour sortir de son statut de niddah
+ * Entité représentant la période de purification que la femme accompli pour
+ * sortir de son statut de niddah
+ *
  * @author jonat
  */
 @Entity
@@ -31,7 +34,7 @@ public class Purification implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "purification_sequence")
-    @SequenceGenerator(name = "purification_sequence", sequenceName = "purification_sequence", initialValue = 1,allocationSize = 1)
+    @SequenceGenerator(name = "purification_sequence", sequenceName = "purification_sequence", initialValue = 1, allocationSize = 1)
     private Long id;
 
     @Getter
@@ -73,7 +76,16 @@ public class Purification implements Serializable {
     @Getter
     @Setter
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "purification")
-    private List<ChevaNekiym> listChevaNekiym;
+    private List<ChevaNekiym> listChevaNekiym = new ArrayList<>();
+    @Getter
+    @Setter
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Tevila tevila;
+
+    public void addChevaNekiym(ChevaNekiym chevaNekiym) {
+        this.listChevaNekiym.add(chevaNekiym);
+        chevaNekiym.setPurification(this);
+    }
 
     public Long getId() {
         return id;

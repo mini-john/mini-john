@@ -14,7 +14,9 @@ public class Constantes {
 
     public static int NB_JOUR_ONAT_BENONIT = 29;
     public static int NB_JOUR_ONAT_BENONIT_HOVOT_DAAT = 29;
-    public static int NB_JOUR_ATTENTE_SEPHARADE = 3;
+    public static int NB_JOUR_ATTENTE_SEPHARADE_EN_HEURE_JOUR = 96;
+    public static int NB_JOUR_ATTENTE_SEPHARADE_EN_HEURE_NUIT = 96;
+
     public static int NB_JOUR_ATTENTE_ASHKENAZE = 4;
     public static int NB_JOUR_ATTENTE_DEFAULT = 3;
     public static int NB_HOUR_JETON_VALIDE = 3;

@@ -57,7 +57,7 @@ public class Tevila implements Serializable {
     private Date dateTevila;
     @Getter
     @Setter
-    private Boolean etatTevila;
+    private boolean etatTevila;
 
     public Long getId() {
         return id;

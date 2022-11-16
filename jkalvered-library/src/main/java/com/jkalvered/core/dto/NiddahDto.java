@@ -34,9 +34,11 @@ public class NiddahDto implements Comparable<NiddahDto> {
     private double elevation;
     private String timeZone;
     private String commentaire;
-    @Getter
-    @Setter
+    
     private Date dateDernierRapport;
+
+    public NiddahDto() {
+    }
 
     public NiddahDto(Date dateVue, String locationName, double latitude, double longitude, double elevation, String timeZone) {
         this.locationName = locationName;
