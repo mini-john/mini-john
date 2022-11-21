@@ -18,54 +18,32 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * entite representant le configuration proposé au roleUser(Femme) lui permettant de gérer sa pureté familiale
+ * entite representant le configuration proposé au roleUser(Femme) lui
+ * permettant de gérer sa pureté familiale
+ *
  * @author mini-john
  */
+@Getter
+@Setter
 @Entity
 public class Configuration implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "configuration_sequence")
-    @SequenceGenerator(name = "configuration_sequence", sequenceName = "configuration_sequence", initialValue = 1,allocationSize = 1)
+    @SequenceGenerator(name = "configuration_sequence", sequenceName = "configuration_sequence", initialValue = 1, allocationSize = 1)
     private Long id;
     @OneToOne
     @JoinColumn(name = "id")
     private Personne personne;
-    @Getter
-    @Setter
     private String locationName;
     @Getter
-    @Setter
     private double latitude;
-    @Getter
-    @Setter
     private double longitude;
-    @Getter
-    @Setter
     private double elevation;
-    @Getter
-    @Setter
     private String timeZone;
-    @Getter
-    @Setter
     private Origine origine;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Personne getPersonne() {
-        return this.personne;
-    }
-
-    public void setPersonne(Personne personne) {
-        this.personne = personne;
-    }
+    private boolean doMohDahouk;
 
     @Override
     public int hashCode() {

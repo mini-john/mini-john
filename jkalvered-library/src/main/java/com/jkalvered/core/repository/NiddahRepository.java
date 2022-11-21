@@ -5,6 +5,7 @@
 package com.jkalvered.core.repository;
 
 import com.jkalvered.core.entite.HefsekTahara;
+import com.jkalvered.core.entite.MohDahouk;
 import com.jkalvered.core.entite.Niddah;
 import java.util.Collection;
 import org.hibernate.query.Query;
@@ -30,6 +31,16 @@ public class NiddahRepository extends CrudRepository {
         queryHibernate.setParameter("i", idHt);
         queryHibernate.setParameter("j", idFemme);
         HefsekTahara res = (HefsekTahara) DataAccessUtils.singleResult(queryHibernate.getResultList());
+        return res;
+    }
+
+    public MohDahouk getMohDaoukByIdAndIdFemme(Long idMohDahouk, Long idFemme) {
+        
+        String query = "From MohDahouk where id=:i and purification.niddah.personne.id=:j";
+        Query queryHibernate = this.sessionFactory.getCurrentSession().createQuery(query);
+        queryHibernate.setParameter("i", idMohDahouk);
+        queryHibernate.setParameter("j", idFemme);
+        MohDahouk res = (MohDahouk) DataAccessUtils.singleResult(queryHibernate.getResultList());
         return res;
     }
 

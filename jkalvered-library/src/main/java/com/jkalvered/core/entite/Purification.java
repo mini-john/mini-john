@@ -75,16 +75,16 @@ public class Purification implements Serializable {
 
     @Getter
     @Setter
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "purification")
-    private List<ChevaNekiym> listChevaNekiym = new ArrayList<>();
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private ChevaNekiym chevaNekiym;
     @Getter
     @Setter
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Tevila tevila;
 
-    public void addChevaNekiym(ChevaNekiym chevaNekiym) {
-        this.listChevaNekiym.add(chevaNekiym);
-        chevaNekiym.setPurification(this);
+    public void deleteChevaNekiym() {
+        this.chevaNekiym.setPurification(null);
+        this.chevaNekiym = null;
     }
 
     public Long getId() {

@@ -75,7 +75,7 @@ public class NiddahServiceTest {
             configuration.setLocationName(locationName);
             configuration.setLongitude(longitude);
             configuration.setTimeZone(locationName);
-
+            configuration.setDoMohDahouk(false);
             personne.setConfiguration(configuration);
             personne.setAccount(account);
             account.setPersonne(personne);
@@ -119,7 +119,7 @@ public class NiddahServiceTest {
 
     @Test
     @Rollback(false)
-    public void testNiddahKo() throws ParseException, NiddahDataException {
+    public void testhefsekTaharaKo() throws ParseException, NiddahDataException {
         String locationName = "Nice";
         double latitude = 43.700000;
         double longitude = 7.250000;
@@ -136,6 +136,28 @@ public class NiddahServiceTest {
         Date dateDernierRappor = JkalDate.parseDateWithHour("12/11/2022 22:00");
         niddahService.addPeriodNiddah(1L, dateVue, dateDernierRappor, timeZone, localisation);
 
-        niddahService.hefsekTaharaIsKo(1L, 1L,localisation);
+        niddahService.hefsekTaharaIsKo(1L, 1L, localisation);
+    }
+
+    @Test
+    @Rollback(false)
+    public void testMohDahoukhKo() throws ParseException, NiddahDataException {
+        String locationName = "Nice";
+        double latitude = 43.700000;
+        double longitude = 7.250000;
+        double elevation = 0;
+        String timeZone = "Europe/Paris";
+        Localisation localisation = new Localisation();
+        localisation.setElevation(elevation);
+        localisation.setLongitude(longitude);
+        localisation.setLatitude(latitude);
+        localisation.setLocationName(locationName);
+        localisation.setTimeZone(timeZone);
+        localisation.setLocalited(Boolean.TRUE);
+        Date dateVue = JkalDate.parseDateWithHour("13/11/2022 12:00");
+        Date dateDernierRappor = JkalDate.parseDateWithHour("12/11/2022 22:00");
+        niddahService.addPeriodNiddah(1L, dateVue, dateDernierRappor, timeZone, localisation);
+
+        niddahService.mohdDahoukIsKo(1L, 1L, localisation);
     }
 }
