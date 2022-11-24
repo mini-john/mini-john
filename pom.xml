@@ -185,5 +185,15 @@
                 <spring.profiles.active>prod</spring.profiles.active>
             </properties>
         </profile>
+         <profile>
+            <id>sonar</id>
+            
+            <properties>
+                <!-- Optional URL to server. Default value is http://localhost:9000 -->
+                <sonar.host.url>
+                  http://localhost:9000
+                </sonar.host.url>
+            </properties>
+        </profile>
     </profiles>
 </project>
