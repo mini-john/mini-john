@@ -5,6 +5,11 @@
  */
 package com.jkalvered.test.core.configuration;
 
+import com.jkalvered.core.modelmapper.JkalveredModelMapper;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
+import org.modelmapper.convention.NameTokenizers;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,6 +24,18 @@ import org.springframework.context.annotation.Configuration;
 
 public class AppConfigCore {
 
-   
+    @Bean
+    public JkalveredModelMapper mapper() {
+        JkalveredModelMapper mapper = new JkalveredModelMapper();
+        ModelMapper modelMap = new ModelMapper();
+        modelMap.getConfiguration()
+                .setMatchingStrategy(MatchingStrategies.STRICT)
+                .setUseOSGiClassLoaderBridging(true)
+                .setPreferNestedProperties(false)
+                .setSourceNameTokenizer(NameTokenizers.UNDERSCORE)
+                .setDestinationNameTokenizer(NameTokenizers.UNDERSCORE);
+        mapper.setCastorMarshaller(modelMap);
+        return mapper;
+    }
 
 }

@@ -14,9 +14,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import lombok.Getter;
@@ -68,6 +68,7 @@ public class ChevaNekiym implements Serializable {
     
     @Getter
     @Setter
+    @OrderBy("id")
     @OneToMany(mappedBy = "chevaNekiym", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Bedikot> bedikots=new ArrayList<>();
     

@@ -7,17 +7,19 @@ package com.jkalvered.core.modelmapper;
 
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Component;
 
 /**
  *
  * @author mini-john
  */
-@Component
+@Getter
+@Setter
 public class JkalveredModelMapper {
 
-    ModelMapper  castorMarshaller=new ModelMapper();
+    ModelMapper  castorMarshaller;
     
 
     public <T> T convert(Object object, Class destination) {

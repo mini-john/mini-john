@@ -17,12 +17,14 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * Entité représentant la bedika qu'une femme fait pendant les cheva nekiym
  * @author jonat
  */
 @Entity
+@ToString
 public class Bedikot implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -51,7 +53,7 @@ public class Bedikot implements Serializable {
     private Date dateBedika1;
     @Getter
     @Setter
-    private boolean etatBedika1;
+    private Boolean etatBedika1;
 
     @Getter
     @Setter
@@ -59,7 +61,7 @@ public class Bedikot implements Serializable {
     private Date dateBedika2;
     @Getter
     @Setter
-    private boolean etatBedika2;
+    private Boolean etatBedika2;
     
     
     @Getter
@@ -97,9 +99,6 @@ public class Bedikot implements Serializable {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "com.jkalvered.core.entite.Bedikot[ id=" + id + " ]";
-    }
+    
 
 }
