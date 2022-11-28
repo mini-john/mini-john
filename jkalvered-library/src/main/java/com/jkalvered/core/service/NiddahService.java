@@ -19,6 +19,7 @@ import com.jkalvered.library.constante.JKalveredCodeRetour;
 import com.jkalvered.library.date.JkalDate;
 import com.jkalvered.library.enumeration.NumBedika;
 import com.jkalvered.library.exception.NiddahDataException;
+import com.jkalvered.library.tools.JewishDateEcart;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -26,6 +27,7 @@ import java.util.List;
 import java.util.Objects;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -357,13 +359,11 @@ public class NiddahService extends CrudService {
         LOGGER.info("La personne d'id={} a un mohdaouk pas bon", personne.getId());
         //Suppression des bedikot 
         Purification oldPurification = md.getPurification();
-        // oldPurification.getNiddah().removePurification(oldPurification);
         Niddah niddahEncours = md.getPurification().getNiddah();
         ChevaNekiym tmp = oldPurification.getChevaNekiym();
         oldPurification.deleteChevaNekiym();
         this.niddahRepository.delete(tmp);
 
-        //niddahEncours.getPurifications().
         if (localisation.getLocalited()) {
             niddahEncours.setElevation(localisation.getElevation());
             niddahEncours.setLatitude(localisation.getLatitude());
@@ -473,6 +473,7 @@ public class NiddahService extends CrudService {
      * @param idBedika
      * @param idFemme
      * @param numBedika
+     * @param dateBedika
      * @param localisation
      * @return JKalveredCodeRetour.Niddah_Retry_HT_NOW dans le cas ou la bedika1
      * n'est pas bonne on reprogramme un ht le jour meme
@@ -481,7 +482,7 @@ public class NiddahService extends CrudService {
      * moment meme
      * @throws NiddahDataException
      */
-    public int setBedikotKO(Long idBedika, Long idFemme, NumBedika numBedika, Localisation localisation) throws NiddahDataException {
+    public int setBedikotKO(Long idBedika, Long idFemme, NumBedika numBedika, Date dateBedika, Localisation localisation) throws NiddahDataException {
         Bedikot bd = niddahRepository.getBedikotByIdAndIdFemme(idBedika, idFemme);
         int res = JKalveredCodeRetour.Niddah_Retry_HT_NOW;
         if (bd == null) {
@@ -602,13 +603,129 @@ public class NiddahService extends CrudService {
 
             }
             case Bedika2 -> {
-                //La bedika du soir n'est pas bonne on retourne a l'utisateur s'il a eu le temps de refaire un ht le soir meme
+                //La Bedika du soir n'est pas bonne
+                Personne personne = bd.getChevaNekiym().getPurification().getNiddah().getPersonne();
+
                 Purification oldPurification = bd.getChevaNekiym().getPurification();
+                Niddah niddahEncours = bd.getChevaNekiym().getPurification().getNiddah();
                 ChevaNekiym tmp = oldPurification.getChevaNekiym();
                 bd.setEtatBedika2(Boolean.FALSE);
                 niddahRepository.update(bd);
                 niddahRepository.deleteBedikotNull(tmp.getId());
 
+                if (localisation.getLocalited()) {
+                    niddahEncours.setElevation(localisation.getElevation());
+                    niddahEncours.setLatitude(localisation.getLatitude());
+                    niddahEncours.setLongitude(localisation.getLongitude());
+                    niddahEncours.setLocationName(localisation.getLocationName());
+                    niddahEncours.setTimeZone(localisation.getTimeZone());
+                } else {
+                    niddahEncours.setElevation(personne.getElevation());
+                    niddahEncours.setLatitude(personne.getLatitude());
+                    niddahEncours.setLongitude(personne.getLongitude());
+                    niddahEncours.setLocationName(personne.getLocationName());
+                    niddahEncours.setTimeZone(personne.getTimeZone());
+                }
+                LOGGER.info("Rajout d'une purification pour la personne d'id={}", personne.getId());
+                Purification newPurification = new Purification();
+                niddahEncours.addPurification(newPurification);
+                Calendar gCal = GregorianCalendar.getInstance();
+
+                //ici on regarde si le moment ou la femme a fait la bedika laisse le temps de
+                // refaire un ht alors refait le soir meme sinon on fait le lendemain
+                JkalDate jKalDateBedika = new JkalDate(dateBedika, localisation);
+                Date dateCoucherSoleil = jKalDateBedika.getCoucherSoleil();
+                DateTime date1 = new DateTime(dateBedika);
+                DateTime date2 = new DateTime(dateCoucherSoleil);
+                if (JewishDateEcart.getMinutesBetweenTwoDate(date1, date2) > Constantes.NB_MIN_SECURITE_HT_BEDIKA_KO) {
+                    gCal.setTime(dateBedika);
+                } else {
+
+                    gCal.setTime(dateBedika);
+                    gCal.add(Calendar.DAY_OF_MONTH, 1);
+                }
+
+                Date dateNewPurification = gCal.getTime();
+                newPurification.setDatePurification(dateNewPurification);
+                newPurification.setElevation(niddahEncours.getElevation());
+                newPurification.setLatitude(niddahEncours.getLatitude());
+                newPurification.setLongitude(niddahEncours.getLongitude());
+                newPurification.setLocationName(niddahEncours.getLocationName());
+                newPurification.setTimeZone(niddahEncours.getTimeZone());
+
+                //calcul de la date du hefsek tahara
+                LOGGER.info("Rajout du hefsektahara pour la personne d'id={}", personne.getId());
+                HefsekTahara ht = new HefsekTahara();
+                newPurification.setHefsekTahara(ht);
+                ht.setPurification(newPurification);
+                ht.setElevation(niddahEncours.getElevation());
+                ht.setLatitude(niddahEncours.getLatitude());
+                ht.setLongitude(niddahEncours.getLongitude());
+                ht.setLocationName(niddahEncours.getLocationName());
+                ht.setTimeZone(niddahEncours.getTimeZone());
+                JkalDate jKalDateHT = new JkalDate(dateNewPurification, ht.getLocationName(), ht.getLatitude(), ht.getLongitude(), ht.getElevation(), ht.getTimeZone());
+                ht.setDateHefsek(jKalDateHT.getCoucherSoleil());
+
+                //calcul du Mohdahouk
+                if (personne.getConfiguration().isDoMohDahouk()) {
+                    LOGGER.info("Rajout d'un mohdahouk pour la personne d'id={}", personne.getId());
+                    MohDahouk md = new MohDahouk();
+                    newPurification.setMohDahouk(md);
+                    md.setPurification(newPurification);
+                    md.setElevation(niddahEncours.getElevation());
+                    md.setLatitude(niddahEncours.getLatitude());
+                    md.setLongitude(niddahEncours.getLongitude());
+                    md.setLocationName(niddahEncours.getLocationName());
+                    md.setTimeZone(niddahEncours.getTimeZone());
+                    JkalDate jKalDateMD = new JkalDate(dateNewPurification, md.getLocationName(), md.getLatitude(), md.getLongitude(), md.getElevation(), md.getTimeZone());
+                    md.setDateMoh(jKalDateMD.getCoucherSoleil());
+                } else {
+                    LOGGER.info("La personne d'id={} n'a pas l'habitude d'accomplir de mohdahouk");
+                }
+                //Calcul des cheva nekiym
+                LOGGER.info("Rajout de la periode des cheva nekiyim de la personne d'id={}", personne.getId());
+                ChevaNekiym chevaNekiym = new ChevaNekiym();
+                newPurification.setChevaNekiym(chevaNekiym);
+                chevaNekiym.setPurification(newPurification);
+                chevaNekiym.setElevation(niddahEncours.getElevation());
+                chevaNekiym.setLatitude(niddahEncours.getLatitude());
+                chevaNekiym.setLongitude(niddahEncours.getLongitude());
+                chevaNekiym.setLocationName(niddahEncours.getLocationName());
+                chevaNekiym.setTimeZone(niddahEncours.getTimeZone());
+                gCal.setTime(dateNewPurification);
+                gCal.add(Calendar.DAY_OF_MONTH, 1);
+                chevaNekiym.setDateDebut(gCal.getTime());
+                int i = 0;
+                for (i = 0; i < 7; i++) {
+                    bd = new Bedikot();
+                    chevaNekiym.addBedikot(bd);
+                    bd.setElevation(niddahEncours.getElevation());
+                    bd.setLatitude(niddahEncours.getLatitude());
+                    bd.setLongitude(niddahEncours.getLongitude());
+                    bd.setLocationName(niddahEncours.getLocationName());
+                    bd.setTimeZone(niddahEncours.getTimeZone());
+                    JkalDate jKalDateBedikot = new JkalDate(gCal.getTime(), ht.getLocationName(), ht.getLatitude(), ht.getLongitude(), ht.getElevation(), ht.getTimeZone());
+                    bd.setDateBedika1(jKalDateBedikot.getLeverSoleil());
+                    bd.setDateBedika2(jKalDateBedikot.getCoucherSoleil());
+                    if (i < 6) {
+                        gCal.add(Calendar.DAY_OF_MONTH, 1);
+                    }
+
+                }
+                chevaNekiym.setDateFin(gCal.getTime());
+
+                //calcul de la date de la tevila
+                LOGGER.info("Rajout d'une tevila pour la personne d'id={}", personne.getId());
+                Tevila tevila = new Tevila();
+                newPurification.setTevila(tevila);
+                tevila.setPurification(newPurification);
+                tevila.setElevation(niddahEncours.getElevation());
+                tevila.setLatitude(niddahEncours.getLatitude());
+                tevila.setLongitude(niddahEncours.getLongitude());
+                tevila.setLocationName(niddahEncours.getLocationName());
+                tevila.setTimeZone(niddahEncours.getTimeZone());
+                tevila.setDateTevila(gCal.getTime());
+                niddahRepository.update(niddahEncours);
                 return JKalveredCodeRetour.Niddah_Retry_HT_NOW;
 
             }
@@ -616,6 +733,33 @@ public class NiddahService extends CrudService {
                 throw new AssertionError();
         }
         return res;
+    }
+
+    /**
+     * Fonction mettant à jour l'état d'une bedika à l'etat ok
+     *
+     * @param idBedikot
+     * @param idFemme
+     * @param numBedika
+     * @throws NiddahDataException
+     */
+    public void setBedikaOK(Long idBedikot, Long idFemme, NumBedika numBedika) throws NiddahDataException {
+        Bedikot bd = niddahRepository.getBedikotByIdAndIdFemme(idBedikot, idFemme);
+
+        if (bd == null) {
+            throw new NiddahDataException("La bedika d'id:" + idBedikot + "n'existe pas pour la personne d'id=" + idFemme);
+        }
+        switch (numBedika) {
+            case Bedika1 -> {
+                bd.setEtatBedika1(Boolean.TRUE);
+            }
+            case Bedika2 -> {
+                bd.setEtatBedika2(Boolean.TRUE);
+            }
+            default ->
+                throw new AssertionError();
+        }
+        niddahRepository.update(bd);
     }
 
     /**
@@ -631,6 +775,7 @@ public class NiddahService extends CrudService {
         if (ht == null) {
             throw new NiddahDataException("Le hefsektahra d'id:" + idHefsekTahara + "n'existe pas pour la personne d'id=" + idFemme);
         }
+        LOGGER.info("La personne d'id={} a accompli son ht d'id{}", idFemme, idHefsekTahara);
 
         ht.setEtatHefsek(true);
         niddahRepository.update(ht);
@@ -649,6 +794,8 @@ public class NiddahService extends CrudService {
         if (md == null) {
             throw new NiddahDataException("La tevila d'id:" + idMohDahouk + "n'existe pas pour la personne d'id=" + idFemme);
         }
+        LOGGER.info("La personne d'id={} a accompli son mohdahouk d'id{}", idFemme, idMohDahouk);
+
         md.setAccompli(true);
         md.setEtatMoh(true);
         niddahRepository.update(md);
@@ -677,6 +824,8 @@ public class NiddahService extends CrudService {
         Bedikot firtBedika = listBedikot.get(0);
         Bedikot lastBedika = listBedikot.get(6);
         if (Objects.equals(firtBedika.getEtatBedika1(), Boolean.TRUE) && Objects.equals(firtBedika.getEtatBedika2(), Boolean.TRUE) && Objects.equals(lastBedika.getEtatBedika1(), Boolean.TRUE) && Objects.equals(lastBedika.getEtatBedika2(), Boolean.TRUE)) {
+            LOGGER.info("La personne d'id={} a accompli sa tevila  d'id{}", idFemme, idTevila);
+
             tevila.setEtatTevila(true);
             niddahRepository.update(tevila);
         } else {

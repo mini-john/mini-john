@@ -22,5 +22,7 @@ public class Constantes {
     public static int NB_HOUR_JETON_VALIDE = 3;
     public static int NB_JOUR_CHEVA_NEKIYM = 7;
     public static int DEFAULT_MAX_PAGINATION = 5;
+    public static Long NB_MIN_SECURITE_HT_BEDIKA_KO=30L;
+    
 
 }

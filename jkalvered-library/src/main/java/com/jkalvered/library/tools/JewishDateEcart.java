@@ -8,6 +8,8 @@ package com.jkalvered.library.tools;
 import com.jkalvered.core.dto.NiddahDto;
 import com.jkalvered.library.enumeration.Ona;
 import com.jkalvered.library.math.JkalVeredMath;
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
 
 
 
@@ -40,6 +42,11 @@ public class JewishDateEcart implements Comparable<JewishDateEcart> {
 
     }
 
+    public static Long getMinutesBetweenTwoDate(DateTime  date1,DateTime  date2){
+        Duration duration;
+        duration = new Duration(date1, date2);
+        return duration.getStandardMinutes();
+    }
     public int getMois() {
         return mois;
     }

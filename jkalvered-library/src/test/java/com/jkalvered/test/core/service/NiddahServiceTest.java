@@ -195,7 +195,8 @@ public class NiddahServiceTest {
         Bedikot bd = niddahService.getById(1L, Bedikot.class);
         bd.setEtatBedika1(Boolean.TRUE);
         niddahService.update(bd, Bedikot.class);
-        int res = niddahService.setBedikotKO(2L, 1L, NumBedika.Bedika2, localisation);
+        Date dateBedika = JkalDate.parseDateWithHour("18/11/2022 15:00");
+        int res = niddahService.setBedikotKO(2L, 1L, NumBedika.Bedika2, dateBedika, localisation);
         Assert.assertTrue("erreur dans le retour de bedikot ko", res == 1);
 
     }
