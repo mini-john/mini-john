@@ -8,13 +8,14 @@ package com.jkalvered.library.tools;
 import com.jkalvered.core.dto.NiddahDto;
 import com.jkalvered.library.enumeration.Ona;
 import com.jkalvered.library.math.JkalVeredMath;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
-
-
 /**
  * Classe permettant le calcul sur des Date juive
+ *
  * @author mini-john
  */
 public class JewishDateEcart implements Comparable<JewishDateEcart> {
@@ -42,11 +43,12 @@ public class JewishDateEcart implements Comparable<JewishDateEcart> {
 
     }
 
-    public static Long getMinutesBetweenTwoDate(DateTime  date1,DateTime  date2){
+    public static Long getMinutesBetweenTwoDate(DateTime date1, DateTime date2) {
         Duration duration;
         duration = new Duration(date1, date2);
         return duration.getStandardMinutes();
     }
+
     public int getMois() {
         return mois;
     }
@@ -109,4 +111,8 @@ public class JewishDateEcart implements Comparable<JewishDateEcart> {
                 && this.getOna() == ecart2.getOna();
     }
 
+    public static boolean isSameDay(Date date1, Date date2) {
+        SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/YYYY");
+        return fmt.format(date1).equals(fmt.format(date2));
+    }
 }

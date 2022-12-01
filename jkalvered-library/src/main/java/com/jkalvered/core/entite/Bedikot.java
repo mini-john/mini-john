@@ -6,6 +6,8 @@ package com.jkalvered.core.entite;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import java.util.function.Predicate;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -99,6 +101,14 @@ public class Bedikot implements Serializable {
         return true;
     }
 
-    
+     public static int countBedikot1(List<Bedikot> list, Boolean etat) {
+        Predicate<Bedikot> countBedikot1ok = (Bedikot i) -> i.getEtatBedika1() != null ? i.getEtatBedika1().equals(etat) : false;
+        return (int) list.stream().filter(countBedikot1ok).count();
+    }
+
+    public static int  countBedikot2(List<Bedikot> list, Boolean etat) {
+        Predicate<Bedikot> countBedikot2ok = (Bedikot i) -> i.getEtatBedika2() != null ? i.getEtatBedika2().equals(etat) : false;
+        return (int) list.stream().filter(countBedikot2ok).count();
+    }
 
 }

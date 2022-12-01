@@ -9,13 +9,13 @@ package com.jkalvered.library.exception;
  *
  * @author Boccara Jonathan
  */
-public class NiddahDataException extends Exception {
+public class JKalveredDataException extends JKalVeredException {
 
     /**
      * Creates a new instance of <code>NiddahDataException</code> without detail
      * message.
      */
-    public NiddahDataException() {
+    public JKalveredDataException() {
     }
 
     /**
@@ -24,7 +24,7 @@ public class NiddahDataException extends Exception {
      *
      * @param msg the detail message.
      */
-    public NiddahDataException(String msg) {
+    public JKalveredDataException(String msg) {
         super(msg);
     }
 }

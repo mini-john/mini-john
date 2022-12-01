@@ -17,7 +17,8 @@ import com.jkalvered.library.enumeration.NumBedika;
 import com.jkalvered.library.enumeration.Origine;
 import com.jkalvered.library.enumeration.RoleUser;
 import com.jkalvered.library.enumeration.Sexe;
-import com.jkalvered.library.exception.NiddahDataException;
+import com.jkalvered.library.exception.BedikaException;
+import com.jkalvered.library.exception.JKalveredDataException;
 import java.text.ParseException;
 import java.util.Date;
 import org.apache.logging.log4j.LogManager;
@@ -127,7 +128,7 @@ public class NiddahServiceTest {
 
     @Test
     @Order(3)
-    public void test2hefsekTaharaKo() throws ParseException, NiddahDataException {
+    public void test2hefsekTaharaKo() throws ParseException, JKalveredDataException {
         LOGGER.info("Test ht ko");
         String locationName = "Nice";
         double latitude = 43.700000;
@@ -150,7 +151,7 @@ public class NiddahServiceTest {
 
     @Test
     @Order(4)
-    public void test3MohDahoukhKo() throws ParseException, NiddahDataException {
+    public void test3MohDahoukhKo() throws ParseException, JKalveredDataException {
         LOGGER.info("Test moh ko");
 
         String locationName = "Nice";
@@ -174,7 +175,7 @@ public class NiddahServiceTest {
 
     @Test
     @Order(5)
-    public void test4BedikotKo() throws ParseException, NiddahDataException {
+    public void test4BedikotKo() throws ParseException, JKalveredDataException {
         LOGGER.info("Test bedika ko");
 
         String locationName = "Nice";
@@ -203,7 +204,7 @@ public class NiddahServiceTest {
 
     @Test
     @Order(6)
-    public void testAnalysePurification() throws ParseException, NiddahDataException {
+    public void testAnalyseNiddah() throws ParseException, JKalveredDataException {
         LOGGER.info("Test niddah purification");
         String locationName = "Nice";
         double latitude = 43.700000;
@@ -220,13 +221,19 @@ public class NiddahServiceTest {
         Date dateVue = JkalDate.parseDateWithHour("13/11/2022 12:00");
         Date dateDernierRappor = JkalDate.parseDateWithHour("12/11/2022 22:00");
         niddahService.addPeriodNiddah(1L, dateVue, dateDernierRappor, timeZone, localisation);
-        niddahService.analysePurification(1L, 1L);
+        Date dateBedika = JkalDate.parseDateWithHour("17/11/2022 15:00");
+        niddahService.setBedikotKO(1L, 1L, NumBedika.Bedika2, dateBedika, localisation);
+        dateBedika = JkalDate.parseDateWithHour("19/11/2022 15:00");
+        niddahService.setBedikotKO(8L, 1L, NumBedika.Bedika2, dateBedika, localisation);
+        int res = niddahService.analyseThisNiddah(1L, 1L);
+
+        LOGGER.info("Le résultat de l'analyse est {}", res);
     }
 
     @Test
     @Order(6)
 
-    public void testTevilaOK() throws ParseException, NiddahDataException {
+    public void testTevilaOK() throws ParseException, JKalveredDataException {
         LOGGER.info("Test niddah purification");
         String locationName = "Nice";
         double latitude = 43.700000;

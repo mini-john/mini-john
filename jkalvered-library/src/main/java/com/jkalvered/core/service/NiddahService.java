@@ -7,6 +7,7 @@ package com.jkalvered.core.service;
 import com.jkalvered.core.dto.Localisation;
 import com.jkalvered.core.entite.Bedikot;
 import com.jkalvered.core.entite.ChevaNekiym;
+import com.jkalvered.core.entite.Configuration;
 import com.jkalvered.core.entite.HefsekTahara;
 import com.jkalvered.core.entite.MohDahouk;
 import com.jkalvered.core.entite.Niddah;
@@ -18,7 +19,8 @@ import com.jkalvered.library.constante.Constantes;
 import com.jkalvered.library.constante.JKalveredCodeRetour;
 import com.jkalvered.library.date.JkalDate;
 import com.jkalvered.library.enumeration.NumBedika;
-import com.jkalvered.library.exception.NiddahDataException;
+import com.jkalvered.library.exception.BedikaException;
+import com.jkalvered.library.exception.JKalveredDataException;
 import com.jkalvered.library.tools.JewishDateEcart;
 import java.util.Calendar;
 import java.util.Date;
@@ -173,8 +175,8 @@ public class NiddahService extends CrudService {
         gCal.setTime(datePurification);
         gCal.add(Calendar.DAY_OF_MONTH, 1);
         chevaNekiym.setDateDebut(gCal.getTime());
-        int i = 0;
-        for (i = 0; i < 7; i++) {
+        
+        for (int i = 0; i < 7; i++) {
             Bedikot bd = new Bedikot();
             chevaNekiym.addBedikot(bd);
             bd.setElevation(niddahEncours.getElevation());
@@ -213,13 +215,13 @@ public class NiddahService extends CrudService {
      * @param idHt
      * @param idFemme
      * @param localisation
-     * @throws NiddahDataException
+     * @throws JKalveredDataException
      */
-    public void hefsekTaharaIsKo(Long idHt, Long idFemme, Localisation localisation) throws NiddahDataException {
+    public void hefsekTaharaIsKo(Long idHt, Long idFemme, Localisation localisation) throws JKalveredDataException {
         HefsekTahara ht = niddahRepository.getHefsekTaharaByIdAndIdFemme(idHt, idFemme);
 
         if (ht == null) {
-            throw new NiddahDataException("Le hefsektahra d'id:" + idHt + "n'existe pas pour la personne d'id=" + idFemme);
+            throw new JKalveredDataException("Le hefsektahra d'id:" + idHt + "n'existe pas pour la personne d'id=" + idFemme);
         }
         ht.setEtatHefsek(Boolean.FALSE);
         Personne personne = ht.getPurification().getNiddah().getPersonne();
@@ -304,8 +306,8 @@ public class NiddahService extends CrudService {
         gCal.setTime(dateNewPurification);
         gCal.add(Calendar.DAY_OF_MONTH, 1);
         chevaNekiym.setDateDebut(gCal.getTime());
-        int i = 0;
-        for (i = 0; i < 7; i++) {
+       
+        for (int i = 0; i < 7; i++) {
             Bedikot bd = new Bedikot();
             chevaNekiym.addBedikot(bd);
             bd.setElevation(niddahEncours.getElevation());
@@ -346,13 +348,13 @@ public class NiddahService extends CrudService {
      * @param idMohDahouk
      * @param idFemme
      * @param localisation
-     * @throws NiddahDataException
+     * @throws JKalveredDataException
      */
-    public void mohdDahoukIsKo(Long idMohDahouk, Long idFemme, Localisation localisation) throws NiddahDataException {
+    public void mohdDahoukIsKo(Long idMohDahouk, Long idFemme, Localisation localisation) throws JKalveredDataException {
         MohDahouk md = niddahRepository.getMohDaoukByIdAndIdFemme(idMohDahouk, idFemme);
 
         if (md == null) {
-            throw new NiddahDataException("Le mohdahouk d'id:" + idMohDahouk + "n'existe pas pour la personne d'id=" + idFemme);
+            throw new JKalveredDataException("Le mohdahouk d'id:" + idMohDahouk + "n'existe pas pour la personne d'id=" + idFemme);
         }
         md.setEtatMoh(Boolean.FALSE);
         Personne personne = md.getPurification().getNiddah().getPersonne();
@@ -433,8 +435,8 @@ public class NiddahService extends CrudService {
         gCal.setTime(dateNewPurification);
         gCal.add(Calendar.DAY_OF_MONTH, 1);
         chevaNekiym.setDateDebut(gCal.getTime());
-        int i = 0;
-        for (i = 0; i < 7; i++) {
+       
+        for (int i = 0; i < 7; i++) {
             Bedikot bd = new Bedikot();
             chevaNekiym.addBedikot(bd);
             bd.setElevation(niddahEncours.getElevation());
@@ -480,13 +482,13 @@ public class NiddahService extends CrudService {
      * JKalveredCodeRetour.Niddah_Retry_HT_NOW dans le cas ou la bedika2 n'est
      * pas bonne car on demande à la personne si elle a de refaire un ht le
      * moment meme
-     * @throws NiddahDataException
+     * @throws JKalveredDataException
      */
-    public int setBedikotKO(Long idBedika, Long idFemme, NumBedika numBedika, Date dateBedika, Localisation localisation) throws NiddahDataException {
+    public int setBedikotKO(Long idBedika, Long idFemme, NumBedika numBedika, Date dateBedika, Localisation localisation) throws JKalveredDataException,BedikaException {
         Bedikot bd = niddahRepository.getBedikotByIdAndIdFemme(idBedika, idFemme);
         int res = JKalveredCodeRetour.Niddah_Retry_HT_NOW;
         if (bd == null) {
-            throw new NiddahDataException("La bedika d'id:" + idBedika + "n'existe pas pour la personne d'id=" + idFemme);
+            throw new JKalveredDataException("La bedika d'id:" + idBedika + "n'existe pas pour la personne d'id=" + idFemme);
         }
         switch (numBedika) {
             case Bedika1 -> {
@@ -569,8 +571,8 @@ public class NiddahService extends CrudService {
                 gCal.setTime(dateNewPurification);
                 gCal.add(Calendar.DAY_OF_MONTH, 1);
                 chevaNekiym.setDateDebut(gCal.getTime());
-                int i = 0;
-                for (i = 0; i < 7; i++) {
+               
+                for (int i = 0; i < 7; i++) {
                     bd = new Bedikot();
                     chevaNekiym.addBedikot(bd);
                     bd.setElevation(niddahEncours.getElevation());
@@ -635,6 +637,9 @@ public class NiddahService extends CrudService {
                 // refaire un ht alors refait le soir meme sinon on fait le lendemain
                 JkalDate jKalDateBedika = new JkalDate(dateBedika, localisation);
                 Date dateCoucherSoleil = jKalDateBedika.getCoucherSoleil();
+                if(!JewishDateEcart.isSameDay(dateBedika, bd.getDateBedika2())){
+                    throw new BedikaException("La bedika d'id="+bd.getId() +" a été effectué à une autre date="+JkalDate.formatDateWithHour.format(dateBedika));
+                }
                 DateTime date1 = new DateTime(dateBedika);
                 DateTime date2 = new DateTime(dateCoucherSoleil);
                 if (JewishDateEcart.getMinutesBetweenTwoDate(date1, date2) > Constantes.NB_MIN_SECURITE_HT_BEDIKA_KO) {
@@ -695,8 +700,7 @@ public class NiddahService extends CrudService {
                 gCal.setTime(dateNewPurification);
                 gCal.add(Calendar.DAY_OF_MONTH, 1);
                 chevaNekiym.setDateDebut(gCal.getTime());
-                int i = 0;
-                for (i = 0; i < 7; i++) {
+                for (int i = 0; i < 7; i++) {
                     bd = new Bedikot();
                     chevaNekiym.addBedikot(bd);
                     bd.setElevation(niddahEncours.getElevation());
@@ -741,13 +745,13 @@ public class NiddahService extends CrudService {
      * @param idBedikot
      * @param idFemme
      * @param numBedika
-     * @throws NiddahDataException
+     * @throws JKalveredDataException
      */
-    public void setBedikaOK(Long idBedikot, Long idFemme, NumBedika numBedika) throws NiddahDataException {
+    public void setBedikaOK(Long idBedikot, Long idFemme, NumBedika numBedika) throws JKalveredDataException {
         Bedikot bd = niddahRepository.getBedikotByIdAndIdFemme(idBedikot, idFemme);
 
         if (bd == null) {
-            throw new NiddahDataException("La bedika d'id:" + idBedikot + "n'existe pas pour la personne d'id=" + idFemme);
+            throw new JKalveredDataException("La bedika d'id:" + idBedikot + "n'existe pas pour la personne d'id=" + idFemme);
         }
         switch (numBedika) {
             case Bedika1 -> {
@@ -767,13 +771,13 @@ public class NiddahService extends CrudService {
      *
      * @param idHefsekTahara
      * @param idFemme
-     * @throws NiddahDataException
+     * @throws JKalveredDataException
      */
-    public void setHefesekTaharaOK(Long idHefsekTahara, Long idFemme) throws NiddahDataException {
+    public void setHefesekTaharaOK(Long idHefsekTahara, Long idFemme) throws JKalveredDataException {
         HefsekTahara ht = niddahRepository.getHefsekTaharaByIdAndIdFemme(idHefsekTahara, idFemme);
 
         if (ht == null) {
-            throw new NiddahDataException("Le hefsektahra d'id:" + idHefsekTahara + "n'existe pas pour la personne d'id=" + idFemme);
+            throw new JKalveredDataException("Le hefsektahra d'id:" + idHefsekTahara + "n'existe pas pour la personne d'id=" + idFemme);
         }
         LOGGER.info("La personne d'id={} a accompli son ht d'id{}", idFemme, idHefsekTahara);
 
@@ -786,13 +790,13 @@ public class NiddahService extends CrudService {
      *
      * @param idMohDahouk
      * @param idFemme
-     * @throws NiddahDataException
+     * @throws JKalveredDataException
      */
-    public void setMohDahoukOK(Long idMohDahouk, Long idFemme) throws NiddahDataException {
+    public void setMohDahoukOK(Long idMohDahouk, Long idFemme) throws JKalveredDataException {
         MohDahouk md = niddahRepository.getMohDaoukByIdAndIdFemme(idMohDahouk, idFemme);
 
         if (md == null) {
-            throw new NiddahDataException("La tevila d'id:" + idMohDahouk + "n'existe pas pour la personne d'id=" + idFemme);
+            throw new JKalveredDataException("La tevila d'id:" + idMohDahouk + "n'existe pas pour la personne d'id=" + idFemme);
         }
         LOGGER.info("La personne d'id={} a accompli son mohdahouk d'id{}", idFemme, idMohDahouk);
 
@@ -810,12 +814,12 @@ public class NiddahService extends CrudService {
      * @return JKalveredCodeRetour.Niddah_Tevila_OK si Tevila OK
      * JKalveredCodeRetour.Niddah_Bedikot_error_not_enough si les bedikots sont
      * pas suffisantes
-     * @throws NiddahDataException
+     * @throws JKalveredDataException
      */
-    public int setTevilaOk(Long idTevila, Long idFemme, Localisation localisation) throws NiddahDataException {
+    public int setTevilaOk(Long idTevila, Long idFemme, Localisation localisation) throws JKalveredDataException {
         Tevila tevila = niddahRepository.getTevilaByIdAndIdFemme(idTevila, idFemme);
         if (tevila == null) {
-            throw new NiddahDataException("Le mohdahouk d'id:" + idTevila + "n'existe pas pour la personne d'id=" + idFemme);
+            throw new JKalveredDataException("Le mohdahouk d'id:" + idTevila + "n'existe pas pour la personne d'id=" + idFemme);
         }
         int res = JKalveredCodeRetour.Niddah_Tevila_OK;
         //Je controle que au moin le premier et dernier jour des shva nekiym sont bon
@@ -834,12 +838,77 @@ public class NiddahService extends CrudService {
         return res;
     }
 
-    public int analysePurification(Long idPurification, Long idFemme) {
-        int res = 0;
-        Purification purification = niddahRepository.getPurificationByIdAndIdFemme(idPurification, idFemme);
-        List<Bedikot> bedikots = purification.getChevaNekiym().getBedikots();
-        LOGGER.info("listBedikot {}", bedikots);
+    /**
+     * Fonction qui analyse les purifications de la femme afin de lui éveilles
+     * des cas à poser des questions aux rabbanims TODO: A rajouter des options
+     * dans configurations pour evaluer le niveau de religion de la femme pour
+     * les koulot
+     *
+     * @param idNiddah
+     * @param idFemme
+     * @return
+     * JKalveredCodeRetour.ANALYSE_NIDDAH_ESSAI_PURIFICATION_INSUFFISANTES
+     * JKalveredCodeRetour.ANALYSE_NIDDAH_ESSAI_BEDIKOT_INSUFFISANTES
+     * JKalveredCodeRetour.ANALYSE_NIDDAH_BEDIKA_QUE_MATIN
+     * JKalveredCodeRetour.ANALYSE_NIDDAH_BEDIKA_QUE_SOIR
+     * JKalveredCodeRetour.ANALYSE_NIDDAH_BEDIKA_UNE_PAR_JOUR
+     * JKalveredCodeRetour.ANALYSE_NIDDAH_BEDIKA_UN_ET_SEPT
+     *
+     */
+    public int analyseThisNiddah(Long idNiddah, Long idFemme) {
+        //Je récupère l'entité niddah à analyser
+        Niddah niddah = niddahRepository.getNiddahByIdAndIdFemme(idNiddah, idFemme);
+        Configuration configFemme = niddah.getPersonne().getConfiguration();
+        //Si la personne n'a qu'un essai de purification alors elle doit retenté
+        LOGGER.info("Analyse de la Niddah {} de la personne {}", idNiddah, idFemme);
+        //Si Bne Tora alors on n'analyse pas
+        if (configFemme.isBneTorah()) {
+            return JKalveredCodeRetour.ANALYSE_NIDDAH_PAS_DE_RESULTAT;
+        }
+        //on controle le nombre de purification au moins 2
+        if (niddah.getPurifications().size() == 1) {
+            return JKalveredCodeRetour.ANALYSE_NIDDAH_ESSAI_PURIFICATION_INSUFFISANTES;
+        }
+        //TODO : corriger hack car quand on controle la nouvelle purification a été ajouté
+        if (niddah.getPurifications().size() - 1 == 2) {
+            //La personne a déjà fait 2 essais on va voir si on peut etre mekil en lui demandant d'appeler un rav
 
-        return res;
+            Purification purification1 = niddah.getPurifications().get(0);
+            Purification purification2 = niddah.getPurifications().get(1);
+
+            //Si a chaque fois il n'y a qu'une bedika alors ce que son flux n'est pas termine
+            if (purification1.getChevaNekiym().getBedikots().size() < Constantes.ANALYSE_NIDDAH_NOMBRE_BEDIKOT_OBLIGATOIRE
+                    && purification2.getChevaNekiym().getBedikots().size() < Constantes.ANALYSE_NIDDAH_NOMBRE_BEDIKOT_OBLIGATOIRE) {
+                //Il n'y a pas au moins trois bedikots dans les chevaNekiym
+
+                return JKalveredCodeRetour.ANALYSE_NIDDAH_ESSAI_BEDIKOT_INSUFFISANTES;
+            }
+
+            //Il y a au moins trois bedikots dans les chevaNekiym
+            List<Bedikot> list1 = purification1.getChevaNekiym().getBedikots();
+            int bedikot1KO1, bedikot2KO1, bedikot1KO2, bedikot2KO2;
+            bedikot1KO1 = Bedikot.countBedikot1(list1, Boolean.FALSE);
+            bedikot2KO1 = Bedikot.countBedikot2(list1, Boolean.FALSE);
+
+            List<Bedikot> list2 = purification2.getChevaNekiym().getBedikots();
+            bedikot1KO2 = Bedikot.countBedikot1(list2, Boolean.FALSE);
+            bedikot2KO2 = Bedikot.countBedikot2(list2, Boolean.FALSE);
+            //C'est la bedika du matin qui pose probleme alors on fait le soir
+            if (bedikot1KO1 > bedikot1KO2) {
+                return JKalveredCodeRetour.ANALYSE_NIDDAH_BEDIKA_QUE_SOIR;
+            }
+            //C'est la bedika du soir qui pose probleme alors on fait le matin
+            if (bedikot2KO1 > bedikot2KO2) {
+                return JKalveredCodeRetour.ANALYSE_NIDDAH_BEDIKA_QUE_MATIN;
+
+            }
+            //C est mix des 2 alors on fait que une par jour
+            return JKalveredCodeRetour.ANALYSE_NIDDAH_BEDIKA_UNE_PAR_JOUR;
+
+        } else {
+            return JKalveredCodeRetour.ANALYSE_NIDDAH_BEDIKA_UN_ET_SEPT;
+        }
+
     }
+
 }

@@ -44,6 +44,7 @@ public class Configuration implements Serializable {
     private String timeZone;
     private Origine origine;
     private boolean doMohDahouk;
+    private boolean bneTorah;
 
     @Override
     public int hashCode() {

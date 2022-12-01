@@ -9,7 +9,7 @@ import com.jkalvered.library.enumeration.MomentJournee;
 import static com.jkalvered.library.enumeration.MomentJournee.Matin;
 import com.jkalvered.library.enumeration.Ona;
 import com.jkalvered.library.exception.MomentException;
-import com.jkalvered.library.exception.NiddahException;
+import com.jkalvered.library.exception.JKalVeredException;
 import com.kosherjava.zmanim.ZmanimCalendar;
 import com.kosherjava.zmanim.hebrewcalendar.JewishDate;
 import com.kosherjava.zmanim.util.GeoLocation;
@@ -30,9 +30,9 @@ import org.joda.time.LocalDate;
  */
 public class JkalDate extends JewishDate {
 
-    private static final SimpleDateFormat formatDateWithHour = new SimpleDateFormat("dd/MM/yyyy HH:m");
-    private static final SimpleDateFormat formatDateWithHourAndMinute = new SimpleDateFormat("dd/MM/yyyy HH:m:s");
-    private static final SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+    public static final SimpleDateFormat formatDateWithHour = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+    public static final SimpleDateFormat formatDateWithHourAndMinute = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    public static final SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
     private static Logger LOGGER = LogManager.getLogger();
 
     /**
@@ -406,7 +406,7 @@ public class JkalDate extends JewishDate {
     public int getNombreJourEcart(Date date) {
         int res = 0;
         if (0 <= dateGregorian.compareTo(date)) {
-            throw new NiddahException("La date 1 " + dateGregorian.toString() + " doit etre avant la date 2 " + date.toString());
+            throw new JKalVeredException("La date 1 " + dateGregorian.toString() + " doit etre avant la date 2 " + date.toString());
         }
         res = Days.daysBetween(new LocalDate(dateGregorian), new LocalDate(date)).getDays();
 
@@ -422,7 +422,7 @@ public class JkalDate extends JewishDate {
     public int getNombreJourEcart(JkalDate date) {
         int res = 0;
         if (0 <= dateGregorian.compareTo(date.getDateGregorian())) {
-            throw new NiddahException("La date 1 " + dateGregorian.toString() + " doit etre avant la date 2 " + date.toString());
+            throw new JKalVeredException("La date 1 " + dateGregorian.toString() + " doit etre avant la date 2 " + date.toString());
         }
         res = Days.daysBetween(new LocalDate(dateGregorian), new LocalDate(date.getDateGregorian())).getDays();
 

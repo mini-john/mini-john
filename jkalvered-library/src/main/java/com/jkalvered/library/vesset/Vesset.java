@@ -2,7 +2,7 @@ package com.jkalvered.library.vesset;
 
 import com.jkalvered.library.tools.JewishDateEcart;
 import com.jkalvered.core.dto.NiddahDto;
-import com.jkalvered.library.exception.NiddahException;
+import com.jkalvered.library.exception.JKalVeredException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -69,9 +69,9 @@ public class Vesset {
      * @param cycle2
      * @return
      */
-    public static int getHaflagaEntreDeuxCycle(NiddahDto cycle1, NiddahDto cycle2) throws NiddahException{
+    public static int getHaflagaEntreDeuxCycle(NiddahDto cycle1, NiddahDto cycle2) throws JKalVeredException{
         if (cycle2.getjKalDate().getDateGregorian().before(cycle1.getjKalDate().getDateGregorian())) {
-            throw new NiddahException("La date 1 : " + cycle1.getjKalDate().getDateGregorian() + " doit être avant la 2 : " + cycle2.getjKalDate().getDateGregorian());
+            throw new JKalVeredException("La date 1 : " + cycle1.getjKalDate().getDateGregorian() + " doit être avant la 2 : " + cycle2.getjKalDate().getDateGregorian());
         }
         return Days.daysBetween(new LocalDate(cycle1.getjKalDate().getDateGregorian()), new LocalDate(cycle2.getjKalDate().getDateGregorian())).getDays()+1;
 

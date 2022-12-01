@@ -8,7 +8,7 @@ package com.jkalvered.library.pricha;
 import com.jkalvered.core.dto.PrichaDto;
 import com.jkalvered.library.date.JkalDate;
 import com.jkalvered.library.enumeration.Ona;
-import com.jkalvered.library.exception.NiddahException;
+import com.jkalvered.library.exception.JKalVeredException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.Locale;
@@ -154,7 +154,7 @@ public class TestPricha {
         Date date1 = JkalDate.parseDateWithHour("14/08/2022 14:05");
         PrichaDto pricha = Pricha.getPrichaBenonit(date1, locationName, latitude, longitude, elevation, timeZone);
         PrichaDto prichaOrZaroua = Pricha.getPrichaOrZaroua(date1, pricha);
-        Exception exception = assertThrows(NiddahException.class, () -> {
+        Exception exception = assertThrows(JKalVeredException.class, () -> {
             prichaOrZaroua.getHaflagaDay();
         });
         String expectedMessage = "Une haflga est demandée";

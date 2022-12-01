@@ -56,7 +56,7 @@ public class NiddahRepository extends CrudRepository {
     }
 
     public void deleteBedikotNull(Long idChevaNekiym) {
-        
+
         String query = "Delete From Bedikot where chevaNekiym.id=:i and etatBedika1 is null and etatBedika2 is null";
         Query queryHibernate = this.sessionFactory.getCurrentSession().createQuery(query);
         queryHibernate.setParameter("i", idChevaNekiym);
@@ -78,6 +78,16 @@ public class NiddahRepository extends CrudRepository {
         queryHibernate.setParameter("i", idTevila);
         queryHibernate.setParameter("j", idFemme);
         Tevila res = (Tevila) DataAccessUtils.singleResult(queryHibernate.getResultList());
-        return res;}
+        return res;
+    }
+
+    public Niddah getNiddahByIdAndIdFemme(Long idNiddah, Long idFemme) {
+        String query = "From Niddah where id=:i and personne.id=:j";
+        Query queryHibernate = this.sessionFactory.getCurrentSession().createQuery(query);
+        queryHibernate.setParameter("i", idNiddah);
+        queryHibernate.setParameter("j", idFemme);
+        Niddah res = (Niddah) DataAccessUtils.singleResult(queryHibernate.getResultList());
+        return res;
+    }
 
 }

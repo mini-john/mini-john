@@ -9,7 +9,7 @@ import com.jkalvered.core.dto.PrichaDto;
 import com.jkalvered.library.constante.Constantes;
 import com.jkalvered.library.date.JkalDate;
 import com.jkalvered.library.enumeration.TypePricha;
-import com.jkalvered.library.exception.NiddahException;
+import com.jkalvered.library.exception.JKalVeredException;
 import com.kosherjava.zmanim.ZmanimCalendar;
 import com.kosherjava.zmanim.hebrewcalendar.JewishDate;
 import java.util.Date;
@@ -84,7 +84,7 @@ public class Pricha {
      */
     public static PrichaDto getPrichaHaflaga(Date datePrecedente, Date dateVue, String locationName, double latitude, double longitude, double elevation, String timeZone) {
         if (dateVue.before(datePrecedente)) {
-            throw new NiddahException("La date 1 : " + datePrecedente + " doit être avant la 2 : " + dateVue);
+            throw new JKalVeredException("La date 1 : " + datePrecedente + " doit être avant la 2 : " + dateVue);
         }
         int days = Days.daysBetween(new LocalDate(datePrecedente), new LocalDate(dateVue)).getDays() + 1;
         Date dateHaflaga = JkalDate.addDay(dateVue, days - 2);
@@ -179,7 +179,7 @@ public class Pricha {
 
             return prichaDto;
         } else {
-            throw new NiddahException("La pricha Or Zaroua ne se fait que sur une pricha de type hahodesh benonit ou haflaga et pas sur un type " + pricha.getTypePricha());
+            throw new JKalVeredException("La pricha Or Zaroua ne se fait que sur une pricha de type hahodesh benonit ou haflaga et pas sur un type " + pricha.getTypePricha());
         }
     }
 }

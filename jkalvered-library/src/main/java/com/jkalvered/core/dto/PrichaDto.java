@@ -8,7 +8,7 @@ package com.jkalvered.core.dto;
 import com.jkalvered.library.date.JkalDate;
 import com.jkalvered.library.enumeration.Ona;
 import com.jkalvered.library.enumeration.TypePricha;
-import com.jkalvered.library.exception.NiddahException;
+import com.jkalvered.library.exception.JKalVeredException;
 import com.kosherjava.zmanim.ZmanimCalendar;
 import java.util.Calendar;
 import java.util.Date;
@@ -162,9 +162,9 @@ public class PrichaDto implements Comparable<PrichaDto> {
         this.etatBedika2 = etatBedika2;
     }
 
-    public int getHaflagaDay() throws NiddahException {
+    public int getHaflagaDay() throws JKalVeredException {
         if (typePricha != TypePricha.Haflaga) {
-            throw new NiddahException("Une haflga est demandée alors que le type n'est pas haflaga = " + this.toString());
+            throw new JKalVeredException("Une haflga est demandée alors que le type n'est pas haflaga = " + this.toString());
         }
         return haflagaDay;
     }

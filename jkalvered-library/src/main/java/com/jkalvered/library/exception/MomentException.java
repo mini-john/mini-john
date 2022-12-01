@@ -9,7 +9,7 @@ package com.jkalvered.library.exception;
  *
  * @author mini-john
  */
-public class MomentException  extends RuntimeException {
+public class MomentException  extends JKalVeredException {
 
     public MomentException(String message) {
         super(message);

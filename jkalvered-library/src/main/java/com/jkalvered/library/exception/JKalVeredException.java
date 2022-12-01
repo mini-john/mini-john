@@ -9,22 +9,22 @@ package com.jkalvered.library.exception;
  *
  * @author Boccara Jonathan
  */
-public class NiddahException extends RuntimeException {
+public class JKalVeredException extends RuntimeException {
 
     /**
-     * Creates a new instance of <code>NiddahException</code> without detail
+     * Creates a new instance of <code>JKalVeredException</code> without detail
      * message.
      */
-    public NiddahException() {
+    public JKalVeredException() {
     }
 
     /**
-     * Constructs an instance of <code>NiddahException</code> with the specified
+     * Constructs an instance of <code>JKalVeredException</code> with the specified
      * detail message.
      *
      * @param msg the detail message.
      */
-    public NiddahException(String msg) {
+    public JKalVeredException(String msg) {
         super(msg);
     }
 }
