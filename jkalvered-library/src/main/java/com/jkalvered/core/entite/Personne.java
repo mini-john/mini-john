@@ -5,6 +5,7 @@
 package com.jkalvered.core.entite;
 
 import com.jkalvered.library.enumeration.Sexe;
+import com.jkalvered.library.enumeration.TypeCycle;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,10 @@ public class Personne implements Serializable {
     private double longitude;
     private double elevation;
     private String timeZone;
+    @Getter
+    @Setter
+    @Enumerated(EnumType.STRING)
+    private TypeCycle typeCycle = TypeCycle.LoKavoua;
     @Enumerated(EnumType.STRING)
     private Sexe sexe;
     @OneToOne(cascade = {CascadeType.ALL}, mappedBy = "personne")
@@ -56,11 +61,11 @@ public class Personne implements Serializable {
     private Personne conjoint;
     @Getter
     @Setter
-    @OneToMany(mappedBy = "personne", fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Niddah.class)
+    @OneToMany(mappedBy = "personne", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Niddah.class)
     private List<Niddah> niddahs = new ArrayList<>();
-    @OneToMany(mappedBy = "personne", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @Getter
     @Setter
+    @OneToMany(mappedBy = "personne", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Cycle> vesset = new ArrayList<Cycle>();
 
     public void addNiddah(Niddah niddah) {

@@ -5,7 +5,7 @@
  */
 package com.jkalvered.library.tools;
 
-import com.jkalvered.core.dto.NiddahDto;
+import com.jkalvered.core.entite.Niddah;
 import com.jkalvered.library.enumeration.Ona;
 import com.jkalvered.library.math.JkalVeredMath;
 import java.text.SimpleDateFormat;
@@ -25,7 +25,7 @@ public class JewishDateEcart implements Comparable<JewishDateEcart> {
     private int nbJourtEcart;
     private Ona ona;
 
-    public JewishDateEcart(NiddahDto cycle1, NiddahDto cycle2, Ona ona) {
+    public JewishDateEcart(Niddah cycle1, Niddah cycle2, Ona ona) {
         int mois1, mois2, jour1, jour2;
         mois1 = cycle1.getjKalDate().getJewishMonth();
         mois2 = cycle2.getjKalDate().getJewishMonth();

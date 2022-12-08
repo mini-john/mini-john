@@ -48,7 +48,7 @@ public class Tevila implements Serializable {
 
     @Getter
     @Setter
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     private Purification purification;
 
     @Getter

@@ -21,7 +21,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class NiddahDto implements Comparable<NiddahDto> {
+public class NiddahDto  {
 
     private Long id;
     private PersonneDto personne;
@@ -59,13 +59,7 @@ public class NiddahDto implements Comparable<NiddahDto> {
         return personne;
     }
 
-    public JkalDate getjKalDate() {
-        if (jKalDate == null) {
-            this.jKalDate = new JkalDate(dateVue, locationName, latitude, longitude, elevation, timeZone);
-
-        }
-        return jKalDate;
-    }
+    
 
     public int getHaflaga() {
         return haflaga;
@@ -91,9 +85,7 @@ public class NiddahDto implements Comparable<NiddahDto> {
         return timeZone;
     }
 
-    public Ona getOna() {
-        return jKalDate.getOna();
-    }
+    
 
     public void setHaflaga(int haflaga) {
         this.haflaga = haflaga;
@@ -107,29 +99,6 @@ public class NiddahDto implements Comparable<NiddahDto> {
         this.commentaire = commentaire;
     }
 
-    @Override
-    public int compareTo(NiddahDto o) {
-        Calendar cal1 = GregorianCalendar.getInstance();
-        cal1.setTime(this.jKalDate.getDateGregorian());
-        Calendar cal2 = GregorianCalendar.getInstance();
-        cal2.setTime(o.jKalDate.getDateGregorian());
-        return cal1.compareTo(cal2);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final NiddahDto other = (NiddahDto) obj;
-
-        return (this.haflaga == other.haflaga) && (this.getOna() == other.getOna());
-    }
+    
 
 }

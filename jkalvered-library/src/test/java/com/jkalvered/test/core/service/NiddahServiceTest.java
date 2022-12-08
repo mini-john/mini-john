@@ -223,7 +223,7 @@ public class NiddahServiceTest {
         niddahService.addPeriodNiddah(1L, dateVue, dateDernierRappor, timeZone, localisation);
         Date dateBedika = JkalDate.parseDateWithHour("17/11/2022 15:00");
         niddahService.setBedikotKO(1L, 1L, NumBedika.Bedika2, dateBedika, localisation);
-        dateBedika = JkalDate.parseDateWithHour("19/11/2022 15:00");
+        dateBedika = JkalDate.parseDateWithHour("18/11/2022 15:00");
         niddahService.setBedikotKO(8L, 1L, NumBedika.Bedika2, dateBedika, localisation);
         int res = niddahService.analyseThisNiddah(1L, 1L);
 

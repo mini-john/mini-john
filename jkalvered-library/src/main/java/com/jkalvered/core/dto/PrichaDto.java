@@ -22,6 +22,8 @@ import org.apache.logging.log4j.LogManager;
  *
  * @author mini-john
  */
+@Getter
+@Setter
 public class PrichaDto implements Comparable<PrichaDto> {
 
     private static org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger();

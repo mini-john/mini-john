@@ -23,7 +23,7 @@ import org.joda.time.LocalDate;
  *
  * @author mini-john
  */
-public class Pricha {
+public class PrichaLibrary {
 
     private static org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger();
 
@@ -46,9 +46,10 @@ public class Pricha {
 
         return prichaDto;
     }
+   
 
     /**
-     * Retourne la Pricha Hachodesh correspondant
+     * Retourne la PrichaLibrary Hachodesh correspondant
      *
      * @param date
      * @param locationName

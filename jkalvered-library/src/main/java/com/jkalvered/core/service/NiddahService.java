@@ -175,7 +175,7 @@ public class NiddahService extends CrudService {
         gCal.setTime(datePurification);
         gCal.add(Calendar.DAY_OF_MONTH, 1);
         chevaNekiym.setDateDebut(gCal.getTime());
-        
+
         for (int i = 0; i < 7; i++) {
             Bedikot bd = new Bedikot();
             chevaNekiym.addBedikot(bd);
@@ -306,7 +306,7 @@ public class NiddahService extends CrudService {
         gCal.setTime(dateNewPurification);
         gCal.add(Calendar.DAY_OF_MONTH, 1);
         chevaNekiym.setDateDebut(gCal.getTime());
-       
+
         for (int i = 0; i < 7; i++) {
             Bedikot bd = new Bedikot();
             chevaNekiym.addBedikot(bd);
@@ -337,7 +337,7 @@ public class NiddahService extends CrudService {
         tevila.setLocationName(niddahEncours.getLocationName());
         tevila.setTimeZone(niddahEncours.getTimeZone());
         tevila.setDateTevila(gCal.getTime());
-        niddahRepository.update(niddahEncours);
+        niddahRepository.persist(newPurification);
 
     }
 
@@ -435,7 +435,7 @@ public class NiddahService extends CrudService {
         gCal.setTime(dateNewPurification);
         gCal.add(Calendar.DAY_OF_MONTH, 1);
         chevaNekiym.setDateDebut(gCal.getTime());
-       
+
         for (int i = 0; i < 7; i++) {
             Bedikot bd = new Bedikot();
             chevaNekiym.addBedikot(bd);
@@ -465,7 +465,7 @@ public class NiddahService extends CrudService {
         tevila.setLocationName(niddahEncours.getLocationName());
         tevila.setTimeZone(niddahEncours.getTimeZone());
         tevila.setDateTevila(gCal.getTime());
-        niddahRepository.update(niddahEncours);
+        niddahRepository.persist(newPurification);
 
     }
 
@@ -484,7 +484,7 @@ public class NiddahService extends CrudService {
      * moment meme
      * @throws JKalveredDataException
      */
-    public int setBedikotKO(Long idBedika, Long idFemme, NumBedika numBedika, Date dateBedika, Localisation localisation) throws JKalveredDataException,BedikaException {
+    public int setBedikotKO(Long idBedika, Long idFemme, NumBedika numBedika, Date dateBedika, Localisation localisation) throws JKalveredDataException, BedikaException {
         Bedikot bd = niddahRepository.getBedikotByIdAndIdFemme(idBedika, idFemme);
         int res = JKalveredCodeRetour.Niddah_Retry_HT_NOW;
         if (bd == null) {
@@ -571,7 +571,7 @@ public class NiddahService extends CrudService {
                 gCal.setTime(dateNewPurification);
                 gCal.add(Calendar.DAY_OF_MONTH, 1);
                 chevaNekiym.setDateDebut(gCal.getTime());
-               
+
                 for (int i = 0; i < 7; i++) {
                     bd = new Bedikot();
                     chevaNekiym.addBedikot(bd);
@@ -601,7 +601,9 @@ public class NiddahService extends CrudService {
                 tevila.setLocationName(niddahEncours.getLocationName());
                 tevila.setTimeZone(niddahEncours.getTimeZone());
                 tevila.setDateTevila(gCal.getTime());
-                niddahRepository.update(niddahEncours);
+                LOGGER.info("Update en Base");
+                niddahRepository.persist(newPurification);
+                LOGGER.info("Fin Update en base");
 
             }
             case Bedika2 -> {
@@ -637,8 +639,8 @@ public class NiddahService extends CrudService {
                 // refaire un ht alors refait le soir meme sinon on fait le lendemain
                 JkalDate jKalDateBedika = new JkalDate(dateBedika, localisation);
                 Date dateCoucherSoleil = jKalDateBedika.getCoucherSoleil();
-                if(!JewishDateEcart.isSameDay(dateBedika, bd.getDateBedika2())){
-                    throw new BedikaException("La bedika d'id="+bd.getId() +" a été effectué à une autre date="+JkalDate.formatDateWithHour.format(dateBedika));
+                if (!JewishDateEcart.isSameDay(dateBedika, bd.getDateBedika2())) {
+                    throw new BedikaException("La bedika d'id=" + bd.getId() + " a été effectué à une autre date=" + JkalDate.formatDateWithHour.format(dateBedika));
                 }
                 DateTime date1 = new DateTime(dateBedika);
                 DateTime date2 = new DateTime(dateCoucherSoleil);
@@ -729,7 +731,10 @@ public class NiddahService extends CrudService {
                 tevila.setLocationName(niddahEncours.getLocationName());
                 tevila.setTimeZone(niddahEncours.getTimeZone());
                 tevila.setDateTevila(gCal.getTime());
+                LOGGER.info("Update en Base");
                 niddahRepository.update(niddahEncours);
+                niddahRepository.persist(newPurification);
+
                 return JKalveredCodeRetour.Niddah_Retry_HT_NOW;
 
             }

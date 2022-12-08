@@ -69,7 +69,7 @@ public class ChevaNekiym implements Serializable {
     @Getter
     @Setter
     @OrderBy("id")
-    @OneToMany(mappedBy = "chevaNekiym", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "chevaNekiym", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE,CascadeType.REMOVE})
     private List<Bedikot> bedikots=new ArrayList<>();
     
     public void addBedikot(Bedikot bedikot) {

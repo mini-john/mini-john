@@ -45,15 +45,15 @@ public class TestPricha {
         double elevation = 0;
         String timeZone = "Europe/Paris";
         Date date1 = JkalDate.parseDateWithHour("14/08/2022 04:05");
-        PrichaDto pricha = Pricha.getPrichaBenonit(date1, locationName, latitude, longitude, elevation, timeZone);
+        PrichaDto pricha = PrichaLibrary.getPrichaBenonit(date1, locationName, latitude, longitude, elevation, timeZone);
         Assert.isTrue(pricha.getOna() == Ona.Nuit, "Il ya un problème sur le calcul de la ona");
         Assert.isTrue(pricha.getDateJPricha().getDateGregorian().toString().equals("Mon Sep 12 04:05:00 CEST 2022"), "Probleme dans le calcul de la ona benonit");
         date1 = JkalDate.parseDateWithHour("14/08/2022 14:05");
-        pricha = Pricha.getPrichaBenonit(date1, locationName, latitude, longitude, elevation, timeZone);
+        pricha = PrichaLibrary.getPrichaBenonit(date1, locationName, latitude, longitude, elevation, timeZone);
         Assert.isTrue(pricha.getOna() == Ona.Jour, "Il ya un problème sur le calcul de la ona");
         Assert.isTrue(pricha.getDateJPricha().getDateGregorian().toString().equals("Mon Sep 12 14:05:00 CEST 2022"), "Probleme dans le calcul de la ona benonit");
         date1 = JkalDate.parseDateWithHour("14/08/2022 22:05");
-        pricha = Pricha.getPrichaBenonit(date1, locationName, latitude, longitude, elevation, timeZone);
+        pricha = PrichaLibrary.getPrichaBenonit(date1, locationName, latitude, longitude, elevation, timeZone);
         Assert.isTrue(pricha.getOna() == Ona.Nuit, "Il ya un problème sur le calcul de la ona");
         Assert.isTrue(pricha.getDateJPricha().getDateGregorian().toString().equals("Mon Sep 12 22:05:00 CEST 2022"), "Probleme dans le calcul de la ona benonit");
         LOGGER.info("Test Benonit Success");
@@ -67,11 +67,11 @@ public class TestPricha {
         double elevation = 0;
         String timeZone = "Europe/Paris";
         Date date1 = JkalDate.parseDateWithHour("14/08/2022 22:05");
-        PrichaDto pricha = Pricha.getPrichaHahodesh(date1, locationName, latitude, longitude, elevation, timeZone);
+        PrichaDto pricha = PrichaLibrary.getPrichaHahodesh(date1, locationName, latitude, longitude, elevation, timeZone);
         Assert.isTrue(pricha.getOna() == Ona.Nuit, "Il ya un problème sur le calcul de la ona");
         Assert.isTrue(pricha.getDateJPricha().getDateGregorian().toString().equals("Tue Sep 13 22:05:00 CEST 2022"), "Probleme dans le calcul de la ona Hagodesh");
         date1 = JkalDate.parseDateWithHour("14/08/2022 14:05");
-        pricha = Pricha.getPrichaHahodesh(date1, locationName, latitude, longitude, elevation, timeZone);
+        pricha = PrichaLibrary.getPrichaHahodesh(date1, locationName, latitude, longitude, elevation, timeZone);
         Assert.isTrue(pricha.getOna() == Ona.Jour, "Il ya un problème sur le calcul de la ona");
         Assert.isTrue(pricha.getDateJPricha().getDateGregorian().toString().equals("Tue Sep 13 14:05:00 CEST 2022"), "Probleme dans le calcul de la ona Hagodesh");
 
@@ -86,7 +86,7 @@ public class TestPricha {
         String timeZone = "Europe/Paris";
         Date datePrecedente = JkalDate.parseDateWithHour("13/07/2022 22:05");
         Date dateVue = JkalDate.parseDateWithHour("14/08/2022 22:05");
-        PrichaDto pricha = Pricha.getPrichaHaflaga(datePrecedente, dateVue, locationName, latitude, longitude, elevation, timeZone);
+        PrichaDto pricha = PrichaLibrary.getPrichaHaflaga(datePrecedente, dateVue, locationName, latitude, longitude, elevation, timeZone);
         LOGGER.info(pricha.toString());
         Assert.isTrue(pricha.getHaflagaDay() == 33, "Probleme de calcul de la haflaga");
     }
@@ -99,8 +99,8 @@ public class TestPricha {
         double elevation = 0;
         String timeZone = "Europe/Paris";
         Date date1 = JkalDate.parseDateWithHour("14/08/2022 04:05");
-        Pair<PrichaDto, PrichaDto> prichot = Pricha.getPrichaBenonitHovotDaat(date1, locationName, latitude, longitude, elevation, timeZone);
-        PrichaDto prichaBenonit = Pricha.getPrichaBenonit(date1, locationName, latitude, longitude, elevation, timeZone);
+        Pair<PrichaDto, PrichaDto> prichot = PrichaLibrary.getPrichaBenonitHovotDaat(date1, locationName, latitude, longitude, elevation, timeZone);
+        PrichaDto prichaBenonit = PrichaLibrary.getPrichaBenonit(date1, locationName, latitude, longitude, elevation, timeZone);
         int days = Days.daysBetween(new LocalDate(prichaBenonit.getDateJPricha().getDateGregorian()), new LocalDate(prichot.getValue1().getDateJPricha().getDateGregorian())).getDays();
         Assert.isTrue(days == 1, "Probleme dans le calcul de la pricha hovot daat");
     }
@@ -113,8 +113,8 @@ public class TestPricha {
         double elevation = 0;
         String timeZone = "Europe/Paris";
         Date date1 = JkalDate.parseDateWithHour("14/08/2022 22:05");
-        Pair<PrichaDto, PrichaDto> prichot = Pricha.getPrichaHoutChani(date1, locationName, latitude, longitude, elevation, timeZone);
-        PrichaDto prichaBenonit = Pricha.getPrichaBenonit(date1, locationName, latitude, longitude, elevation, timeZone);
+        Pair<PrichaDto, PrichaDto> prichot = PrichaLibrary.getPrichaHoutChani(date1, locationName, latitude, longitude, elevation, timeZone);
+        PrichaDto prichaBenonit = PrichaLibrary.getPrichaBenonit(date1, locationName, latitude, longitude, elevation, timeZone);
         int days = Days.daysBetween(new LocalDate(prichaBenonit.getDateJPricha().getDateGregorian()), new LocalDate(prichot.getValue1().getDateJPricha().getDateGregorian())).getDays();
         Assert.isTrue(days == 1, "Probleme dans le calcul de la pricha hout chani");
 
@@ -128,18 +128,18 @@ public class TestPricha {
         double elevation = 0;
         String timeZone = "Europe/Paris";
         Date date1 = JkalDate.parseDateWithHour("14/08/2022 14:05");
-        PrichaDto pricha = Pricha.getPrichaBenonit(date1, locationName, latitude, longitude, elevation, timeZone);
-        PrichaDto prichaOrZaroua = Pricha.getPrichaOrZaroua(date1, pricha);
+        PrichaDto pricha = PrichaLibrary.getPrichaBenonit(date1, locationName, latitude, longitude, elevation, timeZone);
+        PrichaDto prichaOrZaroua = PrichaLibrary.getPrichaOrZaroua(date1, pricha);
         Assert.isTrue(pricha.getDateBedika1().compareTo(prichaOrZaroua.getDateBedika2()) == 0, "Probleme dans le calcul de la pricha or zaroua");
 
         date1 = JkalDate.parseDateWithHour("14/08/2022 22:05");
-        pricha = Pricha.getPrichaBenonit(date1, locationName, latitude, longitude, elevation, timeZone);
-        prichaOrZaroua = Pricha.getPrichaOrZaroua(date1, pricha);
+        pricha = PrichaLibrary.getPrichaBenonit(date1, locationName, latitude, longitude, elevation, timeZone);
+        prichaOrZaroua = PrichaLibrary.getPrichaOrZaroua(date1, pricha);
         Assert.isTrue(pricha.getDateBedika1().compareTo(prichaOrZaroua.getDateBedika2()) == 0, "Probleme dans le calcul de la pricha or zaroua");
 
         date1 = JkalDate.parseDateWithHour("14/08/2022 2:05");
-        pricha = Pricha.getPrichaBenonit(date1, locationName, latitude, longitude, elevation, timeZone);
-        prichaOrZaroua = Pricha.getPrichaOrZaroua(date1, pricha);
+        pricha = PrichaLibrary.getPrichaBenonit(date1, locationName, latitude, longitude, elevation, timeZone);
+        prichaOrZaroua = PrichaLibrary.getPrichaOrZaroua(date1, pricha);
         Assert.isTrue(pricha.getDateBedika1().compareTo(prichaOrZaroua.getDateBedika2()) == 0, "Probleme dans le calcul de la pricha or zaroua");
 
     }
@@ -152,8 +152,8 @@ public class TestPricha {
         double elevation = 0;
         String timeZone = "Europe/Paris";
         Date date1 = JkalDate.parseDateWithHour("14/08/2022 14:05");
-        PrichaDto pricha = Pricha.getPrichaBenonit(date1, locationName, latitude, longitude, elevation, timeZone);
-        PrichaDto prichaOrZaroua = Pricha.getPrichaOrZaroua(date1, pricha);
+        PrichaDto pricha = PrichaLibrary.getPrichaBenonit(date1, locationName, latitude, longitude, elevation, timeZone);
+        PrichaDto prichaOrZaroua = PrichaLibrary.getPrichaOrZaroua(date1, pricha);
         Exception exception = assertThrows(JKalVeredException.class, () -> {
             prichaOrZaroua.getHaflagaDay();
         });

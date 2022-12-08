@@ -7,6 +7,7 @@ package com.jkalvered.core.entite;
 
 import com.jkalvered.library.enumeration.TypeCycle;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -26,8 +27,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * entité représentant l'ensemble des vesset que la femme rencontre à chaque fois quelle est niddah
- * l'analyse de ces entité permet de déterminer si elle a un cycle kavoua ou pas
+ * entité représentant l'ensemble des vesset que la femme rencontre à chaque
+ * fois quelle est niddah l'analyse de ces entité permet de déterminer si elle a
+ * un cycle kavoua ou pas
+ *
  * @author jonat
  */
 @Entity()
@@ -36,7 +39,7 @@ public class Cycle implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "vesset_sequence")
-    @SequenceGenerator(name = "vesset_sequence", sequenceName = "vesset_sequence", initialValue = 1,allocationSize = 1)
+    @SequenceGenerator(name = "vesset_sequence", sequenceName = "vesset_sequence", initialValue = 1, allocationSize = 1)
     @Id
     private Long id;
 
@@ -71,15 +74,15 @@ public class Cycle implements Serializable {
     private TypeCycle typeCycle = TypeCycle.LoKavoua;
     @Getter
     @Setter
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Personne personne;
 
     @Getter
     @Setter
-    @OneToMany(mappedBy = "vesset", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Pricha> prichots;
-    
-    public void addPricha(Pricha pricha){
+    @OneToMany(mappedBy = "vesset", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<Pricha> prichots = new ArrayList<>();
+
+    public void addPricha(Pricha pricha) {
         this.prichots.add(pricha);
         pricha.setVesset(this);
     }
@@ -88,6 +91,7 @@ public class Cycle implements Serializable {
         this.prichots.remove(pricha);
         pricha.setVesset(this);
     }
+
     public Long getId() {
         return id;
     }

@@ -61,7 +61,7 @@ public class Pricha implements Serializable {
     private Date dateBedika1;
     @Getter
     @Setter
-    private boolean etatBedika1;
+    private Boolean etatBedika1;
 
     @Getter
     @Setter
@@ -69,7 +69,7 @@ public class Pricha implements Serializable {
     private Date dateBedika2;
     @Getter
     @Setter
-    private boolean etatBedika2;
+    private Boolean etatBedika2;
     
     @Getter
     @Setter
@@ -78,7 +78,7 @@ public class Pricha implements Serializable {
     
     @Getter
     @Setter
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne( fetch = FetchType.LAZY)
     private Cycle vesset;
 
     public Long getId() {
