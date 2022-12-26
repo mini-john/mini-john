@@ -43,9 +43,7 @@ public class PrichaDto implements Comparable<PrichaDto> {
     private JkalDate dateJPricha;
     @Getter
     @Setter
-    private Date datePricha; 
-           
-
+    private Date datePricha;
 
     /*
     Champs rajouté après la creation de l'objet
@@ -65,8 +63,11 @@ public class PrichaDto implements Comparable<PrichaDto> {
         this.longitude = longitude;
         this.elevation = elevation;
         this.timeZone = timeZone;
-        this.datePricha=datePricha;
+        this.datePricha = datePricha;
         this.dateJPricha = new JkalDate(datePricha, locationName, latitude, longitude, elevation, timeZone);
+    }
+
+    public PrichaDto() {
     }
 
 //    public String getLocationName() {
@@ -109,6 +110,10 @@ public class PrichaDto implements Comparable<PrichaDto> {
 //        this.timeZone = timeZone;
 //    }
     public JkalDate getDateJPricha() {
+        if (dateJPricha == null) {
+        this.dateJPricha = new JkalDate(datePricha, locationName, latitude, longitude, elevation, timeZone);
+
+        }
         return dateJPricha;
     }
 

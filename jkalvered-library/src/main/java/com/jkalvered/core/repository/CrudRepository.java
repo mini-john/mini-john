@@ -4,6 +4,7 @@ import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,5 +56,8 @@ public class CrudRepository {
         Root<T> root = cq.from(entity);
         cq.orderBy(cb.asc(root.get("id")));
         return sessionFactory.getCurrentSession().createQuery(cq).getResultList();
+    }
+    protected Criteria createEntityCriteria(Class entity) {
+        return getSession().createCriteria(entity);
     }
 }

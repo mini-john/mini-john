@@ -1,9 +1,10 @@
-package com.jkalvered.initializer;
+package com.jkalvered.web.initializer;
 
 
-import com.jkalvered.configuration.AppConfigCore;
-import com.jkalvered.configuration.AppConfigWeb;
-import com.jkalvered.configuration.HibernateConfiguration;
+import com.jkalvered.web.configuration.AppConfigCore;
+import com.jkalvered.web.configuration.AppConfigWeb;
+import com.jkalvered.web.configuration.HibernateConfiguration;
+import com.jkalvered.web.configuration.SecurityConfiguration;
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 import org.springframework.web.context.request.RequestContextListener;
@@ -15,7 +16,7 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
     @Override
     
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{AppConfigCore.class,  AppConfigWeb.class, HibernateConfiguration.class};
+        return new Class[]{AppConfigCore.class,  AppConfigWeb.class, HibernateConfiguration.class,SecurityConfiguration.class};
     }
     
 

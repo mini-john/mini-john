@@ -3,9 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jkalvered.configuration;
+package com.jkalvered.web.configuration;
 
 
+import com.jkalvered.core.modelmapper.JkalveredModelMapper;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
+import org.modelmapper.convention.NameTokenizers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -23,7 +27,7 @@ import org.springframework.web.client.RestTemplate;
  * @author mini-john
  */
 @Configuration
-@ComponentScan(basePackages = "com.jkalvered")
+@ComponentScan(basePackages = "com.jkalvered.core")
 @EnableAsync
 public class AppConfigCore {
     
@@ -31,7 +35,19 @@ public class AppConfigCore {
     private Environment environment;
     
     
-    
+    @Bean
+    public JkalveredModelMapper mapper() {
+        JkalveredModelMapper mapper = new JkalveredModelMapper();
+        ModelMapper modelMap = new ModelMapper();
+        modelMap.getConfiguration()
+                .setMatchingStrategy(MatchingStrategies.STRICT)
+                .setUseOSGiClassLoaderBridging(true)
+                .setPreferNestedProperties(false)
+                .setSourceNameTokenizer(NameTokenizers.UNDERSCORE)
+                .setDestinationNameTokenizer(NameTokenizers.UNDERSCORE);
+        mapper.setCastorMarshaller(modelMap);
+        return mapper;
+    }
     
     
 //    @Bean

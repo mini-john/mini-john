@@ -31,6 +31,8 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -77,6 +79,11 @@ public class CycleServiceTest {
             configuration.setLongitude(longitude);
             configuration.setTimeZone(locationName);
             configuration.setDoMohDahouk(true);
+            configuration.setPrichaHoutChani(true);
+            configuration.setPrichaBenonitHovotDaat(true);
+            configuration.setPrihaHovotYair(true);
+            configuration.setPrichaOrZaroua(true);
+
             personne.setConfiguration(configuration);
             personne.setAccount(account);
             account.setPersonne(personne);
@@ -119,4 +126,28 @@ public class CycleServiceTest {
         cycleService.addCycleVessetLoKavoua(1L, dateVue, timeZone, localisation);
     }
 
+    @Test
+    @Order(2)
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void test2AddPrichotSpecial() throws ParseException {
+        LOGGER.info("Test niddah insert");
+        String locationName = "Nice";
+        double latitude = 43.700000;
+        double longitude = 7.250000;
+        double elevation = 0;
+        String timeZone = "Europe/Paris";
+        Localisation localisation = new Localisation();
+        localisation.setElevation(elevation);
+        localisation.setLongitude(longitude);
+        localisation.setLatitude(latitude);
+        localisation.setLocationName(locationName);
+        localisation.setTimeZone(timeZone);
+        localisation.setLocalited(Boolean.TRUE);
+        Date dateVue = JkalDate.parseDateWithHour("13/11/2022 12:00");
+        cycleService.addCycleVessetLoKavoua(1L, dateVue, timeZone, localisation);
+        cycleService.addPrichotSpecial(1L, 1L, localisation);
+          dateVue = JkalDate.parseDateWithHour("13/10/2022 12:00");
+        cycleService.addCycleVessetLoKavoua(1L, dateVue, timeZone, localisation);
+        cycleService.addPrichotSpecial(1L, 2L, localisation);
+    }
 }

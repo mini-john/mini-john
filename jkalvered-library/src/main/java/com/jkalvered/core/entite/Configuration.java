@@ -46,6 +46,12 @@ public class Configuration implements Serializable {
     private boolean doMohDahouk;
     private boolean bneTorah;
 
+    /*Les prichot particulières*/
+    private boolean prichaBenonitHovotDaat;
+    private boolean prichaHoutChani;
+    private boolean prihaHovotYair;
+    private boolean prichaOrZaroua;
+
     @Override
     public int hashCode() {
         int hash = 0;

@@ -22,7 +22,7 @@ import org.joda.time.LocalDate;
  */
 public class Vesset {
 
-    private static Logger LOGGER = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger();
 
     /**
      * Pre-rempli un niddahDto

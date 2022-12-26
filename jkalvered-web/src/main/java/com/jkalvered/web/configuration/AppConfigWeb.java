@@ -1,14 +1,20 @@
-package com.jkalvered.configuration;
+package com.jkalvered.web.configuration;
 
+import com.jkalvered.core.dto.AccountDto;
+import com.jkalvered.core.dto.PersonneDto;
+import com.jkalvered.library.enumeration.EtatAccount;
 import java.util.Locale;
+import javax.annotation.PostConstruct;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.core.env.Environment;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -21,15 +27,15 @@ import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "com.jkalvered")
+@ComponentScan(basePackages = "com.jkalvered.web")
 public class AppConfigWeb implements WebMvcConfigurer {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-//    @PostConstruct
-//    public void postConstruct() {
-//        LOGGER.info("Configuation web - done");
-//    }
+    @PostConstruct
+    public void postConstruct() {
+        LOGGER.info("Configuation web - done");
+    }
 
     @Bean
     public MessageSource messageSource() {
@@ -61,6 +67,7 @@ public class AppConfigWeb implements WebMvcConfigurer {
 
     /**
      * Configure ViewResolvers to deliver preferred views.
+     *
      * @param registry
      */
     @Override
@@ -85,5 +92,27 @@ public class AppConfigWeb implements WebMvcConfigurer {
         final CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
         cookieLocaleResolver.setDefaultLocale(Locale.FRENCH);
         return cookieLocaleResolver;
+    }
+    @Autowired
+    private Environment environment;
+
+    @Bean("adminDto")
+    public AccountDto getAdmin() {
+        AccountDto adminDto = new AccountDto();
+        adminDto.setId(1L);
+        adminDto.setLogin(environment.getProperty("admin.login"));
+        adminDto.setPassword(environment.getProperty("admin.password"));
+        adminDto.setEtatAccount(EtatAccount.actif);
+        adminDto.setAccountBlock(false);
+        adminDto.setMail(environment.getProperty("admin.mail"));
+        PersonneDto personneDto = new PersonneDto();
+        personneDto.setAccount(adminDto);
+        personneDto.setId(1L);
+        personneDto.setNom(environment.getProperty("admin.nom"));
+        personneDto.setPrenom(environment.getProperty("admin.prenom"));
+        adminDto.setPersonne(personneDto);
+        personneDto.setAccount(adminDto);
+        return adminDto;
+
     }
 }

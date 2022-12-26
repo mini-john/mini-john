@@ -31,3 +31,4 @@ nb-configuration.xml
 jkalvered-web/nbactions-dev.xml
 /jkalvered-library/nbproject/
 nbactions-sonar.xml
+jkalvered-web/nbactions.xml

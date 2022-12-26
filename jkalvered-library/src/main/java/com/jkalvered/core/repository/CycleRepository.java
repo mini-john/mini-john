@@ -5,6 +5,8 @@
 package com.jkalvered.core.repository;
 
 import com.jkalvered.core.entite.Cycle;
+import com.jkalvered.core.entite.HefsekTahara;
+import org.hibernate.query.Query;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
 
@@ -20,5 +22,13 @@ public class CycleRepository extends CrudRepository {
         return (Cycle) DataAccessUtils.singleResult(this.sessionFactory.getCurrentSession().createQuery(query).setParameter("i", idFemme).setMaxResults(1).getResultList());
 
     }
+
+    public Cycle getCycleByIdAndIdFemme(Long idCycle, Long idFemme) {
+       String query = "From Cycle where id=:i and personne.id=:j";
+        Query queryHibernate = this.sessionFactory.getCurrentSession().createQuery(query);
+        queryHibernate.setParameter("i", idCycle);
+        queryHibernate.setParameter("j", idFemme);
+        Cycle res = (Cycle) DataAccessUtils.singleResult(queryHibernate.getResultList());
+        return res; }
 
 }
