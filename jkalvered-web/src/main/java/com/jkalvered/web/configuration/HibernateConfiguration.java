@@ -25,8 +25,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @ComponentScan({"com.jkalvered.configuration"})
 @PropertySources({
-    @PropertySource(value = "classpath:application.properties"),
-    @PropertySource(value = "classpath:application-${database}.properties", ignoreResourceNotFound = false)
+    @PropertySource(value = "classpath:conf/application.properties"),
+    @PropertySource(value = "classpath:conf/application-${database}.properties", ignoreResourceNotFound = false)
 })
 public class HibernateConfiguration {
 

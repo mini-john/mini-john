@@ -78,7 +78,7 @@ public class MainController {
     @Autowired
     private CrudService crudService;
 
-    @RequestMapping("public/index.do")
+    @RequestMapping(value = {"/public/index.do", "/", "/public/"})
     public ModelAndView index(ModelMap map) {
         LOGGER.info("La page index est demandée DJFKDH");
         

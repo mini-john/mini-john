@@ -6,6 +6,7 @@ import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.logging.log4j.LogManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +22,7 @@ import org.springframework.stereotype.Component;
 @Component("myAuthenticationSuccessHandler")
 public class MySimpleUrlAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger();
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
@@ -44,7 +45,7 @@ public class MySimpleUrlAuthenticationSuccessHandler implements AuthenticationSu
         final String targetUrl = determineTargetUrl(authentication);
 
         if (response.isCommitted()) {
-            logger.debug("Response has already been committed. Unable to redirect to " + targetUrl);
+            LOGGER.debug("Response has already been committed. Unable to redirect to " + targetUrl);
             return;
         }
 

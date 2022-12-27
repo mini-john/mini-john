@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC  "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"  "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">  
+
+<tiles-definitions>  
+ 
+    <!-- Base Definition -->
+    <definition name="base-definition" 
+                template="/WEB-INF/views/tiles/layouts/defaultLayout.jsp">  
+        <put-attribute name="title" value="" />  
+        <put-attribute name="header" value="/WEB-INF/views/tiles/template/defaultHeader.jsp" />  
+        <put-attribute name="menu" value="/WEB-INF/views/tiles/template/defaultMenu.jsp" />  
+        <put-attribute name="body" value="" />  
+        <put-attribute name="footer" value="/WEB-INF/views/tiles/template/defaultFooter.jsp" />  
+    </definition>  
+ 
+    <!-- Public Template -->
+    <definition name="public-definition"
+                template="/WEB-INF/views/tiles/layouts/public/publicLayout.jsp">  
+        <put-attribute name="body" value="" /> 
+    </definition>  
+    <definition name="/*" extends="public-definition">  
+        
+    
+        <put-attribute name="body" value="/WEB-INF/views/pages/{1}.jsp" /> 
+       
+    </definition> 
+    <definition name="public/*" extends="public-definition">  
+        
+    
+        <put-attribute name="body" value="/WEB-INF/views/pages/public/{1}.jsp" /> 
+       
+    </definition> 
+    <definition name="public/*/*" extends="public-definition">  
+        
+    
+        <put-attribute name="body" value="/WEB-INF/views/pages/public/{1}/{2}.jsp" /> 
+       
+    </definition> 
+   
+    <!-- Fin Public Template -->
+    <!-- Private Template -->
+    <definition name="private-definition"
+                template="/WEB-INF/views/tiles/layouts/private/privateLayout.jsp">  
+        <put-attribute name="title" value="Welcome" />  
+        <put-attribute name="body" value="" /> 
+    </definition>  
+    <definition name="private/*" extends="private-definition">  
+        
+    
+        <put-attribute name="body" value="/WEB-INF/views/pages/private/{1}.jsp" /> 
+       
+    </definition> 
+    
+    
+    <!-- Fin Private Template -->
+    <!--Debut admin template begin with publi -->
+    <definition name="admin-definition"
+                template="/WEB-INF/views/tiles/layouts/admin/adminLayout.jsp">  
+        <put-attribute name="body" value="" /> 
+    </definition>  
+    <definition name="admin/*" extends="admin-definition">  
+        
+    
+        <put-attribute name="body" value="/WEB-INF/views/pages/admin/{1}.jsp" /> 
+       
+    </definition> 
+    <definition name="admin/*/*" extends="admin-definition">  
+        
+    
+        <put-attribute name="body" value="/WEB-INF/views/pages/admin/{1}/{2}.jsp" /> 
+       
+    </definition> 
+</tiles-definitions>

@@ -5,8 +5,9 @@
  */
 package com.jkalvered.web.configuration;
 
-
 import com.jkalvered.core.modelmapper.JkalveredModelMapper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.modelmapper.convention.NameTokenizers;
@@ -30,11 +31,12 @@ import org.springframework.web.client.RestTemplate;
 @ComponentScan(basePackages = "com.jkalvered.core")
 @EnableAsync
 public class AppConfigCore {
-    
+
     @Autowired
     private Environment environment;
-    
-    
+
+    private static final Logger LOGGER = LogManager.getLogger();
+
     @Bean
     public JkalveredModelMapper mapper() {
         JkalveredModelMapper mapper = new JkalveredModelMapper();
@@ -48,8 +50,7 @@ public class AppConfigCore {
         mapper.setCastorMarshaller(modelMap);
         return mapper;
     }
-    
-    
+
 //    @Bean
 //    public JavaMailSenderImpl javaMailSenderImpl() {
 //        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
@@ -69,7 +70,6 @@ public class AppConfigCore {
 //        mailSender.setJavaMailProperties(prop);
 //        return mailSender;
 //    }
-
 //    @Bean(name = "velocity")
 //    public VelocityEngineFactoryBean velocity() {
 //        VelocityEngineFactoryBean velocity = new VelocityEngineFactoryBean();
@@ -83,12 +83,11 @@ public class AppConfigCore {
         bean.setTemplateLoaderPath("classpath:template");
         return bean;
     }
-    
+
 //    @Bean
 //    public MailSenderNiddah maisSender() {
 //        return new MailSenderNiddah();
 //    }
-    
 //    @Bean
 //    public CaptchaSettings captchaSettings() {
 //        CaptchaSettings captchaSettings = new CaptchaSettings();
@@ -97,7 +96,6 @@ public class AppConfigCore {
 //        
 //        return captchaSettings;
 //    }
-    
     @Bean
     public ClientHttpRequestFactory clientHttpRequestFactory() {
         SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
@@ -105,13 +103,13 @@ public class AppConfigCore {
         factory.setReadTimeout(7 * 1000);
         return factory;
     }
-    
+
     @Bean
     public RestOperations restTemplate() {
         RestTemplate restTemplate = new RestTemplate(this.clientHttpRequestFactory());
         return restTemplate;
     }
-    
+
 //    @Bean
 //    public ActiveUserStore activeUserStore() {
 //        return new ActiveUserStore();
@@ -136,7 +134,6 @@ public class AppConfigCore {
 //        return adminDto;
 //        
 //    }
-
 //    @Bean 
 //    public MonitoringSpringAdvisor javaMelody() throws ClassNotFoundException{
 //        MonitoringSpringAdvisor monit= new MonitoringSpringAdvisor();

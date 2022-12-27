@@ -5,7 +5,6 @@
  */
 package com.jkalvered.web.security.service;
 
-
 import com.jkalvered.core.dto.AccountDto;
 import com.jkalvered.core.entite.Account;
 import com.jkalvered.core.repository.AccountRepository;
@@ -13,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +34,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @Transactional(noRollbackFor = RuntimeException.class)
 public class NiddahUserDetailService implements UserDetailsService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(NiddahUserDetailService.class);
+    private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger();
 
     @Autowired
     private AccountRepository userService;

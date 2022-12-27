@@ -1,8 +1,7 @@
 package com.jkalvered.web.tiles;
 
 import javax.servlet.http.HttpServletRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
 import org.springframework.mobile.device.Device;
 import org.springframework.mobile.device.DeviceUtils;
 import org.springframework.mobile.device.site.SitePreference;
@@ -27,7 +26,7 @@ import org.springframework.web.servlet.ViewResolver;
 public class TilesSupportLiteDeviceDelegatingViewResolver extends
         LiteDeviceDelegatingViewResolver {
 
-    private static final Logger logger = LoggerFactory.getLogger(TilesSupportLiteDeviceDelegatingViewResolver.class);
+    private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger();
     //the name of the attribute to put in scope
     protected String attributeName = "mDeviceType";
     //the value of the attribute #attributeName for Mobile
