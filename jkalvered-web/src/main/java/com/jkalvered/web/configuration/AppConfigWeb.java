@@ -73,7 +73,7 @@ public class AppConfigWeb implements WebMvcConfigurer {
     @Bean
     public TilesConfigurer tilesConfigurer() {
         TilesConfigurer tilesConfigurer = new TilesConfigurer();
-        tilesConfigurer.setDefinitions(new String[]{"/WEB-INF/views/**/tiles.xml"});
+        tilesConfigurer.setDefinitions(new String[]{"/WEB-INF/views/**/tiles.xml","/WEB-INF/views/**/tiles_fr.xml","/WEB-INF/views/**/tiles_en.xml"});
         tilesConfigurer.setCheckRefresh(true);
         tilesConfigurer.setPreparerFactoryClass(org.springframework.web.servlet.view.tiles3.SpringBeanPreparerFactory.class);
         return tilesConfigurer;
@@ -104,9 +104,12 @@ public class AppConfigWeb implements WebMvcConfigurer {
     @Bean
     public LocaleResolver localeResolver() {
         final CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
-        cookieLocaleResolver.setDefaultLocale(Locale.FRENCH);
+        cookieLocaleResolver.setCookieName("jkalvered_lang.LOCALE");
+        cookieLocaleResolver.setCookiePath("/jkalvered-web");
+        cookieLocaleResolver.setDefaultLocale(Locale.FRANCE);
         return cookieLocaleResolver;
     }
+   
     @Autowired
     private Environment environment;
 

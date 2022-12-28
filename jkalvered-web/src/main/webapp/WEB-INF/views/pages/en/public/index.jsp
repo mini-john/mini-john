@@ -62,7 +62,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="banner-bottom-grid">
-                    <h3 >La puret&eacute; en toute simpicit&eacute;</h3>
+                    <h3 >La puret&eacute; en toute simpicit&eacute; je suis en anglaiss!!!!</h3>
                     <p>JKalVered est votre outil pour vous aider à respecter votre puret&eacute; familiale (taharat hamishpacha). 
                         Vous n'avez qu'&agrave; renseigner des informations sur votre flux, l'appllication se chargera du reste.
                         Avec son large choix de configurations et de param&eacute;trages jKalVered est l&agrave; pour vous faciliter le calcul de vos cycles.
