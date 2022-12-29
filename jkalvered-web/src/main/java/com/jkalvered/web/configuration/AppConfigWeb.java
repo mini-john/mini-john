@@ -2,7 +2,14 @@ package com.jkalvered.web.configuration;
 
 import com.jkalvered.core.dto.AccountDto;
 import com.jkalvered.core.dto.PersonneDto;
+import com.jkalvered.core.entite.Account;
+import com.jkalvered.core.entite.Personne;
+import com.jkalvered.core.service.PersonneService;
 import com.jkalvered.library.enumeration.EtatAccount;
+import com.jkalvered.library.enumeration.Origine;
+import com.jkalvered.library.enumeration.RoleUser;
+import com.jkalvered.library.enumeration.Sexe;
+import com.jkalvered.library.enumeration.TypeCycle;
 import java.util.Locale;
 import javax.annotation.PostConstruct;
 import org.apache.logging.log4j.LogManager;
@@ -13,8 +20,11 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -34,19 +44,12 @@ public class AppConfigWeb implements WebMvcConfigurer {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    
-
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         WebMvcConfigurer.super.addInterceptors(registry);
         LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
         localeChangeInterceptor.setParamName("lang");
         registry.addInterceptor(localeChangeInterceptor);
-    }
-
-    @PostConstruct
-    public void postConstruct() {
-        LOGGER.info("Configuation web - done");
     }
 
     @Bean
@@ -73,7 +76,7 @@ public class AppConfigWeb implements WebMvcConfigurer {
     @Bean
     public TilesConfigurer tilesConfigurer() {
         TilesConfigurer tilesConfigurer = new TilesConfigurer();
-        tilesConfigurer.setDefinitions(new String[]{"/WEB-INF/views/**/tiles.xml","/WEB-INF/views/**/tiles_fr.xml","/WEB-INF/views/**/tiles_en.xml"});
+        tilesConfigurer.setDefinitions(new String[]{"/WEB-INF/views/**/tiles.xml", "/WEB-INF/views/**/tiles_fr.xml", "/WEB-INF/views/**/tiles_en.xml"});
         tilesConfigurer.setCheckRefresh(true);
         tilesConfigurer.setPreparerFactoryClass(org.springframework.web.servlet.view.tiles3.SpringBeanPreparerFactory.class);
         return tilesConfigurer;
@@ -109,7 +112,7 @@ public class AppConfigWeb implements WebMvcConfigurer {
         cookieLocaleResolver.setDefaultLocale(Locale.FRANCE);
         return cookieLocaleResolver;
     }
-   
+
     @Autowired
     private Environment environment;
 
@@ -130,6 +133,59 @@ public class AppConfigWeb implements WebMvcConfigurer {
         adminDto.setPersonne(personneDto);
         personneDto.setAccount(adminDto);
         return adminDto;
+
+    }
+    @Autowired
+
+    private PersonneService personneService;
+
+    @Profile("dev")
+
+    public void initProd() {
+        LOGGER.info("Configuation web - done");
+    }
+    
+
+    @Profile("dev")
+    @PostConstruct
+    public void initDev() {
+        LOGGER.info("Configuation web - done");
+        LOGGER.info("Rajout de l'utilisateur test");
+        PasswordEncoder passwordEncoder= new BCryptPasswordEncoder(11);
+        String locationName = "Nice";
+        double latitude = 43.700000;
+        double longitude = 7.250000;
+        double elevation = 0;
+        Account account = new Account();
+        account.setLogin("login");
+        account.setMail("jonathan.boccara@gmail.com");
+        account.setPassword(passwordEncoder.encode("azerty"));
+        account.setRoleUser(RoleUser.Femme);
+
+        Personne personne = new Personne();
+        personne.setNom("Boccara");
+        personne.setPrenom("Virginie");
+        personne.setSexe(Sexe.Femme);
+        com.jkalvered.core.entite.Configuration configuration = new com.jkalvered.core.entite.Configuration();
+        configuration.setPersonne(personne);
+        configuration.setOrigine(Origine.Sefarade);
+        configuration.setElevation(elevation);
+        configuration.setLatitude(latitude);
+        configuration.setLocationName(locationName);
+        configuration.setLongitude(longitude);
+        configuration.setTimeZone(locationName);
+        configuration.setDoMohDahouk(true);
+        configuration.setPrichaHoutChani(true);
+        configuration.setPrichaBenonitHovotDaat(true);
+        configuration.setPrihaHovotYair(true);
+        configuration.setPrichaOrZaroua(true);
+
+        personne.setConfiguration(configuration);
+        personne.setAccount(account);
+        account.setPersonne(personne);
+        personne.setTypeCycle(TypeCycle.LoKavoua);
+        Personne personneRes = personneService.add(personne, personne.getClass());
+        LOGGER.info(personneRes.toString());
 
     }
 }

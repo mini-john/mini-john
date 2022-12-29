@@ -187,6 +187,7 @@
                 
             </dependencies>
             <properties>
+                <spring.profiles.active>dev</spring.profiles.active>
                 <activatedProperties>dev</activatedProperties>
                 <database>dev</database>
             </properties>
@@ -203,6 +204,7 @@
                 </dependency>
             </dependencies>
             <properties>
+                <spring.profiles.active>dev</spring.profiles.active>
                 <activatedProperties>prod</activatedProperties>
                 <database>dev</database>
             </properties>

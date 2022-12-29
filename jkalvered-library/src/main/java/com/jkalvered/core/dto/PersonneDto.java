@@ -21,7 +21,7 @@ import lombok.ToString;
  */
 @Getter
 @Setter
-@ToString
+
 public class PersonneDto {
 
     private Long id;
