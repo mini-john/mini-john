@@ -146,7 +146,7 @@ public class CycleServiceTest {
         Date dateVue = JkalDate.parseDateWithHour("13/11/2022 12:00");
         cycleService.addCycleVessetLoKavoua(1L, dateVue, timeZone, localisation);
         cycleService.addPrichotSpecial(1L, 1L, localisation);
-          dateVue = JkalDate.parseDateWithHour("13/10/2022 12:00");
+        dateVue = JkalDate.parseDateWithHour("13/12/2022 12:00");
         cycleService.addCycleVessetLoKavoua(1L, dateVue, timeZone, localisation);
         cycleService.addPrichotSpecial(1L, 2L, localisation);
     }

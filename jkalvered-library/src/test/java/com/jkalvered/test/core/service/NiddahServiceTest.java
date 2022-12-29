@@ -17,7 +17,6 @@ import com.jkalvered.library.enumeration.NumBedika;
 import com.jkalvered.library.enumeration.Origine;
 import com.jkalvered.library.enumeration.RoleUser;
 import com.jkalvered.library.enumeration.Sexe;
-import com.jkalvered.library.exception.BedikaException;
 import com.jkalvered.library.exception.JKalveredDataException;
 import java.text.ParseException;
 import java.util.Date;

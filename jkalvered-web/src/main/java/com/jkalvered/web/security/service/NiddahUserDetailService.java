@@ -8,6 +8,8 @@ package com.jkalvered.web.security.service;
 import com.jkalvered.core.dto.AccountDto;
 import com.jkalvered.core.entite.Account;
 import com.jkalvered.core.repository.AccountRepository;
+import com.jkalvered.core.repository.PersonneRepository;
+import com.jkalvered.core.service.PersonneService;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +39,7 @@ public class NiddahUserDetailService implements UserDetailsService {
     private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger();
 
     @Autowired
-    private AccountRepository userService;
+    private PersonneRepository userService;
     @Autowired
     private LoginAttemptService loginAttemptService;
 
@@ -52,7 +54,7 @@ public class NiddahUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userName)
             throws UsernameNotFoundException {
-        Account user = userService.findByUserName(userName);
+        Account user = userService.getAccountByLogin(userName);
         LOGGER.info("User : " + user);
         final String ip = getClientIP();
         LOGGER.info("L'addresse ip est : " + ip);

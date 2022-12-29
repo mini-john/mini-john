@@ -57,7 +57,5 @@ public class CrudRepository {
         cq.orderBy(cb.asc(root.get("id")));
         return sessionFactory.getCurrentSession().createQuery(cq).getResultList();
     }
-    protected Criteria createEntityCriteria(Class entity) {
-        return getSession().createCriteria(entity);
-    }
+  
 }

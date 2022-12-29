@@ -4,8 +4,8 @@
  */
 package com.jkalvered.core.repository;
 
+import com.jkalvered.core.entite.Account;
 import com.jkalvered.core.entite.Personne;
-import javax.persistence.NoResultException;
 import org.hibernate.query.Query;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
@@ -23,6 +23,14 @@ public class PersonneRepository extends CrudRepository {
         queryHibernate.setParameter("login", login);
 
         return (Personne) DataAccessUtils.singleResult(queryHibernate.getResultList());
+
+    }
+    public Account getAccountByLogin(String login) {
+        String query = "From Account where login= :login";
+        Query queryHibernate = this.sessionFactory.getCurrentSession().createQuery(query);
+        queryHibernate.setParameter("login", login);
+
+        return (Account) DataAccessUtils.singleResult(queryHibernate.getResultList());
 
     }
 

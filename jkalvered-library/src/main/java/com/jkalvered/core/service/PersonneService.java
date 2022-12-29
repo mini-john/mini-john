@@ -5,6 +5,7 @@
 package com.jkalvered.core.service;
 
 import com.jkalvered.core.dto.PersonneDto;
+import com.jkalvered.core.entite.Account;
 import com.jkalvered.core.entite.Personne;
 import com.jkalvered.core.repository.PersonneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +24,15 @@ public class PersonneService extends CrudService {
     PersonneRepository personneRepository;
 
     public PersonneDto getPersonneByLogin(String login) {
-        Personne personne =personneRepository.getByLogin(login);
-        PersonneDto res=this.jkalveredModelMapper.convert(personne, PersonneDto.class);
+        Personne personne = personneRepository.getByLogin(login);
+        PersonneDto res = this.jkalveredModelMapper.convert(personne, PersonneDto.class);
         return res;
+    }
+
+    public Account getAccountByLogin(String login) {
+        Account personne = personneRepository.getByLogin(login).getAccount();
+
+        return personne;
     }
 
 }

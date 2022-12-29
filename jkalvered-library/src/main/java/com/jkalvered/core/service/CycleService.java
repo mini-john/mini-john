@@ -140,7 +140,6 @@ public class CycleService extends CrudService {
         }
 
         if (configuration.isPrichaOrZaroua()) {
-            LOGGER.info("Taille du bouzin {}", cycle.getPrichots().size());
             for (Pricha prichot : cycle.getPrichots()) {
                 PrichaDto conterted = mapper.convert(prichot, PrichaDto.class);
                 PrichaDto prichaOrZarouaDTO = PrichaLibrary.getPrichaOrZaroua(cycle.getDateVue(), conterted);
