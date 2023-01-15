@@ -26,6 +26,6 @@ public class MyLogoutSuccessHandler implements LogoutSuccessHandler {
         }
         LOGGER.info("Je suis passé invalider tout ca");
 
-        response.sendRedirect("/niddah-web/public/index.do?logSucc=true");
+        response.sendRedirect("/jkalvered-web/public/index.do?logSucc=true");
     }
 }

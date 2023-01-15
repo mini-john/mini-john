@@ -4,6 +4,7 @@
  */
 package com.jkalvered.core.dto;
 
+import java.io.Serializable;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +14,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class Localisation {
+public class Localisation implements Serializable{
 
     private String locationName;
     private double latitude;

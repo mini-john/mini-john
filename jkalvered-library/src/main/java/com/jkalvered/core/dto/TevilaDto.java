@@ -4,6 +4,7 @@
  */
 package com.jkalvered.core.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +18,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class TevilaDto {
+public class TevilaDto implements Serializable{
      private Long id;
     private String locationName;
     private double latitude;

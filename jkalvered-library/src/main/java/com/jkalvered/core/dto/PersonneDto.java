@@ -6,12 +6,10 @@ package com.jkalvered.core.dto;
 
 import com.jkalvered.library.enumeration.Sexe;
 import com.jkalvered.library.enumeration.TypeCycle;
+import java.io.Serializable;
 import java.util.List;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 /**
  * DTO représentant l'entité personne
@@ -22,7 +20,7 @@ import lombok.ToString;
 @Getter
 @Setter
 
-public class PersonneDto {
+public class PersonneDto implements Serializable{
 
     private Long id;
     private String nom;

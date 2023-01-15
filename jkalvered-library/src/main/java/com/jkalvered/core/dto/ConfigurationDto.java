@@ -6,6 +6,7 @@ package com.jkalvered.core.dto;
 
 import com.jkalvered.core.entite.Personne;
 import com.jkalvered.library.enumeration.Origine;
+import java.io.Serializable;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -19,7 +20,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class ConfigurationDto {
+public class ConfigurationDto implements Serializable{
 
     private Long id;
     private Personne personne;

@@ -6,6 +6,7 @@ package com.jkalvered.core.dto;
 
 import com.jkalvered.library.enumeration.EtatAccount;
 import com.jkalvered.library.enumeration.RoleUser;
+import java.io.Serializable;
 import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +20,7 @@ import lombok.ToString;
 @Getter
 @Setter
 
-public class AccountDto {
+public class AccountDto implements Serializable{
 
     private Long id;
 

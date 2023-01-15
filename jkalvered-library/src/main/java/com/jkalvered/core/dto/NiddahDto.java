@@ -5,10 +5,8 @@
 package com.jkalvered.core.dto;
 
 import com.jkalvered.library.date.JkalDate;
-import com.jkalvered.library.enumeration.Ona;
-import java.util.Calendar;
+import java.io.Serializable;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -21,7 +19,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class NiddahDto  {
+public class NiddahDto  implements Serializable{
 
     private Long id;
     private PersonneDto personne;

@@ -28,7 +28,7 @@ public class MainController {
    
     @PostConstruct
     public void init() {
-        LOGGER.info("Instantiation du min controller");
+        LOGGER.info("Instantiation du MainController");
         
 
     }
@@ -36,12 +36,11 @@ public class MainController {
     private CrudService crudService;
 
     @RequestMapping(value = {"/public/index.do", "/", "/public/"})
-    public ModelAndView index(ModelMap map) {
+    public String index(ModelMap map) {
         LOGGER.info("La page index est demandée DJFKDH");
         
-        PersonneDto personneDto= crudService.getById(1L, Personne.class, PersonneDto.class);
-        map.put("personne", personneDto);
-        return new ModelAndView("public/index",map);
+        
+        return "public/index";
     }
 
 }

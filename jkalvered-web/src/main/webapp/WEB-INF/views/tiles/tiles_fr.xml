@@ -50,6 +50,12 @@
         <put-attribute name="body" value="/WEB-INF/views/pages/fr/private/{1}.jsp" /> 
        
     </definition> 
+     <definition name="private/*/*" extends="private-definition">  
+        
+    
+        <put-attribute name="body" value="/WEB-INF/views/pages/fr/private/{1}/{2}.jsp" /> 
+       
+    </definition> 
     
     
     <!-- Fin Private Template -->

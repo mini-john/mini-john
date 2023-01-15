@@ -10,6 +10,7 @@ import com.jkalvered.library.enumeration.Ona;
 import com.jkalvered.library.enumeration.TypePricha;
 import com.jkalvered.library.exception.JKalVeredException;
 import com.kosherjava.zmanim.ZmanimCalendar;
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import lombok.Getter;
@@ -24,7 +25,7 @@ import org.apache.logging.log4j.LogManager;
  */
 @Getter
 @Setter
-public class PrichaDto implements Comparable<PrichaDto> {
+public class PrichaDto implements Comparable<PrichaDto> , Serializable{
 
     private static org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger();
 

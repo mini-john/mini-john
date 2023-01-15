@@ -4,6 +4,7 @@
  */
 package com.jkalvered.core.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import lombok.Getter;
@@ -18,7 +19,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-class ChevaNekiymDto {
+class ChevaNekiymDto implements Serializable{
 
     private Long id;
     private String locationName;

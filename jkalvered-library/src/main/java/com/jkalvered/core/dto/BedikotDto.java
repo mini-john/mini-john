@@ -4,6 +4,7 @@
  */
 package com.jkalvered.core.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +16,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class BedikotDto {
+public class BedikotDto implements Serializable{
 
     private Long id;
     private String locationName;

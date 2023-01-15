@@ -5,6 +5,7 @@
 package com.jkalvered.core.dto;
 
 import com.jkalvered.library.enumeration.TypeCycle;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import lombok.Getter;
@@ -17,7 +18,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class CycleDto {
+public class CycleDto implements Serializable{
 
     private Long id;
     private String locationName;
