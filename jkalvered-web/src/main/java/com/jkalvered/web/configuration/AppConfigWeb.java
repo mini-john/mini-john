@@ -102,6 +102,8 @@ public class AppConfigWeb implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**").addResourceLocations("/static/");
+        registry.addResourceHandler("/fr/**").addResourceLocations("/fr/");
+
     }
 
     @Bean
@@ -144,14 +146,13 @@ public class AppConfigWeb implements WebMvcConfigurer {
     public void initProd() {
         LOGGER.info("Configuation web - done");
     }
-    
 
     @Profile("dev")
     @PostConstruct
     public void initDev() {
         LOGGER.info("Configuation web - done");
         LOGGER.info("Rajout de l'utilisateur test");
-        PasswordEncoder passwordEncoder= new BCryptPasswordEncoder(11);
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(11);
         String locationName = "Nice";
         double latitude = 43.700000;
         double longitude = 7.250000;

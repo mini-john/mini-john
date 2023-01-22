@@ -21,8 +21,8 @@
 
             <nav class="side-nav ">
                 <ul class="nav-menu">
-                    <li class="nav-item active"><a href="<c:url value="/private/moncompte/index.do" />"><i class="fas fa-tachometer-alt"></i><span class="menu-text">Param&egrave;tre</span></a></li>
-                    <li class="nav-item"><a href="<c:url value="/private/moncompte/halaha.do" />"><i class="fas fa-user"></i><span class="menu-text">Mes pr&eacute;f&eacute;nces Halakhique</span></a></li>
+                    <li class="nav-item "><a href="<c:url value="/private/moncompte/index.do" />"><i class="fas fa-tachometer-alt"></i><span class="menu-text">Param&egrave;tre</span></a></li>
+                    <li class="nav-item active" ><a href="<c:url value="/private/moncompte/halaha.do" />"><i class="fas fa-user"></i><span class="menu-text">Mes pr&eacute;f&eacute;nces Halakhique</span></a></li>
                     <li class="nav-item "><a href="<c:url value="/private/moncompte/localisation.do" />"><i class="fas fa-file-alt"></i><span class="menu-text">Ma G&eacute;localisation</span></a></li>
 
                 </ul>

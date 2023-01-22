@@ -56,7 +56,10 @@ public class SecurityConfiguration {
         // @formatter:off
         http
                 .authorizeHttpRequests()
+                
                 .requestMatchers("/public/*").anonymous()
+                .requestMatchers("/fr/**").authenticated()
+                .requestMatchers("/en/**").authenticated()
                 .requestMatchers("/private/**").authenticated()
                 .requestMatchers("/private/rav/**").hasRole("Rav")
                 .requestMatchers("/admin/**").hasRole("Admin")

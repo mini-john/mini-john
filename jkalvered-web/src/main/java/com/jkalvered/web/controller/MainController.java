@@ -5,8 +5,6 @@
  */
 package com.jkalvered.web.controller;
 
-import com.jkalvered.core.dto.PersonneDto;
-import com.jkalvered.core.entite.Personne;
 import com.jkalvered.core.service.CrudService;
 import javax.annotation.PostConstruct;
 import org.apache.logging.log4j.LogManager;
@@ -15,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
