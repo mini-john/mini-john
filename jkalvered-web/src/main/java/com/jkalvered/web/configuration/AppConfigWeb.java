@@ -57,7 +57,7 @@ public class AppConfigWeb implements WebMvcConfigurer {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.setBasename("messages/messages");
         messageSource.setDefaultEncoding("UTF-8");
-        messageSource.setDefaultLocale(Locale.FRANCE);
+        // messageSource.setDefaultLocale(Locale.FRANCE);
         return messageSource;
     }
 
@@ -174,7 +174,7 @@ public class AppConfigWeb implements WebMvcConfigurer {
         configuration.setLatitude(latitude);
         configuration.setLocationName(locationName);
         configuration.setLongitude(longitude);
-        configuration.setTimeZone(locationName);
+        configuration.setTimeZone("Europe/Monaco");
         configuration.setDoMohDahouk(true);
         configuration.setPrichaHoutChani(true);
         configuration.setPrichaBenonitHovotDaat(true);

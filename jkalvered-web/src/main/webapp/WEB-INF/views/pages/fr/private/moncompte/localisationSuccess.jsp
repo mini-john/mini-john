@@ -51,6 +51,10 @@
             <p>
 
             </p>
+            <div class="success-msg">
+                <i class="fa fa-check"></i>
+                Votre localisation a été enregistré avec succès
+            </div>
             <form:form method="POST" action="savelocalisation.do" 
                        modelAttribute="localisation">
                 <div class="rendered-form">

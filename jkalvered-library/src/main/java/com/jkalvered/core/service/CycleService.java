@@ -4,7 +4,7 @@
  */
 package com.jkalvered.core.service;
 
-import com.jkalvered.core.dto.Localisation;
+import com.jkalvered.core.dto.tool.Localisation;
 import com.jkalvered.core.dto.PrichaDto;
 import com.jkalvered.core.entite.Configuration;
 import com.jkalvered.core.entite.Cycle;

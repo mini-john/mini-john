@@ -17,7 +17,7 @@
         <!--<spring.version>4.2.5.RELEASE</spring.version>-->            
         <maven.compiler.source>17</maven.compiler.source>            
         <maven.compiler.target>17</maven.compiler.target>            
-        <springframework.version>5.3.22</springframework.version>            
+        <springframework.version>5.3.25</springframework.version>            
         <hibernate.version>4.3.6.Final</hibernate.version>            
         <mysql.version>5.1.31</mysql.version>            
         <joda-time.version>2.11.0</joda-time.version>            

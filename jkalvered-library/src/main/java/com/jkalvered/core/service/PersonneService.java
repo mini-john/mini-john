@@ -5,7 +5,9 @@
 package com.jkalvered.core.service;
 
 import com.jkalvered.core.dto.PersonneDto;
+import com.jkalvered.core.dto.tool.Localisation;
 import com.jkalvered.core.entite.Account;
+import com.jkalvered.core.entite.Configuration;
 import com.jkalvered.core.entite.Personne;
 import com.jkalvered.core.repository.PersonneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,18 @@ public class PersonneService extends CrudService {
         Account personne = personneRepository.getByLogin(login).getAccount();
 
         return personne;
+    }
+
+    public void updateLocalisation(Long personneId, Localisation localisation) {
+        Personne personne = personneRepository.findById(Personne.class, personneId);
+        Configuration configuration = personne.getConfiguration();
+        configuration.setLatitude(localisation.getLatitude());
+        configuration.setLongitude(localisation.getLongitude());
+        configuration.setElevation(localisation.getElevation());
+        configuration.setTimeZone(localisation.getTimeZone());
+        configuration.setLocationName(localisation.getLocationName());
+        personneRepository.update(configuration);
+
     }
 
 }

@@ -4,7 +4,7 @@
  */
 package com.jkalvered.library.date;
 
-import com.jkalvered.core.dto.Localisation;
+import com.jkalvered.core.dto.tool.Localisation;
 import com.jkalvered.library.enumeration.MomentJournee;
 import static com.jkalvered.library.enumeration.MomentJournee.Matin;
 import com.jkalvered.library.enumeration.Ona;

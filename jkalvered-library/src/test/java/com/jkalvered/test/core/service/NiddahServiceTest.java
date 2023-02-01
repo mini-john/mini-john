@@ -4,7 +4,7 @@
  */
 package com.jkalvered.test.core.service;
 
-import com.jkalvered.core.dto.Localisation;
+import com.jkalvered.core.dto.tool.Localisation;
 import com.jkalvered.core.dto.PersonneDto;
 import com.jkalvered.core.entite.Account;
 import com.jkalvered.core.entite.Bedikot;

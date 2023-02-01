@@ -4,7 +4,7 @@
  */
 package com.jkalvered.core.service;
 
-import com.jkalvered.core.dto.Localisation;
+import com.jkalvered.core.dto.tool.Localisation;
 import com.jkalvered.core.entite.Bedikot;
 import com.jkalvered.core.entite.ChevaNekiym;
 import com.jkalvered.core.entite.Configuration;
