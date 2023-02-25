@@ -20,8 +20,9 @@ import lombok.ToString;
 @ToString
 public class Localisation implements Serializable {
 
+    private Long id;
     @NotNull
-    @Size(min=1)
+    @Size(min = 1)
     private String locationName;
     @NotNull
     private Double latitude;

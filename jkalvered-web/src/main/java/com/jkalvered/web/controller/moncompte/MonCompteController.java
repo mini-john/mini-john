@@ -8,12 +8,14 @@ import com.jkalvered.core.dto.AccountDto;
 import com.jkalvered.core.dto.tool.HalahaDto;
 import com.jkalvered.core.dto.tool.Localisation;
 import com.jkalvered.core.service.PersonneService;
+import com.jkalvered.library.exception.DataControlExceptioon;
 import com.jkalvered.web.controller.tool.BindingResultTools;
 
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -81,6 +83,7 @@ public class MonCompteController {
         LOGGER.info("L'utilisateur d'id={} a demande la page de localisation ", principal.getId());
         map.addAttribute("allTimeZone", allTimeZoneSort);
         map.addAttribute("account", principal);
+        localisation.setId(principal.getPersonne().getConfiguration().getId());
         localisation.setLatitude(principal.getPersonne().getConfiguration().getLatitude());
         localisation.setLongitude(principal.getPersonne().getConfiguration().getLongitude());
         localisation.setElevation(principal.getPersonne().getConfiguration().getElevation());
@@ -91,7 +94,6 @@ public class MonCompteController {
 
     @RequestMapping(value = {"/private/moncompte/savelocalisation.do"}, method = RequestMethod.POST)
     public String postLocalisation(HttpServletRequest request, @Validated() Localisation localisation, BindingResult br, ModelMap map) {
-        LOGGER.info("j'essaie de persister");
 
         if (br.hasErrors()) {
             map.addAttribute("org.springframework.validation.BindingResult.localisation", BindingResultTools.deleteDuplicateError(br, localisation, "localisation"));
@@ -99,12 +101,13 @@ public class MonCompteController {
             return "private/moncompte/localisation";
 
         }
-        LOGGER.info("On sauvegarde une localisation ");
-        AccountDto principal = (AccountDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
+        AccountDto principal = (AccountDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (!Objects.equals(localisation.getId(), principal.getPersonne().getConfiguration().getId())) {
+            throw new DataControlExceptioon("L'utilateur modifie une configuration qui ne lui appartient pas");
+        }
         map.addAttribute("allTimeZone", allTimeZoneSort);
         map.addAttribute("account", principal);
-        LOGGER.info("voila la localisation" + localisation);
         personneService.updateLocalisation(principal.getPersonne().getId(), localisation);
         return "private/moncompte/localisationSuccess";
 

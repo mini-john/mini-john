@@ -18,6 +18,7 @@ import lombok.ToString;
 @ToString
 public class HalahaDto {
 
+    private Long id;
     private Origine origine;
     private boolean doMohDahouk;
     private boolean bneTorah;

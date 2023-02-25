@@ -54,7 +54,8 @@
             <form:form method="POST" action="savelocalisation.do" 
                        modelAttribute="localisation">
                 <div class="rendered-form">
-                    <input type="hidden" name="id"  id="id"/>
+                    <form:input   path="id" type="hidden" id="id"/>
+
                     <div class="formbuilder-text form-group field-latitude">
                         <form:label path="latitude" for="latitude" class="formbuilder-text-label">Latitude</form:label>
                         <form:input   path="latitude" type="text" class="form-control" name="latitude" id="latitude"/>
