@@ -1,0 +1,13 @@
+Pour la partie public
+- bootstrap 3.7 à migrer à la nouvelle version
+- responsive slide 1.55  http://responsiveslides.com
+- jquery.flexisel.js  2.2.0 https://github.com/9bitStudios/flexisel/
+- jquery.swipebox.min http://github.com/brutaldesign/swipebox
+- Easy Responsive Tabs Plugin 
+
+Pour la partie private :
+        Pour la partie femme
+            - fullcalendar   v6.1.4 https://fullcalendar.io/docs/initialize-globals
+            - Bootstrap v5.3.0-alpha1 (https://getbootstrap.com/)
+            - Jquery jQuery v3.6.3 jquery.org
+            - jQuery UI - v1.13.2 http://jqueryui.com

@@ -29,8 +29,8 @@
         <!-- //js -->
         <!-- start-smoth-scrolling -->
 <!--        <script type="text/javascript" src="<c:url value="/static/public/js/move-top.js"/>"></script>
-        <script type="text/javascript" src="<c:url value="/static/public/s/jquery.flexisel.js"/>"></script>
-        <script type="text/javascript" src="<c:url value="/static/public/js/easing.js"/>"></script>-->
+        <script type="text/javascript" src="<c:url value="/static/public/js/jquery.flexisel.js"/>"></script>
+        <script type="text/javascript" src="<c:url value="/static/public/js/easyResponsiveTabs.js"/>"></script>-->
         <script type="text/javascript">
             jQuery(document).ready(function ($) {
                 $(".scroll").click(function (event) {

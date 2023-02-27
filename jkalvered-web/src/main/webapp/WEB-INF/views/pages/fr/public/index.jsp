@@ -252,7 +252,7 @@
                         $(document).ready(function () {
                             $('#envoyerNewsletter').click(function () {
                                 $.post('${pageContext.request.contextPath}/public/newsletter.do', {email: $('#emailNewsletter').val()}, function (reponse) {
-                                    console.log("toto")
+                                    
                                    $('#msgNewsletter').html(reponse.msg)
                                    .css('visibility', 'visible');
                                 });
